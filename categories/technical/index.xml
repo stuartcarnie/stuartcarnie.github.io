@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Technical on stuartcarnie</title>
-    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/technical/</link>
+    <link>http://stuartcarnie.github.io/categories/technical/</link>
     <description>Recent content in Technical on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 10 Sep 2015 21:06:00 +0000</lastBuildDate>
-    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/technical/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://stuartcarnie.github.io/categories/technical/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Perspective: Relative computing power</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/perspective-relative-computing-power/</link>
+      <link>http://stuartcarnie.github.io/post/perspective-relative-computing-power/</link>
       <pubDate>Thu, 10 Sep 2015 21:06:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/perspective-relative-computing-power/</guid>
+      <guid>http://stuartcarnie.github.io/post/perspective-relative-computing-power/</guid>
       <description>&lt;p&gt;In the left corner, we have &lt;strong&gt;iPhone 6&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
@@ -42,10 +42,10 @@
     
     <item>
       <title>Constant Confusion</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/constant-confusion/</link>
+      <link>http://stuartcarnie.github.io/post/constant-confusion/</link>
       <pubDate>Sat, 03 Dec 2011 01:33:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/constant-confusion/</guid>
+      <guid>http://stuartcarnie.github.io/post/constant-confusion/</guid>
       <description>
 
 &lt;p&gt;The &lt;em&gt;const&lt;/em&gt; keyword in C can be confusing, so I wanted to put down my thoughts for my own benefit and for those looking for some clarity. In summary, I&amp;rsquo;m going to advocate you place &lt;em&gt;const&lt;/em&gt; to the right, and read the declaration from right to left.&lt;/p&gt;

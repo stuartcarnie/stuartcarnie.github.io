@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tips on stuartcarnie</title>
-    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/tips/</link>
+    <link>http://stuartcarnie.github.io/categories/tips/</link>
     <description>Recent content in Tips on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Mar 2012 23:01:00 +0000</lastBuildDate>
-    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/tips/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://stuartcarnie.github.io/categories/tips/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Objective-C: ternary operator</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</link>
+      <link>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</link>
       <pubDate>Thu, 15 Mar 2012 23:01:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</guid>
+      <guid>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</guid>
       <description>&lt;p&gt;The ternary operator, also known as a conditional expression is a C construct.  What follows is an example used for conditional assignment:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = condition_expression ? true_expression : false_expression;
@@ -68,10 +68,10 @@
     
     <item>
       <title>Constant Confusion</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/constant-confusion/</link>
+      <link>http://stuartcarnie.github.io/post/constant-confusion/</link>
       <pubDate>Sat, 03 Dec 2011 01:33:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/constant-confusion/</guid>
+      <guid>http://stuartcarnie.github.io/post/constant-confusion/</guid>
       <description>
 
 &lt;p&gt;The &lt;em&gt;const&lt;/em&gt; keyword in C can be confusing, so I wanted to put down my thoughts for my own benefit and for those looking for some clarity. In summary, I&amp;rsquo;m going to advocate you place &lt;em&gt;const&lt;/em&gt; to the right, and read the declaration from right to left.&lt;/p&gt;
@@ -221,10 +221,10 @@ void fn() {
     
     <item>
       <title>Transferring Preview app signatures in Lion</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</link>
+      <link>http://stuartcarnie.github.io/post/transferring-preview-app-signatures-in-lion/</link>
       <pubDate>Wed, 03 Aug 2011 22:45:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</guid>
+      <guid>http://stuartcarnie.github.io/post/transferring-preview-app-signatures-in-lion/</guid>
       <description>&lt;p&gt;Lion introduced a great &lt;a href=&#34;http://www.apple.com/macosx/whats-new/features.html#preview&#34;&gt;new feature&lt;/a&gt; that allows you to &lt;a href=&#34;http://www.cultofmac.com/you-can-now-sign-pdfs-using-lions-preview-app-screenshots-how-to/100237&#34;&gt;capture your signature&lt;/a&gt; via an attached camera and store it in an encrypted form for later use.  Therein lies the problem; you must have an attached camera.&lt;/p&gt;
 
 &lt;p&gt;I have a Mac Pro, and wanted to use the signatures I captured on my Macbook Pro.  Following these steps, you can transfer the encrypted signatures over.&lt;/p&gt;
@@ -265,10 +265,10 @@ void fn() {
     
     <item>
       <title>Enable -Wformat for better compile time help</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</link>
+      <link>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</link>
       <pubDate>Sat, 18 Apr 2009 16:16:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</guid>
+      <guid>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</guid>
       <description>&lt;p&gt;Let the compiler do all the hard work, and be sure to enable the following warning:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/_WTgxY9AxbJk/SepdBUhSs7I/AAAAAAAAAh8/oO-mV51nQew/Picture%201.png?imgmax=800&#34; alt=&#34;Picture 1.png&#34; /&gt;&lt;/p&gt;

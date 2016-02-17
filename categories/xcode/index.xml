@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Xcode on stuartcarnie</title>
-    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/xcode/</link>
+    <link>http://stuartcarnie.github.io/categories/xcode/</link>
     <description>Recent content in Xcode on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 18 Apr 2009 16:16:00 +0000</lastBuildDate>
-    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/xcode/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://stuartcarnie.github.io/categories/xcode/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Enable -Wformat for better compile time help</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</link>
+      <link>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</link>
       <pubDate>Sat, 18 Apr 2009 16:16:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</guid>
+      <guid>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</guid>
       <description>&lt;p&gt;Let the compiler do all the hard work, and be sure to enable the following warning:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/_WTgxY9AxbJk/SepdBUhSs7I/AAAAAAAAAh8/oO-mV51nQew/Picture%201.png?imgmax=800&#34; alt=&#34;Picture 1.png&#34; /&gt;&lt;/p&gt;
@@ -32,10 +32,10 @@
     
     <item>
       <title>XCode Tip: Generate comments in your assembler output</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
+      <link>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
       <pubDate>Sat, 07 Mar 2009 21:56:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
+      <guid>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
       <description>&lt;p&gt;To make it easier to find the assembly generated when you &amp;lsquo;Show Assembly Code&amp;rsquo;, embed comments using:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-asm&#34;&gt;asm(&amp;quot;# your comment&amp;quot;)
@@ -45,10 +45,10 @@
     
     <item>
       <title>How to debug handleOpenURL</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/how-to-debug-handleopenurl/</link>
+      <link>http://stuartcarnie.github.io/post/how-to-debug-handleopenurl/</link>
       <pubDate>Fri, 30 Jan 2009 23:33:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/how-to-debug-handleopenurl/</guid>
+      <guid>http://stuartcarnie.github.io/post/how-to-debug-handleopenurl/</guid>
       <description>&lt;p&gt;I&amp;rsquo;ve seen a number of questions on the Apple iPhone developer forums asking how to debug the UIApplication handleOpenURL message. I finally had a complex scenario that I needed to debug, and came up with the following solution. Note that this example has been tested using the simulator only. Firstly, you&amp;rsquo;ll need to grab the two &amp;lsquo;DebugSupport&amp;rsquo; files from my google code repository &lt;a href=&#34;http://code.google.com/p/iphone-sdk-examples/source/browse/#svn/trunk/utility/debugging&#34;&gt;here&lt;/a&gt;. Include them in your project and modify your handleOpenURL message as follows:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {

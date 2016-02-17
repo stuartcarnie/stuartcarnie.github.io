@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ios on stuartcarnie</title>
-    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/ios/</link>
+    <link>http://stuartcarnie.github.io/categories/ios/</link>
     <description>Recent content in Ios on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 17 Mar 2011 15:12:00 +0000</lastBuildDate>
-    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/ios/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://stuartcarnie.github.io/categories/ios/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Mobile Safari performance and executable pages in iOS 4.3</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</link>
+      <link>http://stuartcarnie.github.io/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</link>
       <pubDate>Thu, 17 Mar 2011 15:12:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</guid>
+      <guid>http://stuartcarnie.github.io/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</guid>
       <description>
 
 &lt;p&gt;DaringFireball recently posted &lt;a href=&#34;http://daringfireball.net/2011/03/nitro_ios_43&#34;&gt;his thoughts&lt;/a&gt; as to why the Javascript performance of Mobile Safari is faster than those launched from SpringBoard or within existing applications which use a UIWebView.  I don&amp;rsquo;t think it&amp;rsquo;s quite that complicated.&lt;/p&gt;
@@ -56,10 +56,10 @@
     
     <item>
       <title>Renew Apple developer certificates with OpenSSL</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/renew-apple-developer-certificates-with-openssl/</link>
+      <link>http://stuartcarnie.github.io/post/renew-apple-developer-certificates-with-openssl/</link>
       <pubDate>Wed, 02 Feb 2011 16:30:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/renew-apple-developer-certificates-with-openssl/</guid>
+      <guid>http://stuartcarnie.github.io/post/renew-apple-developer-certificates-with-openssl/</guid>
       <description>&lt;p&gt;I like to reuse the same private keys when generating a signing request to renew my Apple developer certificates.  Unfortunately you can&amp;rsquo;t do this with Keychain Access, as it won&amp;rsquo;t save the signing request file after you step through the wizard.  OpenSSL is your friend.&lt;/p&gt;
 
 &lt;p&gt;Open Keychain Access, RMB on the key your wish to use and click &lt;em&gt;Export &amp;ldquo;[Key Name]&amp;rdquo;&lt;/em&gt;.  Save it as a .p12 file with a strong password.  In my case it was StuartCarnie.p12.&lt;/p&gt;

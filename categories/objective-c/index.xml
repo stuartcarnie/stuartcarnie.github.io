@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Objective C on stuartcarnie</title>
-    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/objective-c/</link>
+    <link>http://stuartcarnie.github.io/categories/objective-c/</link>
     <description>Recent content in Objective C on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Mar 2012 23:01:00 +0000</lastBuildDate>
-    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/objective-c/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://stuartcarnie.github.io/categories/objective-c/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Objective-C: ternary operator</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</link>
+      <link>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</link>
       <pubDate>Thu, 15 Mar 2012 23:01:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</guid>
+      <guid>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</guid>
       <description>&lt;p&gt;The ternary operator, also known as a conditional expression is a C construct.  What follows is an example used for conditional assignment:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = condition_expression ? true_expression : false_expression;
@@ -68,10 +68,10 @@
     
     <item>
       <title>Associative References in Objective-C</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</link>
+      <link>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</link>
       <pubDate>Sun, 19 Feb 2012 22:58:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</guid>
+      <guid>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</guid>
       <description>
 
 &lt;p&gt;Take the following Javascript (stick with me):&lt;/p&gt;

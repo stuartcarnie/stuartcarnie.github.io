@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Debugging on stuartcarnie</title>
-    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/debugging/</link>
+    <link>http://stuartcarnie.github.io/categories/debugging/</link>
     <description>Recent content in Debugging on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 30 Jan 2009 23:33:00 +0000</lastBuildDate>
-    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/debugging/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://stuartcarnie.github.io/categories/debugging/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>How to debug handleOpenURL</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/how-to-debug-handleopenurl/</link>
+      <link>http://stuartcarnie.github.io/post/how-to-debug-handleopenurl/</link>
       <pubDate>Fri, 30 Jan 2009 23:33:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/how-to-debug-handleopenurl/</guid>
+      <guid>http://stuartcarnie.github.io/post/how-to-debug-handleopenurl/</guid>
       <description>&lt;p&gt;I&amp;rsquo;ve seen a number of questions on the Apple iPhone developer forums asking how to debug the UIApplication handleOpenURL message. I finally had a complex scenario that I needed to debug, and came up with the following solution. Note that this example has been tested using the simulator only. Firstly, you&amp;rsquo;ll need to grab the two &amp;lsquo;DebugSupport&amp;rsquo; files from my google code repository &lt;a href=&#34;http://code.google.com/p/iphone-sdk-examples/source/browse/#svn/trunk/utility/debugging&#34;&gt;here&lt;/a&gt;. Include them in your project and modify your handleOpenURL message as follows:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {

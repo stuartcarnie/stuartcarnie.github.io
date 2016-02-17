@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>stuartcarnie</title>
-    <link>http://spencerlyon2.github.io/hugo_gh_blog/</link>
+    <link>http://stuartcarnie.github.io/</link>
     <description>Recent content on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 10 Sep 2015 21:06:00 +0000</lastBuildDate>
-    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://stuartcarnie.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Perspective: Relative computing power</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/perspective-relative-computing-power/</link>
+      <link>http://stuartcarnie.github.io/post/perspective-relative-computing-power/</link>
       <pubDate>Thu, 10 Sep 2015 21:06:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/perspective-relative-computing-power/</guid>
+      <guid>http://stuartcarnie.github.io/post/perspective-relative-computing-power/</guid>
       <description>&lt;p&gt;In the left corner, we have &lt;strong&gt;iPhone 6&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
@@ -42,10 +42,10 @@
     
     <item>
       <title>lldb: VI mode and tab-completion</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/lldb-vi-mode-and-tab-completion/</link>
+      <link>http://stuartcarnie.github.io/post/lldb-vi-mode-and-tab-completion/</link>
       <pubDate>Sat, 23 Jun 2012 23:32:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/lldb-vi-mode-and-tab-completion/</guid>
+      <guid>http://stuartcarnie.github.io/post/lldb-vi-mode-and-tab-completion/</guid>
       <description>&lt;p&gt;lldb uses libedit, which is a BSD licensed alternative to GNU readline. A feature of libedit is the ability to configure per-application settings for command-line bindings via ~/.editrc. Detailed documentation for this configuration file can be found using &lt;code&gt;man editrc&lt;/code&gt; or via online documentation, such as &lt;a href=&#34;https://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man5/editrc.5.html#//apple_ref/doc/man/5/editrc&#34;&gt;developer.apple.com&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;As I prefer VI bindings, I initially configured my .editrc as follows, to replace the default emacs bindings:&lt;/p&gt;
@@ -87,10 +87,10 @@ lldb:bind ^P ed-command
     
     <item>
       <title>llvm / Clang hacking: Part 3</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-3/</link>
+      <link>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-3/</link>
       <pubDate>Wed, 06 Jun 2012 02:33:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-3/</guid>
+      <guid>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-3/</guid>
       <description>
 
 &lt;p&gt;Part 3 in my N-part series on my exploration of hacking on &lt;a href=&#34;http://llvm.org&#34;&gt;llvm&lt;/a&gt; and &lt;a href=&#34;http://clang.llvm.org&#34;&gt;Clang&lt;/a&gt; (c-language) tool chain.&lt;/p&gt;
@@ -250,17 +250,17 @@ return MaybeBindToTemporary(
     
     <item>
       <title>llvm / Clang hacking: Part 2</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-2/</link>
+      <link>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-2/</link>
       <pubDate>Wed, 06 Jun 2012 00:07:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-2/</guid>
+      <guid>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-2/</guid>
       <description>
 
 &lt;p&gt;Part 2 in my N-part series on my exploration of hacking on &lt;a href=&#34;http://llvm.org&#34;&gt;llvm&lt;/a&gt; and &lt;a href=&#34;http://clang.llvm.org&#34;&gt;Clang&lt;/a&gt; (c-language) tool chain.&lt;/p&gt;
 
 &lt;h2 id=&#34;prerequisites:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Prerequisites&lt;/h2&gt;
 
-&lt;p&gt;This post assumes you&amp;rsquo;ve successfully completed &lt;a href=&#34;http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-1/&#34;&gt;Part 1&lt;/a&gt; of the series.&lt;/p&gt;
+&lt;p&gt;This post assumes you&amp;rsquo;ve successfully completed &lt;a href=&#34;http://stuartcarnie.github.io/post/llvm--clang-hacking-part-1/&#34;&gt;Part 1&lt;/a&gt; of the series.&lt;/p&gt;
 
 &lt;h2 id=&#34;debugging:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Debugging&lt;/h2&gt;
 
@@ -314,10 +314,10 @@ return MaybeBindToTemporary(
     
     <item>
       <title>llvm / Clang hacking: Part 1</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-1/</link>
+      <link>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-1/</link>
       <pubDate>Sat, 02 Jun 2012 14:21:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-1/</guid>
+      <guid>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-1/</guid>
       <description>
 
 &lt;p&gt;Part 1 in my N-part series on my exploration of hacking on &lt;a href=&#34;http://llvm.org&#34;&gt;llvm&lt;/a&gt; and &lt;a href=&#34;http://clang.llvm.org&#34;&gt;Clang&lt;/a&gt; (c-language) tool chain.  I am running OS X 10.7, however I will try to highlight the steps where you should consider substituting for your platform.&lt;/p&gt;
@@ -391,7 +391,7 @@ cmake -DCLANG_PATH_TO_LLVM_SOURCE=../llvm -DCLANG_PATH_TO_LLVM_BUILD=../build -D
 
 &lt;h2 id=&#34;next-up:d4474b8aeb4c39edf77834b4816e42db&#34;&gt;Next Up&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-2&#34;&gt;Part 2&lt;/a&gt; and debugging Clang.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://stuartcarnie.github.io/post/llvm--clang-hacking-part-2&#34;&gt;Part 2&lt;/a&gt; and debugging Clang.&lt;/p&gt;
 
 &lt;h2 id=&#34;twitter:d4474b8aeb4c39edf77834b4816e42db&#34;&gt;Twitter&lt;/h2&gt;
 
@@ -401,10 +401,10 @@ cmake -DCLANG_PATH_TO_LLVM_SOURCE=../llvm -DCLANG_PATH_TO_LLVM_BUILD=../build -D
     
     <item>
       <title>Objective-C: ternary operator</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</link>
+      <link>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</link>
       <pubDate>Thu, 15 Mar 2012 23:01:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</guid>
+      <guid>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</guid>
       <description>&lt;p&gt;The ternary operator, also known as a conditional expression is a C construct.  What follows is an example used for conditional assignment:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = condition_expression ? true_expression : false_expression;
@@ -458,10 +458,10 @@ cmake -DCLANG_PATH_TO_LLVM_SOURCE=../llvm -DCLANG_PATH_TO_LLVM_BUILD=../build -D
     
     <item>
       <title>Associative References in Objective-C</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</link>
+      <link>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</link>
       <pubDate>Sun, 19 Feb 2012 22:58:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</guid>
+      <guid>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</guid>
       <description>
 
 &lt;p&gt;Take the following Javascript (stick with me):&lt;/p&gt;
@@ -521,10 +521,10 @@ objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, @&amp;quot;Hello
     
     <item>
       <title>Constant Confusion</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/constant-confusion/</link>
+      <link>http://stuartcarnie.github.io/post/constant-confusion/</link>
       <pubDate>Sat, 03 Dec 2011 01:33:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/constant-confusion/</guid>
+      <guid>http://stuartcarnie.github.io/post/constant-confusion/</guid>
       <description>
 
 &lt;p&gt;The &lt;em&gt;const&lt;/em&gt; keyword in C can be confusing, so I wanted to put down my thoughts for my own benefit and for those looking for some clarity. In summary, I&amp;rsquo;m going to advocate you place &lt;em&gt;const&lt;/em&gt; to the right, and read the declaration from right to left.&lt;/p&gt;
@@ -674,10 +674,10 @@ void fn() {
     
     <item>
       <title>Transferring Preview app signatures in Lion</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</link>
+      <link>http://stuartcarnie.github.io/post/transferring-preview-app-signatures-in-lion/</link>
       <pubDate>Wed, 03 Aug 2011 22:45:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</guid>
+      <guid>http://stuartcarnie.github.io/post/transferring-preview-app-signatures-in-lion/</guid>
       <description>&lt;p&gt;Lion introduced a great &lt;a href=&#34;http://www.apple.com/macosx/whats-new/features.html#preview&#34;&gt;new feature&lt;/a&gt; that allows you to &lt;a href=&#34;http://www.cultofmac.com/you-can-now-sign-pdfs-using-lions-preview-app-screenshots-how-to/100237&#34;&gt;capture your signature&lt;/a&gt; via an attached camera and store it in an encrypted form for later use.  Therein lies the problem; you must have an attached camera.&lt;/p&gt;
 
 &lt;p&gt;I have a Mac Pro, and wanted to use the signatures I captured on my Macbook Pro.  Following these steps, you can transfer the encrypted signatures over.&lt;/p&gt;
@@ -718,10 +718,10 @@ void fn() {
     
     <item>
       <title>Eval Expression service for OS X</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/eval-expression-service-for-os-x/</link>
+      <link>http://stuartcarnie.github.io/post/eval-expression-service-for-os-x/</link>
       <pubDate>Sat, 09 Apr 2011 21:44:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/eval-expression-service-for-os-x/</guid>
+      <guid>http://stuartcarnie.github.io/post/eval-expression-service-for-os-x/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Eval Expression&lt;/strong&gt; is a Mac OS X service to evaluate the selected text of any text field as a Ruby expression.  My instinct was to choose Perl, however Ruby offers binary in addition to decimal, hex and octal numerical literals.  The service becomes infinitely more useful if you assign it a global shortcut in Keyboard preferences.  In my case I assigned a combination that seemed obvious, ⌘=&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://lh5.ggpht.com/_WTgxY9AxbJk/TaE1i0ngklI/AAAAAAAAAnU/yDUu3uOqs9Y/Keyboard%20preferences.png?imgmax=800&#34; alt=&#34;Keyboard preferences&#34; /&gt;&lt;/p&gt;
@@ -772,10 +772,10 @@ void fn() {
     
     <item>
       <title>Mobile Safari performance and executable pages in iOS 4.3</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</link>
+      <link>http://stuartcarnie.github.io/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</link>
       <pubDate>Thu, 17 Mar 2011 15:12:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</guid>
+      <guid>http://stuartcarnie.github.io/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</guid>
       <description>
 
 &lt;p&gt;DaringFireball recently posted &lt;a href=&#34;http://daringfireball.net/2011/03/nitro_ios_43&#34;&gt;his thoughts&lt;/a&gt; as to why the Javascript performance of Mobile Safari is faster than those launched from SpringBoard or within existing applications which use a UIWebView.  I don&amp;rsquo;t think it&amp;rsquo;s quite that complicated.&lt;/p&gt;
@@ -817,10 +817,10 @@ void fn() {
     
     <item>
       <title>Renew Apple developer certificates with OpenSSL</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/renew-apple-developer-certificates-with-openssl/</link>
+      <link>http://stuartcarnie.github.io/post/renew-apple-developer-certificates-with-openssl/</link>
       <pubDate>Wed, 02 Feb 2011 16:30:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/renew-apple-developer-certificates-with-openssl/</guid>
+      <guid>http://stuartcarnie.github.io/post/renew-apple-developer-certificates-with-openssl/</guid>
       <description>&lt;p&gt;I like to reuse the same private keys when generating a signing request to renew my Apple developer certificates.  Unfortunately you can&amp;rsquo;t do this with Keychain Access, as it won&amp;rsquo;t save the signing request file after you step through the wizard.  OpenSSL is your friend.&lt;/p&gt;
 
 &lt;p&gt;Open Keychain Access, RMB on the key your wish to use and click &lt;em&gt;Export &amp;ldquo;[Key Name]&amp;rdquo;&lt;/em&gt;.  Save it as a .p12 file with a strong password.  In my case it was StuartCarnie.p12.&lt;/p&gt;
@@ -843,10 +843,10 @@ void fn() {
     
     <item>
       <title>Micro-benchmarking iOS devices</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/micro-benchmarking-ios-devices/</link>
+      <link>http://stuartcarnie.github.io/post/micro-benchmarking-ios-devices/</link>
       <pubDate>Sun, 24 Jan 2010 22:58:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/micro-benchmarking-ios-devices/</guid>
+      <guid>http://stuartcarnie.github.io/post/micro-benchmarking-ios-devices/</guid>
       <description>
 
 &lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; Added iPhone 5.&lt;br /&gt;
@@ -2393,10 +2393,10 @@ Without being able to access the &lt;a href=&#34;http://infocentre.arm.com/help/
     
     <item>
       <title>Enable -Wformat for better compile time help</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</link>
+      <link>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</link>
       <pubDate>Sat, 18 Apr 2009 16:16:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</guid>
+      <guid>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</guid>
       <description>&lt;p&gt;Let the compiler do all the hard work, and be sure to enable the following warning:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/_WTgxY9AxbJk/SepdBUhSs7I/AAAAAAAAAh8/oO-mV51nQew/Picture%201.png?imgmax=800&#34; alt=&#34;Picture 1.png&#34; /&gt;&lt;/p&gt;
@@ -2414,10 +2414,10 @@ Without being able to access the &lt;a href=&#34;http://infocentre.arm.com/help/
     
     <item>
       <title>XCode Tip: Generate comments in your assembler output</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
+      <link>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
       <pubDate>Sat, 07 Mar 2009 21:56:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
+      <guid>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
       <description>&lt;p&gt;To make it easier to find the assembly generated when you &amp;lsquo;Show Assembly Code&amp;rsquo;, embed comments using:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-asm&#34;&gt;asm(&amp;quot;# your comment&amp;quot;)

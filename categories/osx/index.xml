@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Osx on stuartcarnie</title>
-    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/osx/</link>
+    <link>http://stuartcarnie.github.io/categories/osx/</link>
     <description>Recent content in Osx on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 23 Jun 2012 23:32:00 +0000</lastBuildDate>
-    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/osx/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://stuartcarnie.github.io/categories/osx/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>lldb: VI mode and tab-completion</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/lldb-vi-mode-and-tab-completion/</link>
+      <link>http://stuartcarnie.github.io/post/lldb-vi-mode-and-tab-completion/</link>
       <pubDate>Sat, 23 Jun 2012 23:32:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/lldb-vi-mode-and-tab-completion/</guid>
+      <guid>http://stuartcarnie.github.io/post/lldb-vi-mode-and-tab-completion/</guid>
       <description>&lt;p&gt;lldb uses libedit, which is a BSD licensed alternative to GNU readline. A feature of libedit is the ability to configure per-application settings for command-line bindings via ~/.editrc. Detailed documentation for this configuration file can be found using &lt;code&gt;man editrc&lt;/code&gt; or via online documentation, such as &lt;a href=&#34;https://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man5/editrc.5.html#//apple_ref/doc/man/5/editrc&#34;&gt;developer.apple.com&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;As I prefer VI bindings, I initially configured my .editrc as follows, to replace the default emacs bindings:&lt;/p&gt;
@@ -56,10 +56,10 @@ lldb:bind ^P ed-command
     
     <item>
       <title>Associative References in Objective-C</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</link>
+      <link>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</link>
       <pubDate>Sun, 19 Feb 2012 22:58:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</guid>
+      <guid>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</guid>
       <description>
 
 &lt;p&gt;Take the following Javascript (stick with me):&lt;/p&gt;
@@ -119,10 +119,10 @@ objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, @&amp;quot;Hello
     
     <item>
       <title>Transferring Preview app signatures in Lion</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</link>
+      <link>http://stuartcarnie.github.io/post/transferring-preview-app-signatures-in-lion/</link>
       <pubDate>Wed, 03 Aug 2011 22:45:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</guid>
+      <guid>http://stuartcarnie.github.io/post/transferring-preview-app-signatures-in-lion/</guid>
       <description>&lt;p&gt;Lion introduced a great &lt;a href=&#34;http://www.apple.com/macosx/whats-new/features.html#preview&#34;&gt;new feature&lt;/a&gt; that allows you to &lt;a href=&#34;http://www.cultofmac.com/you-can-now-sign-pdfs-using-lions-preview-app-screenshots-how-to/100237&#34;&gt;capture your signature&lt;/a&gt; via an attached camera and store it in an encrypted form for later use.  Therein lies the problem; you must have an attached camera.&lt;/p&gt;
 
 &lt;p&gt;I have a Mac Pro, and wanted to use the signatures I captured on my Macbook Pro.  Following these steps, you can transfer the encrypted signatures over.&lt;/p&gt;
@@ -163,10 +163,10 @@ objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, @&amp;quot;Hello
     
     <item>
       <title>Eval Expression service for OS X</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/eval-expression-service-for-os-x/</link>
+      <link>http://stuartcarnie.github.io/post/eval-expression-service-for-os-x/</link>
       <pubDate>Sat, 09 Apr 2011 21:44:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/eval-expression-service-for-os-x/</guid>
+      <guid>http://stuartcarnie.github.io/post/eval-expression-service-for-os-x/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Eval Expression&lt;/strong&gt; is a Mac OS X service to evaluate the selected text of any text field as a Ruby expression.  My instinct was to choose Perl, however Ruby offers binary in addition to decimal, hex and octal numerical literals.  The service becomes infinitely more useful if you assign it a global shortcut in Keyboard preferences.  In my case I assigned a combination that seemed obvious, ⌘=&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://lh5.ggpht.com/_WTgxY9AxbJk/TaE1i0ngklI/AAAAAAAAAnU/yDUu3uOqs9Y/Keyboard%20preferences.png?imgmax=800&#34; alt=&#34;Keyboard preferences&#34; /&gt;&lt;/p&gt;
@@ -217,10 +217,10 @@ objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, @&amp;quot;Hello
     
     <item>
       <title>Enable -Wformat for better compile time help</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</link>
+      <link>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</link>
       <pubDate>Sat, 18 Apr 2009 16:16:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</guid>
+      <guid>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</guid>
       <description>&lt;p&gt;Let the compiler do all the hard work, and be sure to enable the following warning:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/_WTgxY9AxbJk/SepdBUhSs7I/AAAAAAAAAh8/oO-mV51nQew/Picture%201.png?imgmax=800&#34; alt=&#34;Picture 1.png&#34; /&gt;&lt;/p&gt;
@@ -238,10 +238,10 @@ objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, @&amp;quot;Hello
     
     <item>
       <title>XCode Tip: Generate comments in your assembler output</title>
-      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
+      <link>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
       <pubDate>Sat, 07 Mar 2009 21:56:00 +0000</pubDate>
       
-      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
+      <guid>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
       <description>&lt;p&gt;To make it easier to find the assembly generated when you &amp;lsquo;Show Assembly Code&amp;rsquo;, embed comments using:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-asm&#34;&gt;asm(&amp;quot;# your comment&amp;quot;)
