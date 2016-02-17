@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tips on stuartcarnie</title>
+    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/tips/</link>
+    <description>Recent content in Tips on stuartcarnie</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 15 Mar 2012 23:01:00 +0000</lastBuildDate>
+    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/tips/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Objective-C: ternary operator</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</link>
+      <pubDate>Thu, 15 Mar 2012 23:01:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</guid>
+      <description>&lt;p&gt;The ternary operator, also known as a conditional expression is a C construct.  What follows is an example used for conditional assignment:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = condition_expression ? true_expression : false_expression;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If condition_expression evaluates to true, result will be assigned the true_expression; otherwise, result will be assigned the false_expression.  A GNU extension to the ternary operator, also available in Objective-C, is the ability to omit the true_expression as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = first_expression ?: second_expression;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;result will be assigned the value of first_expression if it evaluates to true or second_expression if first_expression evaluates to false.&lt;/p&gt;
+
+&lt;p&gt;nil in Objective-C evaluates to false, so the GNU extension becomes particularly useful for ensuring default values during assignment, which is a pattern used widely in JavaScript.&lt;/p&gt;
+
+&lt;p&gt;A contrived example might be an init method that takes an NSDictionary with options for configuring the instance, as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;- (void)initWithOptions:(NSDictionary *)options {
+	self = [super init];
+
+	_options = options ?: kDefaultOptions;
+
+	return self;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The assignment ensures _options is not null. options will be assigned to the _options ivar if non-nil; otherwise _options will be assigned the kDefaultOptions dictionary.&lt;/p&gt;
+
+&lt;p&gt;Another awesome use case is for caching values, rather than initialize them all in the init method.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;@implementation MyObj {
+	NSString *_someValue;
+}
+
+@property (nonatomic, strong, readonly) NSString *someValue;
+
+@synthesize someValue=_someValue;
+
+- (id)init {
+	…
+}
+
+- (NSString *)someValue {
+	return _someValue ?: (_someValue = [some expensive operation]);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When a consumer accesses the someValue property of MyObj, if _someValue is nil, the right size of the ternary expression is returned, which retrieves the value via some expensive operation and stores it in _someValue.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Constant Confusion</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/constant-confusion/</link>
+      <pubDate>Sat, 03 Dec 2011 01:33:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/constant-confusion/</guid>
+      <description>
+
+&lt;p&gt;The &lt;em&gt;const&lt;/em&gt; keyword in C can be confusing, so I wanted to put down my thoughts for my own benefit and for those looking for some clarity. In summary, I&amp;rsquo;m going to advocate you place &lt;em&gt;const&lt;/em&gt; to the right, and read the declaration from right to left.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-is-const:2beb528fa7b4af1d9ea70da77a222d33&#34;&gt;What is &lt;em&gt;const&lt;/em&gt;?&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;const&lt;/em&gt; is a hint to the C compiler and programmer that a specific declaration or element of a declaration is immutable.  It is more complicated in C++, which is outside the scope of this post.  Lets start with a simple example, and the most common form where &lt;em&gt;const&lt;/em&gt; is written first:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int i = 5;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The previous statement simply instructs the compiler that &lt;em&gt;i&lt;/em&gt; cannot be changed after its initial declaration, such that the following assignment would result in an error:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int i = 5;
+i = 6; // error: read-only variable is not assignable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If spoken from right to left, the declaration of &lt;em&gt;i&lt;/em&gt; would read “&lt;em&gt;i&lt;/em&gt; is an integer constant”, which is reasonable enough.  This syntax is still supported for historical reasons.  The alternative and &lt;em&gt;correct&lt;/em&gt; format is to write &lt;em&gt;const&lt;/em&gt; after the type reference, as follows&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int const i = 5;
+i = 6; // error: read-only variable is not assignable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which means the same thing; the value of &lt;em&gt;i&lt;/em&gt; must remain constant within its declared scope.  If you read this declaration from right to left, it is spoken as “&lt;em&gt;i&lt;/em&gt; is a constant integer”; much better.&lt;/p&gt;
+
+&lt;p&gt;Yet another common definition is an array of constant characters or also known in some circles as an immutable string&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const char * myString = &amp;quot;hello World&amp;quot;;
+myString[0] = &#39;H&#39;;        // error: read-only variable is not assignable
+myString = &amp;quot;Hello World&amp;quot;; // ok
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Spoken from right to left, “&lt;em&gt;myString&lt;/em&gt; is a pointer to character constant”, which doesn&amp;rsquo;t read so well.  Switching the &lt;em&gt;const&lt;/em&gt; keyword, we get the following&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;char const * myString = &amp;quot;hello World&amp;quot;;
+myString[0] = &#39;H&#39;;        // error: read-only variable is not assignable
+myString = &amp;quot;Hello World&amp;quot;; // ok
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;read aloud, it is “&lt;em&gt;myString&lt;/em&gt; is a pointer to constant characters“; sounds better than the former.&lt;/p&gt;
+
+&lt;p&gt;So far &lt;em&gt;const&lt;/em&gt; seems pretty straight forward, and perhaps at this point you&amp;rsquo;re thinking where is the confusion?.  Lets complicate things…  As we&amp;rsquo;ve demonstrated, the &lt;em&gt;const&lt;/em&gt; keyword can be placed before or after the type reference in a declaration, which for the previous scenarios is fine.  Let&amp;rsquo;s show a few more examples with pointers:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int * const i;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Declares &lt;em&gt;i&lt;/em&gt; as constant pointer to an integer.  Again, reading from right to left makes it pretty clear what we&amp;rsquo;re dealing with.  The following shows both legal and illegal usages of &lt;em&gt;i&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j = 5, k = 6;
+int * const i = &amp;amp;j; // points to the memory referred to by j
+i = &amp;amp;k;             // error: read-only variable is not assignable
+*i = 6;             // ok, modifies the value of j
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, because the &lt;em&gt;const&lt;/em&gt; keyword can be placed before or after the type reference, as shown earlier, the following declarations of &lt;em&gt;h&lt;/em&gt; and &lt;em&gt;i&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j = 5, k = 6;
+const int * const h = &amp;amp;j;
+int const * const i = &amp;amp;j;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;result in a variable that is a constant pointer to a constant integer.  Given that, the following lines will result in compiler errors:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;*h = 5; // error: read-only variable is not assignable
+h = &amp;amp;k; // error: read-only variable is not assignable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Want to see something confusing? The following 3 lines are identical, and will compile with current versions of clang and gcc:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int const g = 5;
+const int h = 6;
+int const i = 7;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It&amp;rsquo;s not horrible, but lets reintroduce pointers&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int const * i;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;What is this? If you had not just read all the above, one would be forgiven for thinking &lt;em&gt;i&lt;/em&gt; is a constant pointer to a constant integer, but in fact both instances of &lt;em&gt;const&lt;/em&gt; refer to the int type; this is a pointer to a constant integer. The correct definition, as we saw earlier is&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int * const i; // or preferably
+int const * const i;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Worse still is multiple levels of indirection, such as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int * * i;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which when read from right to left declares “&lt;em&gt;i&lt;/em&gt; is a pointer to a pointer of integers”. A more complicated example using the &lt;em&gt;const&lt;/em&gt; keyword&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int const * const * const i;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or “&lt;em&gt;i&lt;/em&gt; is a constant pointer to a constant pointer of constant integers.  &lt;em&gt;Wow&lt;/em&gt;.  All levels of indirection are immutable, so it can only be assigned at its declaration.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j[2][3] = { {1, 2, 3}, {4, 5, 6} };
+int const * const * const i = &amp;amp;j; // ok
+i = NULL;     // error
+i[0] = &amp;amp;j[0]; // error
+i[0][0] = 5;  // error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It&amp;rsquo;s an extreme case, but becomes evident why writing &lt;em&gt;const&lt;/em&gt; to the right is a good habit.  The following declaration of &lt;em&gt;i&lt;/em&gt; may look the same to the untrained eye:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j[2][3] = { {1, 2, 3}, {4, 5, 6} };
+const int const * const * i = &amp;amp;j; // ok
+i = NULL;     // ok!!
+i[0] = &amp;amp;j[0]; // error
+i[0][0] = 5;  // error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;however, armed with this knowledge, you (and the compiler) say otherwise.&lt;/p&gt;
+
+&lt;p&gt;After all this, you may be asking when might I use the declaration &lt;em&gt;type const * const&lt;/em&gt;?  When possible, I prefer to be explicit, and strings used as constants across compilation units are often declared as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;char const * kMyConstant = &amp;quot;Hello World&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and then referred to in a separate object file as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;extern char const * kMyConstant;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Whilst modifying the contents of &lt;em&gt;kMyConstant&lt;/em&gt; is prohibited, assigning the pointer &lt;em&gt;kMyConstant&lt;/em&gt; to a new location is possible, as follows&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;extern char const * kMyConstant;
+void fn() {
+    kMyConstant[0] = &#39;h&#39;; // error
+    kMyConstant = &amp;quot;Hi!&amp;quot;;  // now says &amp;quot;Hi!&amp;quot; instead of &amp;quot;Hello World&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Clearly for the majority of situations, this is not what the developer intended.  Changing the declaration to&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;char const * const kMyConstant = &amp;quot;Hello World&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;would also prevent the pointer &lt;em&gt;kMyConstant&lt;/em&gt; from being overwritten.&lt;/p&gt;
+
+&lt;h2 id=&#34;in-summary:2beb528fa7b4af1d9ea70da77a222d33&#34;&gt;In summary&lt;/h2&gt;
+
+&lt;p&gt;Always write &lt;em&gt;const&lt;/em&gt; to the right and read the declaration from right to left.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Transferring Preview app signatures in Lion</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</link>
+      <pubDate>Wed, 03 Aug 2011 22:45:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</guid>
+      <description>&lt;p&gt;Lion introduced a great &lt;a href=&#34;http://www.apple.com/macosx/whats-new/features.html#preview&#34;&gt;new feature&lt;/a&gt; that allows you to &lt;a href=&#34;http://www.cultofmac.com/you-can-now-sign-pdfs-using-lions-preview-app-screenshots-how-to/100237&#34;&gt;capture your signature&lt;/a&gt; via an attached camera and store it in an encrypted form for later use.  Therein lies the problem; you must have an attached camera.&lt;/p&gt;
+
+&lt;p&gt;I have a Mac Pro, and wanted to use the signatures I captured on my Macbook Pro.  Following these steps, you can transfer the encrypted signatures over.&lt;/p&gt;
+
+&lt;p&gt;On your machine endowed with the power of sight:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Go ahead and capture the signatures in Preview.&lt;/li&gt;
+&lt;li&gt;Quit Preview&lt;/li&gt;
+&lt;li&gt;Browse to ~/Library/Containers/com.apple.Preview/Data/Library/Preferences
+
+&lt;ul&gt;
+&lt;li&gt;In Finder, click the &lt;em&gt;Go&lt;/em&gt; menu and hold the option (⌥) key to show the Library folder, alternatively&lt;/li&gt;
+&lt;li&gt;press ⌘+⇧+G whilst Finder is active and enter the path above to directly navigate&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Copy thecom.apple.Preview.signatures.plist&lt;/li&gt;
+&lt;li&gt;Launch KeychainAccess&lt;/li&gt;
+&lt;li&gt;Ensure the &lt;em&gt;login&lt;/em&gt; keychain is selected and the &lt;em&gt;Passwords&lt;/em&gt; category
+&lt;img src=&#34;http://lh3.ggpht.com/-z8tRB-j6kdo/Tjov5yUdYZI/AAAAAAAAAqE/OKZt52E80_Q/Keychain-Preview-Password.png?imgmax=800&#34; alt=&#34;Copying Preview signatures password from keychain&#34; title=&#34;Keychain-Preview-Password.png&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;Right-click the &lt;em&gt;Preview Signature Privacy&lt;/em&gt; password and select Copy Password to Clipboard.  This is the password used to encrypt the signature images.&lt;/li&gt;
+&lt;li&gt;Paste it into a text editor and save the file.  You&amp;rsquo;ll need to transfer this to your other computer(s)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;On your machine you wish to transfer the signatures to:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;If you haven&amp;rsquo;t already, launch Preview, open preferences, and select the Signatures tab to ensure the default configuration files and folders have been created.  Exit Preview.&lt;/li&gt;
+&lt;li&gt;Browse to ~/Library/Containers/com.apple.Preview/Data/Library/Preferences&lt;/li&gt;
+&lt;li&gt;Copy thecom.apple.Preview.signatures.plist to the folder, overwriting any existing file&lt;/li&gt;
+&lt;li&gt;Launch KeychainAccess&lt;/li&gt;
+&lt;li&gt;Locate the &lt;em&gt;Preview Signature Privacy&lt;/em&gt; password in the &lt;em&gt;login&lt;/em&gt; keychain and double click to edit
+&lt;img src=&#34;http://lh3.ggpht.com/-BB6bmWMvymU/TjoxoHRQJeI/AAAAAAAAAqM/pdQcMbIt4o8/Replace%252520Preview%252520Signature%252520Privacy%252520password%252520dialog.png?imgmax=800&#34; alt=&#34;Replace the Preview Signature Password&#34; title=&#34;Replace Preview Signature Privacy password dialog.png&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;Click the &lt;em&gt;Show password&lt;/em&gt; checkbox and paste the password you copied from your original machine.&lt;/li&gt;
+&lt;li&gt;Click &lt;em&gt;Save Changes&lt;/em&gt; and you&amp;rsquo;re done&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Enable -Wformat for better compile time help</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</link>
+      <pubDate>Sat, 18 Apr 2009 16:16:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</guid>
+      <description>&lt;p&gt;Let the compiler do all the hard work, and be sure to enable the following warning:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/_WTgxY9AxbJk/SepdBUhSs7I/AAAAAAAAAh8/oO-mV51nQew/Picture%201.png?imgmax=800&#34; alt=&#34;Picture 1.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It does more than just validate printf/scanf formatting calls, which is helpful in itself. It also validates that a sentinel is present in variadic functions. A sentinel is typically NULL or nil for the last parameter. A common place you would benefit from this is using the arrayWithObjects method of NSArray, that requires a nil for the last value.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;NSArray *items = [NSArray arrayWithObjects:@&amp;quot;one&amp;quot;, @&amp;quot;two&amp;quot;, nil];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If the nil is absent, you&amp;rsquo;re receive the following:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh4.ggpht.com/_WTgxY9AxbJk/Sep1_lFLQ3I/AAAAAAAAAiA/RpVKEbbVEaM/Picture%203.png?imgmax=800&#34; alt=&#34;Picture 3.png&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

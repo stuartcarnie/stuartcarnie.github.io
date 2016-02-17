@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Mobile Safari performance and executable pages in iOS 4.3 &middot; Stuart Carnie</title>
+
+  
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-x.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/highlight/zenburn.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://spencerlyon2.github.io/hugo_gh_blog/touch-icon-144-precomposed.png">
+  <link href="http://spencerlyon2.github.io/hugo_gh_blog/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="Your default page description">
+  <meta name="keywords" content="your,default,page,keywords">
+  
+</head>
+<body class="theme-base-01">
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1>Stuart Carnie</h1>
+      <p class="lead">Your favourite quote or soundbite.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="http://spencerlyon2.github.io/hugo_gh_blog/">Blog</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/stuartcarnie"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      
+      
+      
+      <a href="https://twitter.com/stuartcarnie"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      
+      </li>
+    </ul>
+
+    
+
+    <p>Copyright &copy; 2016 <a href="http://spencerlyon2.github.io/hugo_gh_blog/license/">License</a><br/>
+       Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1>Mobile Safari performance and executable pages in iOS 4.3</h1>
+    <span class="post-date">Mar 17, 2011 &middot; 3 minute read
+    
+    <br/>
+    <a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/ios">iOS</a>
+    </span>
+    
+
+<p>DaringFireball recently posted <a href="http://daringfireball.net/2011/03/nitro_ios_43">his thoughts</a> as to why the Javascript performance of Mobile Safari is faster than those launched from SpringBoard or within existing applications which use a UIWebView.  I don&rsquo;t think it&rsquo;s quite that complicated.</p>
+
+<p>My thoughts are it is one of two things:</p>
+
+<ul>
+<li>Apple is concerned about security (which would support John&rsquo;s theory)
+
+<ul>
+<li>Mobile Safari is binding to a newer and/or private version of Webkit, and Springboard was an oversight</li>
+</ul></li>
+<li>Apple is concerned about breaking existing applications
+
+<ul>
+<li>I would argue this makes the most sense, and was probably a very deliberate action by Apple, given enabling Nitro is a significant enough change to a core framework that could break existing applications.</li>
+<li>Perhaps a future update will allow developers to <em>opt-in</em> to the faster Javascript engine either via a plist setting or more likely, a new API on the UIWebView class.</li>
+<li>Would also explain the oversight in Springboard, if it was not opted in.</li>
+</ul></li>
+</ul>
+
+<p>There are other implications for allowing 3rd parties to use Nitro, most importantly <em>battery life.</em> If Javascript executes up to 3x faster, the CPU is running 3x less to to execute equivalent Javascript, allowing the CPU to go to low power mode faster.</p>
+
+<p>Gruber also makes the following statement:</p>
+
+<blockquote>
+<p>Apple, as of iOS 4.3, trusts Mobile Safari enough to allow this. The upside is that Mobile Safari is now significantly faster. The downside is that any security exploits against Mobile Safari now potentially allow worse things to happen than before.</p>
+</blockquote>
+
+<p>I would disagree, as many of the previous Jailbreak exploits in iOS such as <a href="http://daringfireball.net/linked/2010/08/02/jailbreakme">this example</a> were via Mobile Safari, without a JIT engine, simply exploiting the stack and other typical attacks to <em>elevate privileges</em>.  As Apple continues to get a handle on these <em>security</em> issues, running dynamic code shouldn&rsquo;t be a problem.</p>
+
+<h2 id="what-is-my-basis-for-this-assumption:40ecd50b5c22d7f37af935e340915265">What is my basis for this assumption?</h2>
+
+<p>A few weeks ago, when I heard Apple&rsquo;s announcement that Nitro was coming to 4.3, I immediately had to retest some scenarios that were not previously supported on iOS.  Prior to iOS 4.3, calling the mprotect function and attempting to set the PROT_EXEC flag, marking the page as executable would <em>fail</em> when run on the device<em>.</em> Quite simply, the API would return an error code.  This suggested that likely something in the kernel was locked down or this API had specific code to disallow pages to be marked as executable.  Knowing that the Nitro engine must execute in user space or it would be a serious hack in iOS, Apple had to enable support for executable pages.  I went ahead and <a href="https://gist.github.com/855607">created an example</a>, ran it on my iPhone 4 and viola!  Essentially this example creates an &lsquo;increment&rsquo; function in 32-bit ARM on the fly that adds one to the parameter and returns the result.</p>
+
+<p>I <a href="https://twitter.com/stuartcarnie/status/43762981863034880">responded</a> to Miguel de Icaza&rsquo;s <a href="https://twitter.com/migueldeicaza/status/43127184440836096">tweet</a>, who also wondered it might now be possible.  Further discussions with Miguel also <a href="https://twitter.com/migueldeicaza/status/48517553395466240">identified</a> that Apple has only partially opened up executable page support, whereby pages can either be read/write or read/execute.  Unfortunately the majority of existing JIT engines expect RWX in order to patch executable pages without the need to change the state from rx » rw, patch code and then rw » rx.  Critical in multi-threaded scenarios, as code could conceivably jump to a page that was being patched and fault due to the absence of the execute flag.</p>
+
+  </div>
+  
+</div>
+
+
+
+
+<script src="http://spencerlyon2.github.io/hugo_gh_blog/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

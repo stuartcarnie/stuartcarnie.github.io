@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Transferring Preview app signatures in Lion &middot; Stuart Carnie</title>
+
+  
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-x.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/highlight/zenburn.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://spencerlyon2.github.io/hugo_gh_blog/touch-icon-144-precomposed.png">
+  <link href="http://spencerlyon2.github.io/hugo_gh_blog/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="Your default page description">
+  <meta name="keywords" content="your,default,page,keywords">
+  
+</head>
+<body class="theme-base-01">
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1>Stuart Carnie</h1>
+      <p class="lead">Your favourite quote or soundbite.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="http://spencerlyon2.github.io/hugo_gh_blog/">Blog</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/stuartcarnie"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      
+      
+      
+      <a href="https://twitter.com/stuartcarnie"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      
+      </li>
+    </ul>
+
+    
+
+    <p>Copyright &copy; 2016 <a href="http://spencerlyon2.github.io/hugo_gh_blog/license/">License</a><br/>
+       Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1>Transferring Preview app signatures in Lion</h1>
+    <span class="post-date">Aug 3, 2011 &middot; 2 minute read
+    
+    <br/>
+    <a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/osx">osx</a><a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/tips">tips</a>
+    </span>
+    <p>Lion introduced a great <a href="http://www.apple.com/macosx/whats-new/features.html#preview">new feature</a> that allows you to <a href="http://www.cultofmac.com/you-can-now-sign-pdfs-using-lions-preview-app-screenshots-how-to/100237">capture your signature</a> via an attached camera and store it in an encrypted form for later use.  Therein lies the problem; you must have an attached camera.</p>
+
+<p>I have a Mac Pro, and wanted to use the signatures I captured on my Macbook Pro.  Following these steps, you can transfer the encrypted signatures over.</p>
+
+<p>On your machine endowed with the power of sight:</p>
+
+<ol>
+<li>Go ahead and capture the signatures in Preview.</li>
+<li>Quit Preview</li>
+<li>Browse to ~/Library/Containers/com.apple.Preview/Data/Library/Preferences
+
+<ul>
+<li>In Finder, click the <em>Go</em> menu and hold the option (⌥) key to show the Library folder, alternatively</li>
+<li>press ⌘+⇧+G whilst Finder is active and enter the path above to directly navigate</li>
+</ul></li>
+<li>Copy thecom.apple.Preview.signatures.plist</li>
+<li>Launch KeychainAccess</li>
+<li>Ensure the <em>login</em> keychain is selected and the <em>Passwords</em> category
+<img src="http://lh3.ggpht.com/-z8tRB-j6kdo/Tjov5yUdYZI/AAAAAAAAAqE/OKZt52E80_Q/Keychain-Preview-Password.png?imgmax=800" alt="Copying Preview signatures password from keychain" title="Keychain-Preview-Password.png" /></li>
+<li>Right-click the <em>Preview Signature Privacy</em> password and select Copy Password to Clipboard.  This is the password used to encrypt the signature images.</li>
+<li>Paste it into a text editor and save the file.  You&rsquo;ll need to transfer this to your other computer(s)</li>
+</ol>
+
+<p>On your machine you wish to transfer the signatures to:</p>
+
+<ol>
+<li>If you haven&rsquo;t already, launch Preview, open preferences, and select the Signatures tab to ensure the default configuration files and folders have been created.  Exit Preview.</li>
+<li>Browse to ~/Library/Containers/com.apple.Preview/Data/Library/Preferences</li>
+<li>Copy thecom.apple.Preview.signatures.plist to the folder, overwriting any existing file</li>
+<li>Launch KeychainAccess</li>
+<li>Locate the <em>Preview Signature Privacy</em> password in the <em>login</em> keychain and double click to edit
+<img src="http://lh3.ggpht.com/-BB6bmWMvymU/TjoxoHRQJeI/AAAAAAAAAqM/pdQcMbIt4o8/Replace%252520Preview%252520Signature%252520Privacy%252520password%252520dialog.png?imgmax=800" alt="Replace the Preview Signature Password" title="Replace Preview Signature Privacy password dialog.png" /></li>
+<li>Click the <em>Show password</em> checkbox and paste the password you copied from your original machine.</li>
+<li>Click <em>Save Changes</em> and you&rsquo;re done</li>
+</ol>
+
+  </div>
+  
+</div>
+
+
+
+
+<script src="http://spencerlyon2.github.io/hugo_gh_blog/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

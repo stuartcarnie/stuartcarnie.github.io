@@ -1,0 +1,1563 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Arm on stuartcarnie</title>
+    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/arm/</link>
+    <description>Recent content in Arm on stuartcarnie</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 24 Jan 2010 22:58:00 +0000</lastBuildDate>
+    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/arm/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Micro-benchmarking iOS devices</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/micro-benchmarking-ios-devices/</link>
+      <pubDate>Sun, 24 Jan 2010 22:58:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/micro-benchmarking-ios-devices/</guid>
+      <description>
+
+&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; Added iPhone 5.&lt;br /&gt;
+&lt;strong&gt;Update:&lt;/strong&gt; Added iPhone 4s, iPad 3&lt;sup&gt;rd&lt;/sup&gt; gen.&lt;br /&gt;
+&lt;strong&gt;Update:&lt;/strong&gt; Added iPhone 4, iPad 1&lt;sup&gt;st&lt;/sup&gt; gen.&lt;/p&gt;
+
+&lt;p&gt;I follow the excellent &lt;a href=&#34;http://www.mikeash.com/?page=pyblog/&#34;&gt;weekly posts&lt;/a&gt; by Mike Ash, and &lt;a href=&#34;http://www.mikeash.com/?page=pyblog/friday-qa-2010-01-22-toll-free-bridging-internals.html#comment-fe3facc8db943d179b5c670f0da3be68&#34;&gt;entered a brief discussion&lt;/a&gt; in comments about toll free bridging. In particular, the difference between calling a method via Objective-C (objc_msgSend) and it&amp;rsquo;s equivalent CoreFoundation C call. Mike suggested adding it to &lt;a href=&#34;http://mikeash.com/?page=pyblog/performance-comparisons-of-common-operations-iphone-edition.html&#34;&gt;his original&lt;/a&gt; suite of tests, which lead to the following results.&lt;/p&gt;
+
+&lt;h2 id=&#34;iphone-5-mno-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 5 (-mno-thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;custom-apple-a6-arm-cortex-a15-up-to-1-2ghz:14714447475d4a2a5cea01b8f4896980&#34;&gt;Custom Apple A6 ARM Cortex A15, up to 1.2GHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;10.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;13.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;24.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.5&lt;/td&gt;
+&lt;td&gt;24.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;35.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;td&gt;50.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;65.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;4.8&lt;/td&gt;
+&lt;td&gt;482.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;533.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1169.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1391.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;13331.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;99329.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;120390.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;421517.1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-5-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 5 (thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;custom-apple-a6-arm-cortex-a15-up-to-1-2ghz-1:14714447475d4a2a5cea01b8f4896980&#34;&gt;Custom Apple A6 ARM Cortex A15, up to 1.2GHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;4.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;10.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;13.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;24.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.6&lt;/td&gt;
+&lt;td&gt;26.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;35.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;td&gt;51.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;65.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;4.7&lt;/td&gt;
+&lt;td&gt;474.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;513.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1183.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1241.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;12979.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;83574.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;121289.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;426971.7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;ipad-3-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPad 3 (thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;apple-a5x-arm-cortex-a9-1000mhz:14714447475d4a2a5cea01b8f4896980&#34;&gt;Apple A5x ARM Cortex A9 1000MHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;11.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;12.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.6&lt;/td&gt;
+&lt;td&gt;26.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;26.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;26.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.9&lt;/td&gt;
+&lt;td&gt;28.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.6&lt;/td&gt;
+&lt;td&gt;35.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;69.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;131.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;4.3&lt;/td&gt;
+&lt;td&gt;433.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;600.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1235.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;2966.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;11633.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;121336.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;130293.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1662780.4&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;ipad-3-mno-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPad 3 (-mno-thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;apple-a5x-arm-cortex-a9-1000mhz-1:14714447475d4a2a5cea01b8f4896980&#34;&gt;Apple A5x ARM Cortex A9 1000MHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;9.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;11.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.4&lt;/td&gt;
+&lt;td&gt;24.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.6&lt;/td&gt;
+&lt;td&gt;26.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;26.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;27.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.7&lt;/td&gt;
+&lt;td&gt;27.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;68.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.0&lt;/td&gt;
+&lt;td&gt;103.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;4.3&lt;/td&gt;
+&lt;td&gt;432.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;570.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1209.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1682.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;10251.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;118494.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;121578.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1635983.3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-4s-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 4s (thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;apple-a5-arm-cortex-a9-800mhz:14714447475d4a2a5cea01b8f4896980&#34;&gt;Apple A5 ARM Cortex A9 ~800MHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;11.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;12.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.1&lt;/td&gt;
+&lt;td&gt;31.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;32.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.3&lt;/td&gt;
+&lt;td&gt;32.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;32.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.4&lt;/td&gt;
+&lt;td&gt;33.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;85.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.6&lt;/td&gt;
+&lt;td&gt;165.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;5.4&lt;/td&gt;
+&lt;td&gt;542.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;753.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1511.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;2111.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;19033.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;142817.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;146302.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1787482.1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-4-fthumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 4 (-fthumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;apple-a4-arm-cortex-a8-800mhz:14714447475d4a2a5cea01b8f4896980&#34;&gt;Apple A4 ARM Cortex A8 ~800MHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;9.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.0&lt;/td&gt;
+&lt;td&gt;10.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;36.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;4.1&lt;/td&gt;
+&lt;td&gt;40.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;4.1&lt;/td&gt;
+&lt;td&gt;40.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;89.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;105.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;105.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.7&lt;/td&gt;
+&lt;td&gt;168.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;550.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;6.6&lt;/td&gt;
+&lt;td&gt;656.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;979.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;4277.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;20406.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;139971.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;243883.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1150657.9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-3gs-fthumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 3GS (-fthumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;arm-cortex-a8-600mhz-1-66-ns-per-cycle:14714447475d4a2a5cea01b8f4896980&#34;&gt;ARM Cortex A8 ~600MHz / 1.66 ns per cycle&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.2&lt;/td&gt;
+&lt;td&gt;11.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;13.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;td&gt;46.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;5.4&lt;/td&gt;
+&lt;td&gt;53.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;6.3&lt;/td&gt;
+&lt;td&gt;62.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.2&lt;/td&gt;
+&lt;td&gt;117.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;138.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;140.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;2.2&lt;/td&gt;
+&lt;td&gt;220.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;6.4&lt;/td&gt;
+&lt;td&gt;642.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;723.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1305.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.6&lt;/td&gt;
+&lt;td&gt;5743.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;16104.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;185759.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;353519.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;2170179.2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-3gs-no-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 3GS (no thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;arm-cortex-a8-600mhz-1-66-ns-per-cycle-1:14714447475d4a2a5cea01b8f4896980&#34;&gt;ARM Cortex A8 ~600MHz / 1.66 ns per cycle&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.2&lt;/td&gt;
+&lt;td&gt;11.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;4.3&lt;/td&gt;
+&lt;td&gt;42.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;5.9&lt;/td&gt;
+&lt;td&gt;59.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.0&lt;/td&gt;
+&lt;td&gt;97.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;9.8&lt;/td&gt;
+&lt;td&gt;98.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;109.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.2&lt;/td&gt;
+&lt;td&gt;118.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;129.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;142.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;7.5&lt;/td&gt;
+&lt;td&gt;748.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;806.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;td&gt;4793.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;td&gt;4953.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;17969.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;211840.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;214742.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3162774.6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-3g:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 3G&lt;/h2&gt;
+
+&lt;h3 id=&#34;arm1176-412mhz-2-4ns-per-cycle:14714447475d4a2a5cea01b8f4896980&#34;&gt;ARM1176 ~412MHz / 2.4ns per cycle&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.9&lt;/td&gt;
+&lt;td&gt;38.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;5.0&lt;/td&gt;
+&lt;td&gt;49.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;81.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;81.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;136.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;14.9&lt;/td&gt;
+&lt;td&gt;148.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;16.2&lt;/td&gt;
+&lt;td&gt;162.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;2.0&lt;/td&gt;
+&lt;td&gt;201.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;4.2&lt;/td&gt;
+&lt;td&gt;418.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1833.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;27.3&lt;/td&gt;
+&lt;td&gt;2729.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;14179.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;1.9&lt;/td&gt;
+&lt;td&gt;18956.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;47811.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;803419.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1085830.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;1.0&lt;/td&gt;
+&lt;td&gt;9902796.7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;ipad-fthumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPad (-fthumb)&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;7.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;8.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;27.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.2&lt;/td&gt;
+&lt;td&gt;32.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.4&lt;/td&gt;
+&lt;td&gt;33.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.6&lt;/td&gt;
+&lt;td&gt;58.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;70.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;81.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;83.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;3.6&lt;/td&gt;
+&lt;td&gt;357.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;470.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;2957.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3080.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;14824.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;127386.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;225271.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1064566.2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;ipad-mno-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPad (-mno-thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;apple-a4-arm-cortex-a8-1ghz-1-ns-per-cycle:14714447475d4a2a5cea01b8f4896980&#34;&gt;Apple A4 ARM Cortex A8 ~1GHz / 1 ns per cycle&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;8.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.2&lt;/td&gt;
+&lt;td&gt;21.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;28.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.2&lt;/td&gt;
+&lt;td&gt;32.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.4&lt;/td&gt;
+&lt;td&gt;33.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.6&lt;/td&gt;
+&lt;td&gt;55.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;70.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;81.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;82.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;3.6&lt;/td&gt;
+&lt;td&gt;358.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;473.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3017.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3071.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;14623.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;128674.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;255627.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1063407.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Note that I did reduce the iterations from the original tests, so whilst the total times are significantly less, the iteration times are still a reflection of overall performance.  Compared to Mike&amp;rsquo;s results, these show that the IMP method is indeed faster as expected, but this was only after I changed to a release build.  I also compiled these with Thumb disabled unless otherwise specified.
+I&amp;rsquo;ve recently watched some iTunes U videos released by Apple on optimizing OpenGL ES 2.0 and a key takeaway was that the Cortext A8 architecture should always be compiled with thumb enabled. The Cortex CPU uses the newer Thumb-2 instruction set, which has native instructions for floating point. The benefit of Thumb is reduced code size and potentially better performance by utilising the I-cache.&lt;/p&gt;
+
+&lt;h2 id=&#34;observations:14714447475d4a2a5cea01b8f4896980&#34;&gt;Observations&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I&amp;rsquo;ve estimated the iPhone 4 CPU to be running at 800MHz.  Looking at the increased speed over the 3GS for a number of benchmarks, the average is 1.333x increase.  Multiplying 600MHz x 1.333 yields roughly 800MHz as the clock speed.&lt;/li&gt;
+&lt;li&gt;The IMP-cached message send is significantly faster on the newer Cortex CPU.  I have read of improvements in the branch prediction logic, which is particularly important due to the greater penalty of a misprediction in the longer A8 pipeline.  The code for executing the call is
+  &lt;code&gt;blx r8&lt;/code&gt;
+r8 contains the target address of the function, and remains so for the duration of the test.&lt;/li&gt;
+&lt;li&gt;For the 3GS, the Objective-C message send is very close to the C++ virtual method call.  I ran this test several times, and the behaviour didn&amp;rsquo;t change.  The virtual method call is an indirect load of the pc register
+  &lt;code&gt;ldr pc, [r3]&lt;/code&gt;
+Without being able to access the &lt;a href=&#34;http://infocentre.arm.com/help/topic/com.arm.doc.ddi0344j/Bgbighbf.html&#34;&gt;PMC registers&lt;/a&gt;, I can&amp;rsquo;t be sure of mispredictions; however, I know that 9 instructions are executed every iteration in the C++ test.  That suggests around 15ns / iteration; but, we&amp;rsquo;re at 42.9.  Adding an additional 13 cycles every iteration (21.58ns) for a mispredition would get us to 37ns / iteration - much closer.  Stepping in to the objc_msgSend function finds the cached method on the first pass, totaling 28 instructions per iteration.  Given there are significantly more instructions for the Objective-C call, we&amp;rsquo;re probably seeing the benefits of the dual—issue architecture.&lt;/li&gt;
+&lt;li&gt;Memory performance of the 3GS is significantly higher.  I&amp;rsquo;ve done some other micro-benchmarks, showing 2&lt;sup&gt;nd&lt;/sup&gt; gen around 200 MB/s and 3&lt;sup&gt;rd&lt;/sup&gt; gen around 800MB/s.  With some very well placed cache-preloads, I&amp;rsquo;ve actually pushed the ARM1176 to almost 300MB/s.&lt;/li&gt;
+&lt;li&gt;Calling the objectAtIndex: using CoreFoundation API is 2x faster on older devices; however, the gap is less significant with the newer hardware.  We&amp;rsquo;ve seen significant improvements to the objc_msgSend performance on the 3GS, which undoubtedly is making up much of the gap.&lt;/li&gt;
+&lt;li&gt;Floating point performance for scalar operations is slightly slower on the newer device.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Source code for this test is available &lt;a href=&#34;http://gist.github.com/285663&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

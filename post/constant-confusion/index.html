@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Constant Confusion &middot; Stuart Carnie</title>
+
+  
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-x.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/highlight/zenburn.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://spencerlyon2.github.io/hugo_gh_blog/touch-icon-144-precomposed.png">
+  <link href="http://spencerlyon2.github.io/hugo_gh_blog/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="Your default page description">
+  <meta name="keywords" content="your,default,page,keywords">
+  
+</head>
+<body class="theme-base-01">
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1>Stuart Carnie</h1>
+      <p class="lead">Your favourite quote or soundbite.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="http://spencerlyon2.github.io/hugo_gh_blog/">Blog</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/stuartcarnie"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      
+      
+      
+      <a href="https://twitter.com/stuartcarnie"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      
+      </li>
+    </ul>
+
+    
+
+    <p>Copyright &copy; 2016 <a href="http://spencerlyon2.github.io/hugo_gh_blog/license/">License</a><br/>
+       Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1>Constant Confusion</h1>
+    <span class="post-date">Dec 3, 2011 &middot; 5 minute read
+    
+    <br/>
+    <a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/c">c</a><a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/tips">tips</a><a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/technical">technical</a>
+    </span>
+    
+
+<p>The <em>const</em> keyword in C can be confusing, so I wanted to put down my thoughts for my own benefit and for those looking for some clarity. In summary, I&rsquo;m going to advocate you place <em>const</em> to the right, and read the declaration from right to left.</p>
+
+<h2 id="what-is-const:2beb528fa7b4af1d9ea70da77a222d33">What is <em>const</em>?</h2>
+
+<p><em>const</em> is a hint to the C compiler and programmer that a specific declaration or element of a declaration is immutable.  It is more complicated in C++, which is outside the scope of this post.  Lets start with a simple example, and the most common form where <em>const</em> is written first:</p>
+
+<pre><code class="language-c">const int i = 5;
+</code></pre>
+
+<p>The previous statement simply instructs the compiler that <em>i</em> cannot be changed after its initial declaration, such that the following assignment would result in an error:</p>
+
+<pre><code class="language-c">const int i = 5;
+i = 6; // error: read-only variable is not assignable
+</code></pre>
+
+<p>If spoken from right to left, the declaration of <em>i</em> would read “<em>i</em> is an integer constant”, which is reasonable enough.  This syntax is still supported for historical reasons.  The alternative and <em>correct</em> format is to write <em>const</em> after the type reference, as follows</p>
+
+<pre><code class="language-c">int const i = 5;
+i = 6; // error: read-only variable is not assignable
+</code></pre>
+
+<p>which means the same thing; the value of <em>i</em> must remain constant within its declared scope.  If you read this declaration from right to left, it is spoken as “<em>i</em> is a constant integer”; much better.</p>
+
+<p>Yet another common definition is an array of constant characters or also known in some circles as an immutable string</p>
+
+<pre><code class="language-c">const char * myString = &quot;hello World&quot;;
+myString[0] = 'H';        // error: read-only variable is not assignable
+myString = &quot;Hello World&quot;; // ok
+</code></pre>
+
+<p>Spoken from right to left, “<em>myString</em> is a pointer to character constant”, which doesn&rsquo;t read so well.  Switching the <em>const</em> keyword, we get the following</p>
+
+<pre><code class="language-c">char const * myString = &quot;hello World&quot;;
+myString[0] = 'H';        // error: read-only variable is not assignable
+myString = &quot;Hello World&quot;; // ok
+</code></pre>
+
+<p>read aloud, it is “<em>myString</em> is a pointer to constant characters“; sounds better than the former.</p>
+
+<p>So far <em>const</em> seems pretty straight forward, and perhaps at this point you&rsquo;re thinking where is the confusion?.  Lets complicate things…  As we&rsquo;ve demonstrated, the <em>const</em> keyword can be placed before or after the type reference in a declaration, which for the previous scenarios is fine.  Let&rsquo;s show a few more examples with pointers:</p>
+
+<pre><code class="language-c">int * const i;
+</code></pre>
+
+<p>Declares <em>i</em> as constant pointer to an integer.  Again, reading from right to left makes it pretty clear what we&rsquo;re dealing with.  The following shows both legal and illegal usages of <em>i</em>:</p>
+
+<pre><code class="language-c">int j = 5, k = 6;
+int * const i = &amp;j; // points to the memory referred to by j
+i = &amp;k;             // error: read-only variable is not assignable
+*i = 6;             // ok, modifies the value of j
+</code></pre>
+
+<p>Now, because the <em>const</em> keyword can be placed before or after the type reference, as shown earlier, the following declarations of <em>h</em> and <em>i</em>:</p>
+
+<pre><code class="language-c">int j = 5, k = 6;
+const int * const h = &amp;j;
+int const * const i = &amp;j;
+</code></pre>
+
+<p>result in a variable that is a constant pointer to a constant integer.  Given that, the following lines will result in compiler errors:</p>
+
+<pre><code class="language-c">*h = 5; // error: read-only variable is not assignable
+h = &amp;k; // error: read-only variable is not assignable
+</code></pre>
+
+<p>Want to see something confusing? The following 3 lines are identical, and will compile with current versions of clang and gcc:</p>
+
+<pre><code class="language-c">const int const g = 5;
+const int h = 6;
+int const i = 7;
+</code></pre>
+
+<p>It&rsquo;s not horrible, but lets reintroduce pointers</p>
+
+<pre><code class="language-c">const int const * i;
+</code></pre>
+
+<p>What is this? If you had not just read all the above, one would be forgiven for thinking <em>i</em> is a constant pointer to a constant integer, but in fact both instances of <em>const</em> refer to the int type; this is a pointer to a constant integer. The correct definition, as we saw earlier is</p>
+
+<pre><code class="language-c">const int * const i; // or preferably
+int const * const i;
+</code></pre>
+
+<p>Worse still is multiple levels of indirection, such as</p>
+
+<pre><code class="language-c">int * * i;
+</code></pre>
+
+<p>which when read from right to left declares “<em>i</em> is a pointer to a pointer of integers”. A more complicated example using the <em>const</em> keyword</p>
+
+<pre><code class="language-c">int const * const * const i;
+</code></pre>
+
+<p>or “<em>i</em> is a constant pointer to a constant pointer of constant integers.  <em>Wow</em>.  All levels of indirection are immutable, so it can only be assigned at its declaration.</p>
+
+<pre><code class="language-c">int j[2][3] = { {1, 2, 3}, {4, 5, 6} };
+int const * const * const i = &amp;j; // ok
+i = NULL;     // error
+i[0] = &amp;j[0]; // error
+i[0][0] = 5;  // error
+</code></pre>
+
+<p>It&rsquo;s an extreme case, but becomes evident why writing <em>const</em> to the right is a good habit.  The following declaration of <em>i</em> may look the same to the untrained eye:</p>
+
+<pre><code class="language-c">int j[2][3] = { {1, 2, 3}, {4, 5, 6} };
+const int const * const * i = &amp;j; // ok
+i = NULL;     // ok!!
+i[0] = &amp;j[0]; // error
+i[0][0] = 5;  // error
+</code></pre>
+
+<p>however, armed with this knowledge, you (and the compiler) say otherwise.</p>
+
+<p>After all this, you may be asking when might I use the declaration <em>type const * const</em>?  When possible, I prefer to be explicit, and strings used as constants across compilation units are often declared as</p>
+
+<pre><code class="language-c">char const * kMyConstant = &quot;Hello World&quot;;
+</code></pre>
+
+<p>and then referred to in a separate object file as</p>
+
+<pre><code class="language-c">extern char const * kMyConstant;
+</code></pre>
+
+<p>Whilst modifying the contents of <em>kMyConstant</em> is prohibited, assigning the pointer <em>kMyConstant</em> to a new location is possible, as follows</p>
+
+<pre><code class="language-c">extern char const * kMyConstant;
+void fn() {
+    kMyConstant[0] = 'h'; // error
+    kMyConstant = &quot;Hi!&quot;;  // now says &quot;Hi!&quot; instead of &quot;Hello World&quot;
+}
+</code></pre>
+
+<p>Clearly for the majority of situations, this is not what the developer intended.  Changing the declaration to</p>
+
+<pre><code class="language-c">char const * const kMyConstant = &quot;Hello World&quot;;
+</code></pre>
+
+<p>would also prevent the pointer <em>kMyConstant</em> from being overwritten.</p>
+
+<h2 id="in-summary:2beb528fa7b4af1d9ea70da77a222d33">In summary</h2>
+
+<p>Always write <em>const</em> to the right and read the declaration from right to left.</p>
+
+  </div>
+  
+</div>
+
+
+
+
+<script src="http://spencerlyon2.github.io/hugo_gh_blog/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

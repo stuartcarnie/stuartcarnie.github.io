@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>llvm / Clang hacking: Part 1 &middot; Stuart Carnie</title>
+
+  
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-x.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/highlight/zenburn.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://spencerlyon2.github.io/hugo_gh_blog/touch-icon-144-precomposed.png">
+  <link href="http://spencerlyon2.github.io/hugo_gh_blog/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="Your default page description">
+  <meta name="keywords" content="your,default,page,keywords">
+  
+</head>
+<body class="theme-base-01">
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1>Stuart Carnie</h1>
+      <p class="lead">Your favourite quote or soundbite.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="http://spencerlyon2.github.io/hugo_gh_blog/">Blog</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/stuartcarnie"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      
+      
+      
+      <a href="https://twitter.com/stuartcarnie"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      
+      </li>
+    </ul>
+
+    
+
+    <p>Copyright &copy; 2016 <a href="http://spencerlyon2.github.io/hugo_gh_blog/license/">License</a><br/>
+       Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1>llvm / Clang hacking: Part 1</h1>
+    <span class="post-date">Jun 2, 2012 &middot; 2 minute read
+    
+    <br/>
+    <a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/clang">clang</a>
+    </span>
+    
+
+<p>Part 1 in my N-part series on my exploration of hacking on <a href="http://llvm.org">llvm</a> and <a href="http://clang.llvm.org">Clang</a> (c-language) tool chain.  I am running OS X 10.7, however I will try to highlight the steps where you should consider substituting for your platform.</p>
+
+<h2 id="getting-started:d4474b8aeb4c39edf77834b4816e42db">Getting Started</h2>
+
+<p>Follow <a href="http://clang.llvm.org/get_started.html">these steps</a>, with the following exceptions if you prefer git (it is a <em>lot</em> faster); I am using the <a href="http://llvm.org/docs/GettingStarted.html#git_mirror">official llvm mirror</a> on llvm.org.</p>
+
+<ul>
+<li><p>Step 2, substitute the svn command for</p>
+
+<p><code>git clone http://llvm.org/git/llvm.git</code></p></li>
+
+<li><p>Step 3, substitute the svn command for</p>
+
+<p><code>git clone http://llvm.org/git/clang.git</code></p></li>
+
+<li><p>Step 4, substitute the svn command for</p>
+
+<p><code>git clone http://llvm.org/git/compiler-rt.git</code></p></li>
+
+<li><p>Step 5, I am using CMake, so instead of ../llvm/configure</p>
+
+<pre><code class="language-bash">cmake -G &quot;Unix Makefiles&quot; ../llvm
+make
+</code></pre></li>
+</ul>
+
+<h2 id="creating-xcode-project-for-clang:d4474b8aeb4c39edf77834b4816e42db">Creating Xcode project for Clang</h2>
+
+<p>You could run</p>
+
+<ul>
+<li><code>mkdir llvm</code></li>
+<li><code>cd llvm</code></li>
+<li><code>cmake -G Xcode ../llvm</code></li>
+</ul>
+
+<p>to create an Xcode project for the entire llvm/Clang toolchain, however it ends up being thousands of source files and 223 targets! As I&rsquo;m only interested in hacking on Clang, lets generate a project file for Clang and related projects only. Starting from the folder which contains build and llvm:</p>
+
+<ul>
+<li><code>mkdir clang</code></li>
+<li><code>cd clang</code></li>
+<li><code>bash
+cmake -DCLANG_PATH_TO_LLVM_SOURCE=../llvm -DCLANG_PATH_TO_LLVM_BUILD=../build -DCMAKE_BUILD_TYPE=Debug ../llvm/tools/clang
+</code></li>
+</ul>
+
+<p>Assuming all went well, you&rsquo;ll now have an Xcode project called Clang.xcodeproj with about 400 source files and 60 targets. Open it up and let Xcode index everything, which may take a few minutes depending on your hardware.  Once completed, switch to the clang target and build!</p>
+
+<p><strong>Note:</strong> On Windows, it is likely cmake will auto-detect your Visual Studio environment and the above commands will Just Work™</p>
+
+<p><img src="http://lh6.ggpht.com/-uMbB6KPBBvY/T8qD8KbfK8I/AAAAAAAAA58/QZTXhPnGPKk/clang_target.png?imgmax=800" alt="Xcode clang target" title="clang_target.png" /></p>
+
+<p>Assuming all goes well, a few minutes later you should see:</p>
+
+<p><img src="http://lh4.ggpht.com/-o50LhcUc71I/T8qD8iMHhqI/AAAAAAAAA6E/4j7CIEAcilU/xcode_clang_successful_build.png?imgmax=800" alt="Clang build Succeeded" title="xcode_clang_successful_build.png" /></p>
+
+<p>Back in Terminal, you can run the following command, which creates a Hello World program and tests your build of Clang.</p>
+
+<p>From the clang folder</p>
+
+<ul>
+<li><code>cd bin/Debug</code></li>
+
+<li><pre><code class="language-cpp">echo &quot;#include \nint main(int argc,char**argv) { printf(\&quot;hello world\\\n\&quot;); return 0; }&quot; &amp;gt; hello.c &amp;amp;&amp;amp; clang hello.c -o hello &amp;amp;&amp;amp; ./hello
+</code></pre></li>
+</ul>
+
+<p>If you see <em>hello world</em> after running the 2<sup>nd</sup> command, pat yourself on the back, as you&rsquo;ve successfully setup a working llvm / Clang development environment to start your hacking.</p>
+
+<h2 id="next-up:d4474b8aeb4c39edf77834b4816e42db">Next Up</h2>
+
+<p><a href="/post/llvm--clang-hacking-part-2">Part 2</a> and debugging Clang.</p>
+
+<h2 id="twitter:d4474b8aeb4c39edf77834b4816e42db">Twitter</h2>
+
+<p>Follow me on twitter, <a href="http://twitter.com/stuartcarnie">@stuartcarnie</a>.</p>
+
+  </div>
+  
+</div>
+
+
+
+
+<script src="http://spencerlyon2.github.io/hugo_gh_blog/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

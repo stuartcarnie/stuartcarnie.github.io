@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Micro-benchmarking iOS devices &middot; Stuart Carnie</title>
+
+  
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-x.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/highlight/zenburn.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://spencerlyon2.github.io/hugo_gh_blog/touch-icon-144-precomposed.png">
+  <link href="http://spencerlyon2.github.io/hugo_gh_blog/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="Your default page description">
+  <meta name="keywords" content="your,default,page,keywords">
+  
+</head>
+<body class="theme-base-01">
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1>Stuart Carnie</h1>
+      <p class="lead">Your favourite quote or soundbite.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="http://spencerlyon2.github.io/hugo_gh_blog/">Blog</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/stuartcarnie"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      
+      
+      
+      <a href="https://twitter.com/stuartcarnie"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      
+      </li>
+    </ul>
+
+    
+
+    <p>Copyright &copy; 2016 <a href="http://spencerlyon2.github.io/hugo_gh_blog/license/">License</a><br/>
+       Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1>Micro-benchmarking iOS devices</h1>
+    <span class="post-date">Jan 24, 2010 &middot; 9 minute read
+    
+    <br/>
+    <a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/arm">ARM</a><a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/performance">performance</a><a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/iphone">iphone</a>
+    </span>
+    
+
+<p><strong>Update:</strong> Added iPhone 5.<br />
+<strong>Update:</strong> Added iPhone 4s, iPad 3<sup>rd</sup> gen.<br />
+<strong>Update:</strong> Added iPhone 4, iPad 1<sup>st</sup> gen.</p>
+
+<p>I follow the excellent <a href="http://www.mikeash.com/?page=pyblog/">weekly posts</a> by Mike Ash, and <a href="http://www.mikeash.com/?page=pyblog/friday-qa-2010-01-22-toll-free-bridging-internals.html#comment-fe3facc8db943d179b5c670f0da3be68">entered a brief discussion</a> in comments about toll free bridging. In particular, the difference between calling a method via Objective-C (objc_msgSend) and it&rsquo;s equivalent CoreFoundation C call. Mike suggested adding it to <a href="http://mikeash.com/?page=pyblog/performance-comparisons-of-common-operations-iphone-edition.html">his original</a> suite of tests, which lead to the following results.</p>
+
+<h2 id="iphone-5-mno-thumb:14714447475d4a2a5cea01b8f4896980">iPhone 5 (-mno-thumb)</h2>
+
+<h3 id="custom-apple-a6-arm-cortex-a15-up-to-1-2ghz:14714447475d4a2a5cea01b8f4896980">Custom Apple A6 ARM Cortex A15, up to 1.2GHz</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>0.3</td>
+<td>3.1</td>
+</tr>
+
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>0.3</td>
+<td>3.3</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>1.1</td>
+<td>10.9</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>1.4</td>
+<td>13.7</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>0.2</td>
+<td>24.7</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>100000000</td>
+<td>2.5</td>
+<td>24.8</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>0.4</td>
+<td>35.9</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>0.5</td>
+<td>50.9</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>0.7</td>
+<td>65.8</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>4.8</td>
+<td>482.7</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>533.4</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>1169.0</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.1</td>
+<td>1391.8</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>13331.8</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.1</td>
+<td>99329.1</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.0</td>
+<td>120390.0</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>0.0</td>
+<td>421517.1</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="iphone-5-thumb:14714447475d4a2a5cea01b8f4896980">iPhone 5 (thumb)</h2>
+
+<h3 id="custom-apple-a6-arm-cortex-a15-up-to-1-2ghz-1:14714447475d4a2a5cea01b8f4896980">Custom Apple A6 ARM Cortex A15, up to 1.2GHz</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>0.3</td>
+<td>3.1</td>
+</tr>
+
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>0.4</td>
+<td>4.0</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>1.1</td>
+<td>10.8</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>1.4</td>
+<td>13.6</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>0.2</td>
+<td>24.9</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>100000000</td>
+<td>2.6</td>
+<td>26.4</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>0.4</td>
+<td>35.6</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>0.5</td>
+<td>51.0</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>0.7</td>
+<td>65.8</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>4.7</td>
+<td>474.3</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>513.2</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>1183.1</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.1</td>
+<td>1241.5</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>12979.7</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.1</td>
+<td>83574.5</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.0</td>
+<td>121289.2</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>0.0</td>
+<td>426971.7</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="ipad-3-thumb:14714447475d4a2a5cea01b8f4896980">iPad 3 (thumb)</h2>
+
+<h3 id="apple-a5x-arm-cortex-a9-1000mhz:14714447475d4a2a5cea01b8f4896980">Apple A5x ARM Cortex A9 1000MHz</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>1.1</td>
+<td>11.5</td>
+</tr>
+
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>1.3</td>
+<td>12.7</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>100000000</td>
+<td>2.6</td>
+<td>26.1</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>0.3</td>
+<td>26.2</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>0.3</td>
+<td>26.3</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>2.9</td>
+<td>28.7</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>3.6</td>
+<td>35.5</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>0.7</td>
+<td>69.0</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>1.3</td>
+<td>131.7</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>4.3</td>
+<td>433.9</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>600.2</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>1235.4</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.3</td>
+<td>2966.6</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>11633.0</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.1</td>
+<td>121336.0</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.0</td>
+<td>130293.3</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>0.2</td>
+<td>1662780.4</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="ipad-3-mno-thumb:14714447475d4a2a5cea01b8f4896980">iPad 3 (-mno-thumb)</h2>
+
+<h3 id="apple-a5x-arm-cortex-a9-1000mhz-1:14714447475d4a2a5cea01b8f4896980">Apple A5x ARM Cortex A9 1000MHz</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>0.9</td>
+<td>9.0</td>
+</tr>
+
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>1.1</td>
+<td>11.1</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>2.4</td>
+<td>24.1</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>100000000</td>
+<td>2.6</td>
+<td>26.1</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>0.3</td>
+<td>26.1</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>0.3</td>
+<td>27.1</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>2.7</td>
+<td>27.2</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>0.7</td>
+<td>68.4</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>1.0</td>
+<td>103.3</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>4.3</td>
+<td>432.5</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>570.4</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>1209.9</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.2</td>
+<td>1682.2</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>10251.2</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.0</td>
+<td>118494.2</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.1</td>
+<td>121578.2</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>0.2</td>
+<td>1635983.3</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="iphone-4s-thumb:14714447475d4a2a5cea01b8f4896980">iPhone 4s (thumb)</h2>
+
+<h3 id="apple-a5-arm-cortex-a9-800mhz:14714447475d4a2a5cea01b8f4896980">Apple A5 ARM Cortex A9 ~800MHz</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>1.1</td>
+<td>11.3</td>
+</tr>
+
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>1.3</td>
+<td>12.6</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>3.1</td>
+<td>31.4</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>0.3</td>
+<td>32.6</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>100000000</td>
+<td>3.3</td>
+<td>32.6</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>0.3</td>
+<td>32.6</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>3.4</td>
+<td>33.8</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>0.9</td>
+<td>85.9</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>1.6</td>
+<td>165.0</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>5.4</td>
+<td>542.2</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>753.2</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>0.2</td>
+<td>1511.7</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.2</td>
+<td>2111.9</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>19033.7</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.0</td>
+<td>142817.5</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.1</td>
+<td>146302.7</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>0.2</td>
+<td>1787482.1</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="iphone-4-fthumb:14714447475d4a2a5cea01b8f4896980">iPhone 4 (-fthumb)</h2>
+
+<h3 id="apple-a4-arm-cortex-a8-800mhz:14714447475d4a2a5cea01b8f4896980">Apple A4 ARM Cortex A8 ~800MHz</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>0.9</td>
+<td>9.0</td>
+</tr>
+
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>1.0</td>
+<td>10.2</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>0.4</td>
+<td>36.2</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>4.1</td>
+<td>40.6</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>4.1</td>
+<td>40.8</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>10000000</td>
+<td>0.9</td>
+<td>89.4</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>1.1</td>
+<td>105.8</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>1.1</td>
+<td>105.8</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>1.7</td>
+<td>168.1</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.1</td>
+<td>550.8</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>6.6</td>
+<td>656.3</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>979.5</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>0.4</td>
+<td>4277.9</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>20406.7</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.0</td>
+<td>139971.2</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.2</td>
+<td>243883.3</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>0.1</td>
+<td>1150657.9</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="iphone-3gs-fthumb:14714447475d4a2a5cea01b8f4896980">iPhone 3GS (-fthumb)</h2>
+
+<h3 id="arm-cortex-a8-600mhz-1-66-ns-per-cycle:14714447475d4a2a5cea01b8f4896980">ARM Cortex A8 ~600MHz / 1.66 ns per cycle</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>1.2</td>
+<td>11.7</td>
+</tr>
+
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>1.3</td>
+<td>13.5</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>0.5</td>
+<td>46.0</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>5.4</td>
+<td>53.9</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>6.3</td>
+<td>62.9</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>10000000</td>
+<td>1.2</td>
+<td>117.4</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>1.4</td>
+<td>138.2</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>1.4</td>
+<td>140.1</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>2.2</td>
+<td>220.0</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>6.4</td>
+<td>642.6</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.1</td>
+<td>723.0</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>0.1</td>
+<td>1305.9</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>0.6</td>
+<td>5743.7</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>16104.0</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.0</td>
+<td>185759.2</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.4</td>
+<td>353519.4</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>0.2</td>
+<td>2170179.2</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="iphone-3gs-no-thumb:14714447475d4a2a5cea01b8f4896980">iPhone 3GS (no thumb)</h2>
+
+<h3 id="arm-cortex-a8-600mhz-1-66-ns-per-cycle-1:14714447475d4a2a5cea01b8f4896980">ARM Cortex A8 ~600MHz / 1.66 ns per cycle</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>1.2</td>
+<td>11.8</td>
+</tr>
+
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>4.3</td>
+<td>42.9</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>5.9</td>
+<td>59.2</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>1.0</td>
+<td>97.9</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>9.8</td>
+<td>98.4</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>1.1</td>
+<td>109.3</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>10000000</td>
+<td>1.2</td>
+<td>118.5</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>1.3</td>
+<td>129.0</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>1.4</td>
+<td>142.6</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>7.5</td>
+<td>748.6</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.1</td>
+<td>806.0</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>0.5</td>
+<td>4793.1</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>0.5</td>
+<td>4953.1</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>17969.2</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.2</td>
+<td>211840.4</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.0</td>
+<td>214742.5</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>0.3</td>
+<td>3162774.6</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="iphone-3g:14714447475d4a2a5cea01b8f4896980">iPhone 3G</h2>
+
+<h3 id="arm1176-412mhz-2-4ns-per-cycle:14714447475d4a2a5cea01b8f4896980">ARM1176 ~412MHz / 2.4ns per cycle</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>3.9</td>
+<td>38.6</td>
+</tr>
+
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>5.0</td>
+<td>49.9</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>10000000</td>
+<td>0.8</td>
+<td>81.3</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>0.8</td>
+<td>81.4</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>1.4</td>
+<td>136.0</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>14.9</td>
+<td>148.6</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>16.2</td>
+<td>162.2</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>2.0</td>
+<td>201.7</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>4.2</td>
+<td>418.3</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.2</td>
+<td>1833.2</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>27.3</td>
+<td>2729.8</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>1.4</td>
+<td>14179.1</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>1.9</td>
+<td>18956.7</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>47811.3</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.8</td>
+<td>803419.3</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.1</td>
+<td>1085830.0</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>1.0</td>
+<td>9902796.7</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="ipad-fthumb:14714447475d4a2a5cea01b8f4896980">iPad (-fthumb)</h2>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>0.7</td>
+<td>7.1</td>
+</tr>
+
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>0.8</td>
+<td>8.1</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>0.3</td>
+<td>27.7</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>3.2</td>
+<td>32.3</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>3.4</td>
+<td>33.7</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>0.6</td>
+<td>58.8</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>10000000</td>
+<td>0.7</td>
+<td>70.5</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>0.8</td>
+<td>81.6</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>0.8</td>
+<td>83.1</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>3.6</td>
+<td>357.8</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.0</td>
+<td>470.8</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>0.3</td>
+<td>2957.0</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>0.3</td>
+<td>3080.2</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>14824.2</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.0</td>
+<td>127386.2</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.2</td>
+<td>225271.3</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>0.1</td>
+<td>1064566.2</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2 id="ipad-mno-thumb:14714447475d4a2a5cea01b8f4896980">iPad (-mno-thumb)</h2>
+
+<h3 id="apple-a4-arm-cortex-a8-1ghz-1-ns-per-cycle:14714447475d4a2a5cea01b8f4896980">Apple A4 ARM Cortex A8 ~1GHz / 1 ns per cycle</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Iterations</th>
+<th>Total time (sec)</th>
+<th>Time per (ns)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>IMP-cached message send</td>
+<td>100000000</td>
+<td>0.8</td>
+<td>8.1</td>
+</tr>
+
+<tr>
+<td>C++ virtual method call</td>
+<td>100000000</td>
+<td>2.2</td>
+<td>21.8</td>
+</tr>
+
+<tr>
+<td>16 byte memcpy</td>
+<td>10000000</td>
+<td>0.3</td>
+<td>28.2</td>
+</tr>
+
+<tr>
+<td>Objective-C message send</td>
+<td>100000000</td>
+<td>3.2</td>
+<td>32.5</td>
+</tr>
+
+<tr>
+<td>Integer division</td>
+<td>100000000</td>
+<td>3.4</td>
+<td>33.9</td>
+</tr>
+
+<tr>
+<td>CF CFArrayGetValueAtIndex</td>
+<td>10000000</td>
+<td>0.6</td>
+<td>55.8</td>
+</tr>
+
+<tr>
+<td>Floating-point division</td>
+<td>10000000</td>
+<td>0.7</td>
+<td>70.9</td>
+</tr>
+
+<tr>
+<td>Objective-C objectAtIndex:</td>
+<td>10000000</td>
+<td>0.8</td>
+<td>81.6</td>
+</tr>
+
+<tr>
+<td>Float division with int conversion</td>
+<td>10000000</td>
+<td>0.8</td>
+<td>82.8</td>
+</tr>
+
+<tr>
+<td>16 byte malloc/free</td>
+<td>10000000</td>
+<td>3.6</td>
+<td>358.3</td>
+</tr>
+
+<tr>
+<td>NSInvocation message send</td>
+<td>100000</td>
+<td>0.0</td>
+<td>473.4</td>
+</tr>
+
+<tr>
+<td>NSAutoreleasePool alloc/init/release</td>
+<td>100000</td>
+<td>0.3</td>
+<td>3017.6</td>
+</tr>
+
+<tr>
+<td>NSObject alloc/init/release</td>
+<td>100000</td>
+<td>0.3</td>
+<td>3071.8</td>
+</tr>
+
+<tr>
+<td>16MB malloc/free</td>
+<td>1000</td>
+<td>0.0</td>
+<td>14623.6</td>
+</tr>
+
+<tr>
+<td>pthread create/join</td>
+<td>100</td>
+<td>0.0</td>
+<td>128674.6</td>
+</tr>
+
+<tr>
+<td>Zero-second delayed perform</td>
+<td>1000</td>
+<td>0.3</td>
+<td>255627.5</td>
+</tr>
+
+<tr>
+<td>1MB memcpy</td>
+<td>100</td>
+<td>0.1</td>
+<td>1063407.5</td>
+</tr>
+</tbody>
+</table>
+
+<p>Note that I did reduce the iterations from the original tests, so whilst the total times are significantly less, the iteration times are still a reflection of overall performance.  Compared to Mike&rsquo;s results, these show that the IMP method is indeed faster as expected, but this was only after I changed to a release build.  I also compiled these with Thumb disabled unless otherwise specified.
+I&rsquo;ve recently watched some iTunes U videos released by Apple on optimizing OpenGL ES 2.0 and a key takeaway was that the Cortext A8 architecture should always be compiled with thumb enabled. The Cortex CPU uses the newer Thumb-2 instruction set, which has native instructions for floating point. The benefit of Thumb is reduced code size and potentially better performance by utilising the I-cache.</p>
+
+<h2 id="observations:14714447475d4a2a5cea01b8f4896980">Observations</h2>
+
+<ul>
+<li>I&rsquo;ve estimated the iPhone 4 CPU to be running at 800MHz.  Looking at the increased speed over the 3GS for a number of benchmarks, the average is 1.333x increase.  Multiplying 600MHz x 1.333 yields roughly 800MHz as the clock speed.</li>
+<li>The IMP-cached message send is significantly faster on the newer Cortex CPU.  I have read of improvements in the branch prediction logic, which is particularly important due to the greater penalty of a misprediction in the longer A8 pipeline.  The code for executing the call is
+  <code>blx r8</code>
+r8 contains the target address of the function, and remains so for the duration of the test.</li>
+<li>For the 3GS, the Objective-C message send is very close to the C++ virtual method call.  I ran this test several times, and the behaviour didn&rsquo;t change.  The virtual method call is an indirect load of the pc register
+  <code>ldr pc, [r3]</code>
+Without being able to access the <a href="http://infocentre.arm.com/help/topic/com.arm.doc.ddi0344j/Bgbighbf.html">PMC registers</a>, I can&rsquo;t be sure of mispredictions; however, I know that 9 instructions are executed every iteration in the C++ test.  That suggests around 15ns / iteration; but, we&rsquo;re at 42.9.  Adding an additional 13 cycles every iteration (21.58ns) for a mispredition would get us to 37ns / iteration - much closer.  Stepping in to the objc_msgSend function finds the cached method on the first pass, totaling 28 instructions per iteration.  Given there are significantly more instructions for the Objective-C call, we&rsquo;re probably seeing the benefits of the dual—issue architecture.</li>
+<li>Memory performance of the 3GS is significantly higher.  I&rsquo;ve done some other micro-benchmarks, showing 2<sup>nd</sup> gen around 200 MB/s and 3<sup>rd</sup> gen around 800MB/s.  With some very well placed cache-preloads, I&rsquo;ve actually pushed the ARM1176 to almost 300MB/s.</li>
+<li>Calling the objectAtIndex: using CoreFoundation API is 2x faster on older devices; however, the gap is less significant with the newer hardware.  We&rsquo;ve seen significant improvements to the objc_msgSend performance on the 3GS, which undoubtedly is making up much of the gap.</li>
+<li>Floating point performance for scalar operations is slightly slower on the newer device.</li>
+</ul>
+
+<p>Source code for this test is available <a href="http://gist.github.com/285663">here</a>.</p>
+
+  </div>
+  
+</div>
+
+
+
+
+<script src="http://spencerlyon2.github.io/hugo_gh_blog/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

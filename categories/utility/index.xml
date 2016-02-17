@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Utility on stuartcarnie</title>
+    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/utility/</link>
+    <description>Recent content in Utility on stuartcarnie</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 09 Apr 2011 21:44:00 +0000</lastBuildDate>
+    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/utility/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Eval Expression service for OS X</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/eval-expression-service-for-os-x/</link>
+      <pubDate>Sat, 09 Apr 2011 21:44:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/eval-expression-service-for-os-x/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Eval Expression&lt;/strong&gt; is a Mac OS X service to evaluate the selected text of any text field as a Ruby expression.  My instinct was to choose Perl, however Ruby offers binary in addition to decimal, hex and octal numerical literals.  The service becomes infinitely more useful if you assign it a global shortcut in Keyboard preferences.  In my case I assigned a combination that seemed obvious, ⌘=&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh5.ggpht.com/_WTgxY9AxbJk/TaE1i0ngklI/AAAAAAAAAnU/yDUu3uOqs9Y/Keyboard%20preferences.png?imgmax=800&#34; alt=&#34;Keyboard preferences&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It came about as I was working on some layout in Xcode 4 / Interface Builder, and needed to adjust the Y position of a view by a specific number of units.  I&amp;rsquo;m lazy, and figured the computer should do the work, so I typed 768-35 and tabbed out.  Unlike Acorn and Opacity, which evaluates the expression in numerical entries automatically, Xcode simply complained.  Not happy, I created this service and it works like a charm.  Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;768-35 ⌘= 733
+
+&lt;ul&gt;
+&lt;li&gt;calculator&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;0b11010 ⌘= 26
+
+&lt;ul&gt;
+&lt;li&gt;conversion to decimal&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;0x1f.to_s(2) ⌘= 11111
+
+&lt;ul&gt;
+&lt;li&gt;hex to binary&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;2**3 ⌘= 8
+
+&lt;ul&gt;
+&lt;li&gt;exponent&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;(0x8000 | 0xf1).to_s(16) ⌘= 80f1&lt;/li&gt;
+&lt;li&gt;&amp;rdquo;-+&amp;rdquo; * 5 ⌘= -+-+-+-+-+
+
+&lt;ul&gt;
+&lt;li&gt;expansion&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Array(1..15).join &amp;lsquo;,&amp;rsquo; ⌘= 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+
+&lt;ul&gt;
+&lt;li&gt;lists&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Download the Automator zip file from &lt;a href=&#34;https://github.com/downloads/scarnie/sgc_general/Eval%20Expression.zip&#34;&gt;github&lt;/a&gt;, unzip and install to your ~/Library/Services folder.&lt;/p&gt;
+
+&lt;p&gt;A quick video of the service in action (note that I&amp;rsquo;m using my ⌘= shortcut to evaluate within Mars Edit):&lt;/p&gt;
+
+&lt;p&gt;&lt;object type=&#34;application/futuresplash&#34; width=&#34;425&#34; height=&#34;344&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/K-gP9ToAPTU?hl=en&amp;amp;fs=1&#34;&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;embed type=&#34;application/futuresplash&#34; width=&#34;425&#34; height=&#34;344&#34; src=&#34;http://www.youtube.com/v/K-gP9ToAPTU?hl=en&amp;amp;fs=1&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34;&gt;&lt;/object&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

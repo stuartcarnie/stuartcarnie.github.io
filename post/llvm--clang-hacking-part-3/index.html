@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>llvm / Clang hacking: Part 3 &middot; Stuart Carnie</title>
+
+  
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-x.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/highlight/zenburn.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://spencerlyon2.github.io/hugo_gh_blog/touch-icon-144-precomposed.png">
+  <link href="http://spencerlyon2.github.io/hugo_gh_blog/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="Your default page description">
+  <meta name="keywords" content="your,default,page,keywords">
+  
+</head>
+<body class="theme-base-01">
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1>Stuart Carnie</h1>
+      <p class="lead">Your favourite quote or soundbite.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="http://spencerlyon2.github.io/hugo_gh_blog/">Blog</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/stuartcarnie"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      
+      
+      
+      <a href="https://twitter.com/stuartcarnie"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      
+      </li>
+    </ul>
+
+    
+
+    <p>Copyright &copy; 2016 <a href="http://spencerlyon2.github.io/hugo_gh_blog/license/">License</a><br/>
+       Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1>llvm / Clang hacking: Part 3</h1>
+    <span class="post-date">Jun 6, 2012 &middot; 6 minute read
+    
+    <br/>
+    <a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/clang">clang</a>
+    </span>
+    
+
+<p>Part 3 in my N-part series on my exploration of hacking on <a href="http://llvm.org">llvm</a> and <a href="http://clang.llvm.org">Clang</a> (c-language) tool chain.</p>
+
+<h2 id="prerequisites:fd259c626a75797c587cf7471590c6db">Prerequisites</h2>
+
+<p>This post assumes you&rsquo;ve successfully completed <a href="http://aussiebloke.blogspot.com/2012/06/llvm-clang-hacking-part-1.html">Part 1</a> and <a href="http://aussiebloke.blogspot.com/2012/06/llvm-clang-hacking-part-2.html">Part 2</a> of the series.  I&rsquo;m also going to assume if you&rsquo;re interested in hacking on Clang, you have an understanding of compilation and are familiar with terms such as lexing, parsing, syntactic analysis, semantic analysis and code generation.  If not, then you need to purchase a copy of <a href="http://www.amazon.com/Compilers-Principles-Techniques-Tools-Edition/dp/0321486811/ref=pd_sim_b_1">Compilers: Principals, Techniques and Tools</a>, also known as the <a href="http://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Dragon Book</a> and read through it.  There are also plenty of resources on Google.</p>
+
+<h2 id="objective-c-extension-nsurl-literals:fd259c626a75797c587cf7471590c6db">Objective-C Extension: NSURL Literals</h2>
+
+<p><a href="http://clang.llvm.org/docs/ObjectiveCLiterals.html">Objective-C literals</a> are an exciting syntactic feature coming to the next release of Clang.  This will be available in <a href="http://stackoverflow.com/questions/9347722/apple-llvm-4-0-new-features-on-xcode-4-4-literals">Xcode 4.4</a> and presumably the next iOS update.  I was indirectly presented with the challenge on Twitter from <a href="https://twitter.com/casademora/status/208596677551071232">@casademora</a> when querying what an NSURL literal might look like.  Truthfully, I&rsquo;ve wanted an excuse to hack on Clang and this seemed small enough in scope to achieve in a day.  I threw out the idea of NSURL literals being represented by a @@ prefix, so the following line would compile:</p>
+
+<p>NSURL *url = @@&ldquo;<a href="http://apple.com&quot;">http://apple.com&quot;</a></p>
+
+<p>**NOTE: **I&rsquo;m not suggesting NSURL literals should be introduced in to Objective-C.  This merely serves a reasonable feature for academic exploration.</p>
+
+<h2 id="parsing-libparse:fd259c626a75797c587cf7471590c6db">Parsing: libparse</h2>
+
+<p>Armed with the knowledge that these new literals were available, I started exploring the libparse code in Clang.  ParseObjc.cpp seemed like a good place to start, which turned out to be correct and lead me to the rather aptly named <a href="https://github.com/llvm-mirror/clang/blob/4d3db4eb6caa49a7cdbfe1798728ce4b23cd0b53/lib/Parse/ParseObjc.cpp#L2019">Parser::ParseObjCAtExpression</a> method.  The implementation of this method is obvious, determining the next token and delegating parsing to various methods depending of the type of expression encountered.  Our syntax requires a second @ token, so I added the following code to the switch statement:</p>
+
+<pre>case tok::at:
+    // Objective-C NSURL expression
+    ConsumeToken(); // Consume the additional @ token.
+    if (!Tok.is(tok::string_literal)) {
+      return ExprError(Diag(AtLoc, diag::err_unexpected_at));
+    }
+    return ParsePostfixExpressionSuffix(ParseObjCURLLiteral(AtLoc));
+</pre>
+
+<p>In english, if we find another @ token, we&rsquo;ll assume an NSURL literal and attempt to parse, by delegating to our new ParseObjCURLLiteral method. The implementation of <a href="https://github.com/scarnie/clang/blob/NSURL-literal/lib/Parse/ParseObjc.cpp#L2561">ParseObjCURLLiteral</a> is again quite simple:</p>
+
+<pre>ExprResult Parser::ParseObjCURLLiteral(clang::SourceLocation AtLoc) {
+    ExprResult Res(ParseStringLiteralExpression());
+    if (Res.isInvalid()) return move(Res);
+
+    return Owned(Actions.BuildObjCURLLiteral(AtLoc, Res.take()));
+}
+</pre>
+
+<p>The first thing it does is attempt to parse a C-string literal using the existing ParseStringLiteralExpression method.  If the result of this is invalid, fail; otherwise, call our new <a href="https://github.com/scarnie/clang/blob/NSURL-literal/lib/Sema/SemaExprObjC.cpp#L143">Actions.BuildObjCURLLiteral</a> method.  Actions is an instance of the Semantic Analysis class <em>Sema</em> in libsema, responsible for generating the Abstract Syntax Tree (AST), which is consumed by the code generator in libcodegen.</p>
+
+<h2 id="semantic-analysis-libsema:fd259c626a75797c587cf7471590c6db">Semantic Analysis: libsema</h2>
+
+<p>This library is responsible for converting parsed code into an AST.  I looked at the <a href="https://github.com/scarnie/clang/blob/NSURL-literal/lib/Sema/SemaExprObjC.cpp#L306">BuildObjCStringLiteral</a> and <a href="https://github.com/scarnie/clang/blob/NSURL-literal/lib/Sema/SemaExprObjC.cpp#L306">BuildObjCNumericLiteral</a> methods to gain a better understanding of the responsibility of libsema.  These methods return an ExprResult which will ultimately be used by the code generator to write llvm IR.</p>
+
+<p>First this is to determine is how to generate an NSURL instance.  The <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/Reference/Reference.html#//apple_ref/doc/uid/20000301-BAJBBDIB">NSURL URLWithString:</a> class method is the best candidate, following the lead of the other Obj-C literals.  This class method requires an NSString as it&rsquo;s first and only argument, so the first thing we need is to generate this expression.  As can be seen in the first few lines of our BuildObjCURLLiteral method</p>
+
+<pre>ExprResult Sema::BuildObjCURLLiteral(SourceLocation AtLoc, Expr *String) {
+  StringLiteral *S = reinterpret_cast(String);
+  if (CheckObjCString(S))
+      return true;
+
+  ExprResult ObjCString = BuildObjCStringLiteral(AtLoc, S);</pre>
+
+<p>We take our string expression and build and NSString. Next we need to confirm the existence of and cache the NSURL class declaration</p>
+
+<pre>if (!NSURLDecl) {
+  NamedDecl *IF = LookupSingleName(TUScope,
+                                   NSAPIObj->getNSClassId(NSAPI::ClassId_NSURL),
+                                   AtLoc,
+                                   LookupOrdinaryName);
+  NSURLDecl = dyn_cast_or_null(IF);
+  if (!NSURLDecl && getLangOpts().DebuggerObjCLiteral)
+    NSURLDecl =  ObjCInterfaceDecl::Create (Context,
+                                              Context.getTranslationUnitDecl(),
+                                              SourceLocation(),
+                                              NSAPIObj->getNSClassId(NSAPI::ClassId_NSURL),
+                                              0, SourceLocation());
+
+  if (!NSURLDecl) {
+    Diag(AtLoc, diag::err_undeclared_nsurl);
+    return ExprError();
+  }
+
+  // generate the pointer to NSURL type.
+  QualType NSURLObject = CX.getObjCInterfaceType(NSURLDecl);
+  NSURLPointer = CX.getObjCObjectPointerType(NSURLObject);
+}
+</pre>
+
+<p>and finally the URLWithString: selector</p>
+
+<pre>if (!URLWithStringMethod) {
+  Selector Sel = NSAPIObj->getNSURLLiteralSelector(NSAPI::NSURLWithString);
+  URLWithStringMethod = NSURLDecl->lookupClassMethod(Sel);
+}
+</pre>
+
+<p><strong>NOTE:</strong> I implemented the NSURL features on the NSAPI class, which were easily determined by examining the other APIs exposed, such as NSArray and NSDictionary.</p>
+
+<p>The remaining requirement of this method is to return an expression that will ultimately result in a call to objc_msgSend with the arguments: NSURL class, URLWithString: selector and NSString constant.  Conveniently, the ObjCBoxedExpr provides just what we need, resulting in this final call</p>
+
+<pre>SourceRange SR(S->getSourceRange());
+
+// Use the effective source range of the literal, including the leading '@'.
+return MaybeBindToTemporary(
+                            new (Context) ObjCBoxedExpr(ObjCString.take(), NSURLPointer, URLWithStringMethod,
+                                                        SourceRange(AtLoc, SR.getEnd())));
+
+</pre>
+
+<p>The SR (SourceRange) argument is used to associate this AST node with the source code it is generated from.  The ObjCBoxedExpr class contains all the pieces needed to execute the objc_msgSend, which will be later consumed by the code generator.  By reusing this class, we&rsquo;ve avoided the need to write our own code generation.</p>
+
+<h2 id="code-generation:fd259c626a75797c587cf7471590c6db">Code Generation</h2>
+
+<p>To conclude this article and clarify what happens with our AST node (ObjCBoxedExpr), lets take a look at libcodegen to see how our NSURL call is converted to executable code.  The CGObjC.cpp file contains a rather curiously named method, <a href="https://github.com/scarnie/clang/blob/NSURL-literal/lib/CodeGen/CGObjC.cpp#L59">EmitObjCBoxedExpr</a>, taking a single parameter ObjCBoxedExpr.  It is quite succinct, making it very easy to understand (code removed for clarity). Worth noting is this function requires the boxing selector be a class method.</p>
+
+<pre>  // Grab the NSString expression that will be the argument to URLWithString:
+  const Expr *SubExpr = E->getSubExpr();
+</pre>
+
+<pre>  // Grab the URLWithString: selector
+  const ObjCMethodDecl *BoxingMethod = E->getBoxingMethod();
+  Selector Sel = BoxingMethod->getSelector();
+
+  // Generate a reference to the class pointer, which will be the receiver.
+  // Assumes that the method was introduced in the class that should be
+  // messaged (avoids pulling it out of the result type).
+  CGObjCRuntime &Runtime = CGM.getObjCRuntime();
+  const ObjCInterfaceDecl *ClassDecl = BoxingMethod->getClassInterface();
+  llvm::Value *Receiver = Runtime.GetClass(Builder, ClassDecl);
+
+  // adds the NSString to the call arguments list
+  const ParmVarDecl *argDecl = *BoxingMethod->param_begin();
+  QualType ArgQT = argDecl->getType().getUnqualifiedType();
+  RValue RV = EmitAnyExpr(SubExpr);
+  CallArgList Args;
+  Args.add(RV, ArgQT);
+
+  // Generates the llvm IR code to execute the objc_msgSend function
+  RValue result = Runtime.GenerateMessageSend(*this, ReturnValueSlot(),
+                                              BoxingMethod->getResultType(), Sel, Receiver, Args,
+                                              ClassDecl, BoxingMethod);
+  return Builder.CreateBitCast(result.getScalarVal(),
+                               ConvertType(E->getType()));
+</pre>
+
+<h2 id="limitations-and-improvements:fd259c626a75797c587cf7471590c6db">Limitations and Improvements</h2>
+
+<p>This implementation is fairly rigid; only allowing a single line NSString, whereas a more robust, production-quality implementation should support multi-line NSString declarations.</p>
+
+<p>As per the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/Reference/Reference.html#//apple_ref/doc/uid/20000301-4355">overview for NSURL</a>, URLs understood are described in RFCs 1808, 1738 and 2732.  Adding code to interpret the contents of the string and validate per these RFCs, reporting a warning to the engineer would add considerable value to this feature, much like the warnings provided when a format string and its arguments are potentially invalid.</p>
+
+<h2 id="source-code:fd259c626a75797c587cf7471590c6db">Source Code</h2>
+
+<p>Complete source to this series is available on github in my <a href="https://github.com/scarnie/clang">clang repository</a> fork.</p>
+
+<h2 id="next-up:fd259c626a75797c587cf7471590c6db">Next Up</h2>
+
+<p>I may explore compiling a release build and using the compiler within Xcode as an alternate.  Suggestions are welcome; message me on twitter, <a href="http://twitter.com/stuartcarnie">@stuartcarnie</a></p>
+
+<h2 id="twitter:fd259c626a75797c587cf7471590c6db">Twitter</h2>
+
+<p>Follow me on twitter, <a href="http://twitter.com/stuartcarnie">@stuartcarnie</a>.</p>
+
+  </div>
+  
+</div>
+
+
+
+
+<script src="http://spencerlyon2.github.io/hugo_gh_blog/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

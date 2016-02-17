@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ios on stuartcarnie</title>
+    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/ios/</link>
+    <description>Recent content in Ios on stuartcarnie</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 17 Mar 2011 15:12:00 +0000</lastBuildDate>
+    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/ios/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Mobile Safari performance and executable pages in iOS 4.3</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</link>
+      <pubDate>Thu, 17 Mar 2011 15:12:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</guid>
+      <description>
+
+&lt;p&gt;DaringFireball recently posted &lt;a href=&#34;http://daringfireball.net/2011/03/nitro_ios_43&#34;&gt;his thoughts&lt;/a&gt; as to why the Javascript performance of Mobile Safari is faster than those launched from SpringBoard or within existing applications which use a UIWebView.  I don&amp;rsquo;t think it&amp;rsquo;s quite that complicated.&lt;/p&gt;
+
+&lt;p&gt;My thoughts are it is one of two things:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Apple is concerned about security (which would support John&amp;rsquo;s theory)
+
+&lt;ul&gt;
+&lt;li&gt;Mobile Safari is binding to a newer and/or private version of Webkit, and Springboard was an oversight&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Apple is concerned about breaking existing applications
+
+&lt;ul&gt;
+&lt;li&gt;I would argue this makes the most sense, and was probably a very deliberate action by Apple, given enabling Nitro is a significant enough change to a core framework that could break existing applications.&lt;/li&gt;
+&lt;li&gt;Perhaps a future update will allow developers to &lt;em&gt;opt-in&lt;/em&gt; to the faster Javascript engine either via a plist setting or more likely, a new API on the UIWebView class.&lt;/li&gt;
+&lt;li&gt;Would also explain the oversight in Springboard, if it was not opted in.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There are other implications for allowing 3rd parties to use Nitro, most importantly &lt;em&gt;battery life.&lt;/em&gt; If Javascript executes up to 3x faster, the CPU is running 3x less to to execute equivalent Javascript, allowing the CPU to go to low power mode faster.&lt;/p&gt;
+
+&lt;p&gt;Gruber also makes the following statement:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Apple, as of iOS 4.3, trusts Mobile Safari enough to allow this. The upside is that Mobile Safari is now significantly faster. The downside is that any security exploits against Mobile Safari now potentially allow worse things to happen than before.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I would disagree, as many of the previous Jailbreak exploits in iOS such as &lt;a href=&#34;http://daringfireball.net/linked/2010/08/02/jailbreakme&#34;&gt;this example&lt;/a&gt; were via Mobile Safari, without a JIT engine, simply exploiting the stack and other typical attacks to &lt;em&gt;elevate privileges&lt;/em&gt;.  As Apple continues to get a handle on these &lt;em&gt;security&lt;/em&gt; issues, running dynamic code shouldn&amp;rsquo;t be a problem.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-is-my-basis-for-this-assumption:40ecd50b5c22d7f37af935e340915265&#34;&gt;What is my basis for this assumption?&lt;/h2&gt;
+
+&lt;p&gt;A few weeks ago, when I heard Apple&amp;rsquo;s announcement that Nitro was coming to 4.3, I immediately had to retest some scenarios that were not previously supported on iOS.  Prior to iOS 4.3, calling the mprotect function and attempting to set the PROT_EXEC flag, marking the page as executable would &lt;em&gt;fail&lt;/em&gt; when run on the device&lt;em&gt;.&lt;/em&gt; Quite simply, the API would return an error code.  This suggested that likely something in the kernel was locked down or this API had specific code to disallow pages to be marked as executable.  Knowing that the Nitro engine must execute in user space or it would be a serious hack in iOS, Apple had to enable support for executable pages.  I went ahead and &lt;a href=&#34;https://gist.github.com/855607&#34;&gt;created an example&lt;/a&gt;, ran it on my iPhone 4 and viola!  Essentially this example creates an &amp;lsquo;increment&amp;rsquo; function in 32-bit ARM on the fly that adds one to the parameter and returns the result.&lt;/p&gt;
+
+&lt;p&gt;I &lt;a href=&#34;https://twitter.com/stuartcarnie/status/43762981863034880&#34;&gt;responded&lt;/a&gt; to Miguel de Icaza&amp;rsquo;s &lt;a href=&#34;https://twitter.com/migueldeicaza/status/43127184440836096&#34;&gt;tweet&lt;/a&gt;, who also wondered it might now be possible.  Further discussions with Miguel also &lt;a href=&#34;https://twitter.com/migueldeicaza/status/48517553395466240&#34;&gt;identified&lt;/a&gt; that Apple has only partially opened up executable page support, whereby pages can either be read/write or read/execute.  Unfortunately the majority of existing JIT engines expect RWX in order to patch executable pages without the need to change the state from rx » rw, patch code and then rw » rx.  Critical in multi-threaded scenarios, as code could conceivably jump to a page that was being patched and fault due to the absence of the execute flag.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Renew Apple developer certificates with OpenSSL</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/renew-apple-developer-certificates-with-openssl/</link>
+      <pubDate>Wed, 02 Feb 2011 16:30:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/renew-apple-developer-certificates-with-openssl/</guid>
+      <description>&lt;p&gt;I like to reuse the same private keys when generating a signing request to renew my Apple developer certificates.  Unfortunately you can&amp;rsquo;t do this with Keychain Access, as it won&amp;rsquo;t save the signing request file after you step through the wizard.  OpenSSL is your friend.&lt;/p&gt;
+
+&lt;p&gt;Open Keychain Access, RMB on the key your wish to use and click &lt;em&gt;Export &amp;ldquo;[Key Name]&amp;rdquo;&lt;/em&gt;.  Save it as a .p12 file with a strong password.  In my case it was StuartCarnie.p12.&lt;/p&gt;
+
+&lt;p&gt;Open a terminal session and convert the .p12 to a PEM with the following command&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;openssl pkcs12 -in StuartCarnie.p12 -out StuartCarnie.pem
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You will be prompted  for your .p12 password, and also a password to encrypt your .pem.&lt;/p&gt;
+
+&lt;p&gt;Now generate the signing request with the following command.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;openssl req -new -key StuartCarnie.pem -out StuartCarnie.csr
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You&amp;rsquo;ll be prompted for a few questions to place in the signing request, such as the country, etc.  At the very least, enter the Common Name (your name) and Email Address.  One you&amp;rsquo;ve completed this step, the .csr file can be submitted to Apple.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

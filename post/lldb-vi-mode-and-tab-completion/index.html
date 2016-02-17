@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>lldb: VI mode and tab-completion &middot; Stuart Carnie</title>
+
+  
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-x.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/highlight/zenburn.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://spencerlyon2.github.io/hugo_gh_blog/touch-icon-144-precomposed.png">
+  <link href="http://spencerlyon2.github.io/hugo_gh_blog/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="Your default page description">
+  <meta name="keywords" content="your,default,page,keywords">
+  
+</head>
+<body class="theme-base-01">
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1>Stuart Carnie</h1>
+      <p class="lead">Your favourite quote or soundbite.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="http://spencerlyon2.github.io/hugo_gh_blog/">Blog</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/stuartcarnie"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      
+      
+      
+      <a href="https://twitter.com/stuartcarnie"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      
+      </li>
+    </ul>
+
+    
+
+    <p>Copyright &copy; 2016 <a href="http://spencerlyon2.github.io/hugo_gh_blog/license/">License</a><br/>
+       Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1>lldb: VI mode and tab-completion</h1>
+    <span class="post-date">Jun 23, 2012 &middot; 2 minute read
+    
+    <br/>
+    <a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/osx">osx</a>
+    </span>
+    <p>lldb uses libedit, which is a BSD licensed alternative to GNU readline. A feature of libedit is the ability to configure per-application settings for command-line bindings via ~/.editrc. Detailed documentation for this configuration file can be found using <code>man editrc</code> or via online documentation, such as <a href="https://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man5/editrc.5.html#//apple_ref/doc/man/5/editrc">developer.apple.com</a>.</p>
+
+<p>As I prefer VI bindings, I initially configured my .editrc as follows, to replace the default emacs bindings:</p>
+
+<pre><code>lldb:bind -v
+</code></pre>
+
+<p>Unfortunately, when I re-ran lldb, tab-completion was not functioning.  I added the following line, which is exported in libedit, and what I assumed would be the default completer function:</p>
+
+<pre><code>lldb:bind ^I rl_complete
+</code></pre>
+
+<p>Although tab-completion started working again, I was seeing frequent segfaults in lldb, along with an error that it could not bind the rl_complete command.  How was I going to find this elusive tab-completion command?  I could dig through lldb source, but figured there must be a quicker way.  I reviewed all the commands in the editrc docs and found</p>
+
+<pre><code>ed-command
+    Editline extended command.
+</code></pre>
+
+<p>I cleared my .editrc and added:</p>
+
+<pre><code>lldb:bind ^P ed-command
+</code></pre>
+
+<p>tab-completion was working again, and pressing ^P presented me a :, puting me in Editline&rsquo;s extended command mode. Typing <em>bind</em> listed all the current bindings; I was looking for ^I, which showed up as</p>
+
+<pre><code>&quot;^I&quot;           -&gt;  lldb_complete
+</code></pre>
+
+<p>_lldb<em>complete</em> was the elusive command I needed to fix tab-completion in VI mode, so I settled on the following for my .editrc</p>
+
+<pre><code>lldb:bind -v
+lldb:bind ^I lldb_complete
+lldb:bind ^P ed-command
+</code></pre>
+
+<p>I suspect this technique will come in handy for other programs that use libedit and a non-standard completion function, hence this long post.</p>
+
+  </div>
+  
+</div>
+
+
+
+
+<script src="http://spencerlyon2.github.io/hugo_gh_blog/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

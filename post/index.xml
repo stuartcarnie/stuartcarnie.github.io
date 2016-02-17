@@ -1,0 +1,2429 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on stuartcarnie</title>
+    <link>http://spencerlyon2.github.io/hugo_gh_blog/post/</link>
+    <description>Recent content in Posts on stuartcarnie</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 10 Sep 2015 21:06:00 +0000</lastBuildDate>
+    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Perspective: Relative computing power</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/perspective-relative-computing-power/</link>
+      <pubDate>Thu, 10 Sep 2015 21:06:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/perspective-relative-computing-power/</guid>
+      <description>&lt;p&gt;In the left corner, we have &lt;strong&gt;iPhone 6&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;2014, 1GB RAM, 115 GFLOPS, 0.129 kgs, 0.5W under heavy usage, $749&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the right corner, we have &lt;strong&gt;Cray-1&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1975, 64-bit, 1MB RAM, 0.080 GFLOPS, 4990 kgs, 115KW power, $8,000.000&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;1 &lt;strong&gt;iPhone 6&lt;/strong&gt;, when comparing GFLOPS is roughly equivalent to&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1437 Cray-1 supercomputers&lt;/li&gt;
+&lt;li&gt;consuming 165MW of power&lt;/li&gt;
+&lt;li&gt;in Arizona, that would power about &lt;a href=&#34;http://www.seia.org/policy/solar-technology/photovoltaic-solar-electric/whats-megawatt&#34;&gt;20,320 homes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;costing $11,496,000,000 (not accounting for inflation)&lt;/li&gt;
+&lt;li&gt;weighing 7,170,630 kgs&lt;/li&gt;
+&lt;li&gt;that is over 55 million iPhone 6s&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>lldb: VI mode and tab-completion</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/lldb-vi-mode-and-tab-completion/</link>
+      <pubDate>Sat, 23 Jun 2012 23:32:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/lldb-vi-mode-and-tab-completion/</guid>
+      <description>&lt;p&gt;lldb uses libedit, which is a BSD licensed alternative to GNU readline. A feature of libedit is the ability to configure per-application settings for command-line bindings via ~/.editrc. Detailed documentation for this configuration file can be found using &lt;code&gt;man editrc&lt;/code&gt; or via online documentation, such as &lt;a href=&#34;https://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man5/editrc.5.html#//apple_ref/doc/man/5/editrc&#34;&gt;developer.apple.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;As I prefer VI bindings, I initially configured my .editrc as follows, to replace the default emacs bindings:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;lldb:bind -v
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Unfortunately, when I re-ran lldb, tab-completion was not functioning.  I added the following line, which is exported in libedit, and what I assumed would be the default completer function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;lldb:bind ^I rl_complete
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Although tab-completion started working again, I was seeing frequent segfaults in lldb, along with an error that it could not bind the rl_complete command.  How was I going to find this elusive tab-completion command?  I could dig through lldb source, but figured there must be a quicker way.  I reviewed all the commands in the editrc docs and found&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ed-command
+    Editline extended command.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I cleared my .editrc and added:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;lldb:bind ^P ed-command
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;tab-completion was working again, and pressing ^P presented me a :, puting me in Editline&amp;rsquo;s extended command mode. Typing &lt;em&gt;bind&lt;/em&gt; listed all the current bindings; I was looking for ^I, which showed up as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;^I&amp;quot;           -&amp;gt;  lldb_complete
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;_lldb&lt;em&gt;complete&lt;/em&gt; was the elusive command I needed to fix tab-completion in VI mode, so I settled on the following for my .editrc&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;lldb:bind -v
+lldb:bind ^I lldb_complete
+lldb:bind ^P ed-command
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I suspect this technique will come in handy for other programs that use libedit and a non-standard completion function, hence this long post.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>llvm / Clang hacking: Part 3</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-3/</link>
+      <pubDate>Wed, 06 Jun 2012 02:33:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-3/</guid>
+      <description>
+
+&lt;p&gt;Part 3 in my N-part series on my exploration of hacking on &lt;a href=&#34;http://llvm.org&#34;&gt;llvm&lt;/a&gt; and &lt;a href=&#34;http://clang.llvm.org&#34;&gt;Clang&lt;/a&gt; (c-language) tool chain.&lt;/p&gt;
+
+&lt;h2 id=&#34;prerequisites:fd259c626a75797c587cf7471590c6db&#34;&gt;Prerequisites&lt;/h2&gt;
+
+&lt;p&gt;This post assumes you&amp;rsquo;ve successfully completed &lt;a href=&#34;http://aussiebloke.blogspot.com/2012/06/llvm-clang-hacking-part-1.html&#34;&gt;Part 1&lt;/a&gt; and &lt;a href=&#34;http://aussiebloke.blogspot.com/2012/06/llvm-clang-hacking-part-2.html&#34;&gt;Part 2&lt;/a&gt; of the series.  I&amp;rsquo;m also going to assume if you&amp;rsquo;re interested in hacking on Clang, you have an understanding of compilation and are familiar with terms such as lexing, parsing, syntactic analysis, semantic analysis and code generation.  If not, then you need to purchase a copy of &lt;a href=&#34;http://www.amazon.com/Compilers-Principles-Techniques-Tools-Edition/dp/0321486811/ref=pd_sim_b_1&#34;&gt;Compilers: Principals, Techniques and Tools&lt;/a&gt;, also known as the &lt;a href=&#34;http://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools&#34;&gt;Dragon Book&lt;/a&gt; and read through it.  There are also plenty of resources on Google.&lt;/p&gt;
+
+&lt;h2 id=&#34;objective-c-extension-nsurl-literals:fd259c626a75797c587cf7471590c6db&#34;&gt;Objective-C Extension: NSURL Literals&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://clang.llvm.org/docs/ObjectiveCLiterals.html&#34;&gt;Objective-C literals&lt;/a&gt; are an exciting syntactic feature coming to the next release of Clang.  This will be available in &lt;a href=&#34;http://stackoverflow.com/questions/9347722/apple-llvm-4-0-new-features-on-xcode-4-4-literals&#34;&gt;Xcode 4.4&lt;/a&gt; and presumably the next iOS update.  I was indirectly presented with the challenge on Twitter from &lt;a href=&#34;https://twitter.com/casademora/status/208596677551071232&#34;&gt;@casademora&lt;/a&gt; when querying what an NSURL literal might look like.  Truthfully, I&amp;rsquo;ve wanted an excuse to hack on Clang and this seemed small enough in scope to achieve in a day.  I threw out the idea of NSURL literals being represented by a @@ prefix, so the following line would compile:&lt;/p&gt;
+
+&lt;p&gt;NSURL *url = @@&amp;ldquo;&lt;a href=&#34;http://apple.com&amp;quot;&#34;&gt;http://apple.com&amp;quot;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;**NOTE: **I&amp;rsquo;m not suggesting NSURL literals should be introduced in to Objective-C.  This merely serves a reasonable feature for academic exploration.&lt;/p&gt;
+
+&lt;h2 id=&#34;parsing-libparse:fd259c626a75797c587cf7471590c6db&#34;&gt;Parsing: libparse&lt;/h2&gt;
+
+&lt;p&gt;Armed with the knowledge that these new literals were available, I started exploring the libparse code in Clang.  ParseObjc.cpp seemed like a good place to start, which turned out to be correct and lead me to the rather aptly named &lt;a href=&#34;https://github.com/llvm-mirror/clang/blob/4d3db4eb6caa49a7cdbfe1798728ce4b23cd0b53/lib/Parse/ParseObjc.cpp#L2019&#34;&gt;Parser::ParseObjCAtExpression&lt;/a&gt; method.  The implementation of this method is obvious, determining the next token and delegating parsing to various methods depending of the type of expression encountered.  Our syntax requires a second @ token, so I added the following code to the switch statement:&lt;/p&gt;
+
+&lt;pre&gt;case tok::at:
+    // Objective-C NSURL expression
+    ConsumeToken(); // Consume the additional @ token.
+    if (!Tok.is(tok::string_literal)) {
+      return ExprError(Diag(AtLoc, diag::err_unexpected_at));
+    }
+    return ParsePostfixExpressionSuffix(ParseObjCURLLiteral(AtLoc));
+&lt;/pre&gt;
+
+&lt;p&gt;In english, if we find another @ token, we&amp;rsquo;ll assume an NSURL literal and attempt to parse, by delegating to our new ParseObjCURLLiteral method. The implementation of &lt;a href=&#34;https://github.com/scarnie/clang/blob/NSURL-literal/lib/Parse/ParseObjc.cpp#L2561&#34;&gt;ParseObjCURLLiteral&lt;/a&gt; is again quite simple:&lt;/p&gt;
+
+&lt;pre&gt;ExprResult Parser::ParseObjCURLLiteral(clang::SourceLocation AtLoc) {
+    ExprResult Res(ParseStringLiteralExpression());
+    if (Res.isInvalid()) return move(Res);
+
+    return Owned(Actions.BuildObjCURLLiteral(AtLoc, Res.take()));
+}
+&lt;/pre&gt;
+
+&lt;p&gt;The first thing it does is attempt to parse a C-string literal using the existing ParseStringLiteralExpression method.  If the result of this is invalid, fail; otherwise, call our new &lt;a href=&#34;https://github.com/scarnie/clang/blob/NSURL-literal/lib/Sema/SemaExprObjC.cpp#L143&#34;&gt;Actions.BuildObjCURLLiteral&lt;/a&gt; method.  Actions is an instance of the Semantic Analysis class &lt;em&gt;Sema&lt;/em&gt; in libsema, responsible for generating the Abstract Syntax Tree (AST), which is consumed by the code generator in libcodegen.&lt;/p&gt;
+
+&lt;h2 id=&#34;semantic-analysis-libsema:fd259c626a75797c587cf7471590c6db&#34;&gt;Semantic Analysis: libsema&lt;/h2&gt;
+
+&lt;p&gt;This library is responsible for converting parsed code into an AST.  I looked at the &lt;a href=&#34;https://github.com/scarnie/clang/blob/NSURL-literal/lib/Sema/SemaExprObjC.cpp#L306&#34;&gt;BuildObjCStringLiteral&lt;/a&gt; and &lt;a href=&#34;https://github.com/scarnie/clang/blob/NSURL-literal/lib/Sema/SemaExprObjC.cpp#L306&#34;&gt;BuildObjCNumericLiteral&lt;/a&gt; methods to gain a better understanding of the responsibility of libsema.  These methods return an ExprResult which will ultimately be used by the code generator to write llvm IR.&lt;/p&gt;
+
+&lt;p&gt;First this is to determine is how to generate an NSURL instance.  The &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/Reference/Reference.html#//apple_ref/doc/uid/20000301-BAJBBDIB&#34;&gt;NSURL URLWithString:&lt;/a&gt; class method is the best candidate, following the lead of the other Obj-C literals.  This class method requires an NSString as it&amp;rsquo;s first and only argument, so the first thing we need is to generate this expression.  As can be seen in the first few lines of our BuildObjCURLLiteral method&lt;/p&gt;
+
+&lt;pre&gt;ExprResult Sema::BuildObjCURLLiteral(SourceLocation AtLoc, Expr *String) {
+  StringLiteral *S = reinterpret_cast(String);
+  if (CheckObjCString(S))
+      return true;
+
+  ExprResult ObjCString = BuildObjCStringLiteral(AtLoc, S);&lt;/pre&gt;
+
+&lt;p&gt;We take our string expression and build and NSString. Next we need to confirm the existence of and cache the NSURL class declaration&lt;/p&gt;
+
+&lt;pre&gt;if (!NSURLDecl) {
+  NamedDecl *IF = LookupSingleName(TUScope,
+                                   NSAPIObj-&gt;getNSClassId(NSAPI::ClassId_NSURL),
+                                   AtLoc,
+                                   LookupOrdinaryName);
+  NSURLDecl = dyn_cast_or_null(IF);
+  if (!NSURLDecl &amp;&amp; getLangOpts().DebuggerObjCLiteral)
+    NSURLDecl =  ObjCInterfaceDecl::Create (Context,
+                                              Context.getTranslationUnitDecl(),
+                                              SourceLocation(),
+                                              NSAPIObj-&gt;getNSClassId(NSAPI::ClassId_NSURL),
+                                              0, SourceLocation());
+
+  if (!NSURLDecl) {
+    Diag(AtLoc, diag::err_undeclared_nsurl);
+    return ExprError();
+  }
+
+  // generate the pointer to NSURL type.
+  QualType NSURLObject = CX.getObjCInterfaceType(NSURLDecl);
+  NSURLPointer = CX.getObjCObjectPointerType(NSURLObject);
+}
+&lt;/pre&gt;
+
+&lt;p&gt;and finally the URLWithString: selector&lt;/p&gt;
+
+&lt;pre&gt;if (!URLWithStringMethod) {
+  Selector Sel = NSAPIObj-&gt;getNSURLLiteralSelector(NSAPI::NSURLWithString);
+  URLWithStringMethod = NSURLDecl-&gt;lookupClassMethod(Sel);
+}
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; I implemented the NSURL features on the NSAPI class, which were easily determined by examining the other APIs exposed, such as NSArray and NSDictionary.&lt;/p&gt;
+
+&lt;p&gt;The remaining requirement of this method is to return an expression that will ultimately result in a call to objc_msgSend with the arguments: NSURL class, URLWithString: selector and NSString constant.  Conveniently, the ObjCBoxedExpr provides just what we need, resulting in this final call&lt;/p&gt;
+
+&lt;pre&gt;SourceRange SR(S-&gt;getSourceRange());
+
+// Use the effective source range of the literal, including the leading &#39;@&#39;.
+return MaybeBindToTemporary(
+                            new (Context) ObjCBoxedExpr(ObjCString.take(), NSURLPointer, URLWithStringMethod,
+                                                        SourceRange(AtLoc, SR.getEnd())));
+
+&lt;/pre&gt;
+
+&lt;p&gt;The SR (SourceRange) argument is used to associate this AST node with the source code it is generated from.  The ObjCBoxedExpr class contains all the pieces needed to execute the objc_msgSend, which will be later consumed by the code generator.  By reusing this class, we&amp;rsquo;ve avoided the need to write our own code generation.&lt;/p&gt;
+
+&lt;h2 id=&#34;code-generation:fd259c626a75797c587cf7471590c6db&#34;&gt;Code Generation&lt;/h2&gt;
+
+&lt;p&gt;To conclude this article and clarify what happens with our AST node (ObjCBoxedExpr), lets take a look at libcodegen to see how our NSURL call is converted to executable code.  The CGObjC.cpp file contains a rather curiously named method, &lt;a href=&#34;https://github.com/scarnie/clang/blob/NSURL-literal/lib/CodeGen/CGObjC.cpp#L59&#34;&gt;EmitObjCBoxedExpr&lt;/a&gt;, taking a single parameter ObjCBoxedExpr.  It is quite succinct, making it very easy to understand (code removed for clarity). Worth noting is this function requires the boxing selector be a class method.&lt;/p&gt;
+
+&lt;pre&gt;  // Grab the NSString expression that will be the argument to URLWithString:
+  const Expr *SubExpr = E-&gt;getSubExpr();
+&lt;/pre&gt;
+
+&lt;pre&gt;  // Grab the URLWithString: selector
+  const ObjCMethodDecl *BoxingMethod = E-&gt;getBoxingMethod();
+  Selector Sel = BoxingMethod-&gt;getSelector();
+
+  // Generate a reference to the class pointer, which will be the receiver.
+  // Assumes that the method was introduced in the class that should be
+  // messaged (avoids pulling it out of the result type).
+  CGObjCRuntime &amp;Runtime = CGM.getObjCRuntime();
+  const ObjCInterfaceDecl *ClassDecl = BoxingMethod-&gt;getClassInterface();
+  llvm::Value *Receiver = Runtime.GetClass(Builder, ClassDecl);
+
+  // adds the NSString to the call arguments list
+  const ParmVarDecl *argDecl = *BoxingMethod-&gt;param_begin();
+  QualType ArgQT = argDecl-&gt;getType().getUnqualifiedType();
+  RValue RV = EmitAnyExpr(SubExpr);
+  CallArgList Args;
+  Args.add(RV, ArgQT);
+
+  // Generates the llvm IR code to execute the objc_msgSend function
+  RValue result = Runtime.GenerateMessageSend(*this, ReturnValueSlot(),
+                                              BoxingMethod-&gt;getResultType(), Sel, Receiver, Args,
+                                              ClassDecl, BoxingMethod);
+  return Builder.CreateBitCast(result.getScalarVal(),
+                               ConvertType(E-&gt;getType()));
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;limitations-and-improvements:fd259c626a75797c587cf7471590c6db&#34;&gt;Limitations and Improvements&lt;/h2&gt;
+
+&lt;p&gt;This implementation is fairly rigid; only allowing a single line NSString, whereas a more robust, production-quality implementation should support multi-line NSString declarations.&lt;/p&gt;
+
+&lt;p&gt;As per the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/Reference/Reference.html#//apple_ref/doc/uid/20000301-4355&#34;&gt;overview for NSURL&lt;/a&gt;, URLs understood are described in RFCs 1808, 1738 and 2732.  Adding code to interpret the contents of the string and validate per these RFCs, reporting a warning to the engineer would add considerable value to this feature, much like the warnings provided when a format string and its arguments are potentially invalid.&lt;/p&gt;
+
+&lt;h2 id=&#34;source-code:fd259c626a75797c587cf7471590c6db&#34;&gt;Source Code&lt;/h2&gt;
+
+&lt;p&gt;Complete source to this series is available on github in my &lt;a href=&#34;https://github.com/scarnie/clang&#34;&gt;clang repository&lt;/a&gt; fork.&lt;/p&gt;
+
+&lt;h2 id=&#34;next-up:fd259c626a75797c587cf7471590c6db&#34;&gt;Next Up&lt;/h2&gt;
+
+&lt;p&gt;I may explore compiling a release build and using the compiler within Xcode as an alternate.  Suggestions are welcome; message me on twitter, &lt;a href=&#34;http://twitter.com/stuartcarnie&#34;&gt;@stuartcarnie&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;twitter:fd259c626a75797c587cf7471590c6db&#34;&gt;Twitter&lt;/h2&gt;
+
+&lt;p&gt;Follow me on twitter, &lt;a href=&#34;http://twitter.com/stuartcarnie&#34;&gt;@stuartcarnie&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>llvm / Clang hacking: Part 2</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-2/</link>
+      <pubDate>Wed, 06 Jun 2012 00:07:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-2/</guid>
+      <description>
+
+&lt;p&gt;Part 2 in my N-part series on my exploration of hacking on &lt;a href=&#34;http://llvm.org&#34;&gt;llvm&lt;/a&gt; and &lt;a href=&#34;http://clang.llvm.org&#34;&gt;Clang&lt;/a&gt; (c-language) tool chain.&lt;/p&gt;
+
+&lt;h2 id=&#34;prerequisites:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Prerequisites&lt;/h2&gt;
+
+&lt;p&gt;This post assumes you&amp;rsquo;ve successfully completed &lt;a href=&#34;http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-1/&#34;&gt;Part 1&lt;/a&gt; of the series.&lt;/p&gt;
+
+&lt;h2 id=&#34;debugging:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Debugging&lt;/h2&gt;
+
+&lt;p&gt;By default, Clang presents a &lt;a href=&#34;http://clang.llvm.org/docs/DriverInternals.html#gcccompat&#34;&gt;gcc-compatible&lt;/a&gt; command-line interface.  In most circumstances, this allows Clang to be a drop-in replacement for gcc for rapid testing and easier adoption.  When using the gcc interface, Clang spawns a new job to handle the compilation, which prevents debugging the various stages of the compilation process.  You can see this by running the following command:&lt;/p&gt;
+
+&lt;pre&gt;clang -### test.m -o test&lt;/pre&gt;
+
+&lt;p&gt;With that in mind, you should invoke Clang with the -cc1 option as the first argument, which directly executes the Clang cc1 tool.  TIP: running the following command outputs considerably useful command line documentation:&lt;/p&gt;
+
+&lt;pre&gt;clang -cc1 --help&lt;/pre&gt;
+
+&lt;p&gt;Also noteworthy is the following command&lt;/p&gt;
+
+&lt;pre&gt;clang -cc1as --help&lt;/pre&gt;
+
+&lt;p&gt;which documents many of the arguments available to the Clang Integrated Assembler.&lt;/p&gt;
+
+&lt;p&gt;If your using Xcode, you&amp;rsquo;ll find main() in Clang executables » clang » Source Files » driver.cpp.  Notice in this folder you&amp;rsquo;ll also find the cc1_main.cpp, which is the entry point for the clang compiler.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh4.ggpht.com/-0Sq4-kkOw_c/T879Zwl628I/AAAAAAAAA6Q/GOrL03TypjA/clang_executable_source_files.png?imgmax=800&#34; alt=&#34;Clang executable source files&#34; title=&#34;clang_executable_source_files.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;To set these command-line options, select Product | Edit Scheme:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/-2I4WW8JChMM/T88BxYWtJkI/AAAAAAAAA6c/uAjsTKWSKyI/edit_scheme_to_set_arguments.png?imgmax=800&#34; alt=&#34;Edit Scheme&#34; title=&#34;edit_scheme_to_set_arguments.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Note again that the first argument must be -cc1.  Next is the input file to compile, which you will substitute for your own source file.  Finally you must specific the include path for your current clang headers as this development build will not find them automatically.&lt;/p&gt;
+
+&lt;p&gt;With these set, you should be able to successfully run and debug the entire Clang tool chain.&lt;/p&gt;
+
+&lt;h2 id=&#34;recommended-reading:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Recommended Reading&lt;/h2&gt;
+
+&lt;p&gt;Now that you have an environment and presumably can debug the compiler, I&amp;rsquo;d recommend you read the following articles for clarification on the design and internals of Clang:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://clang.llvm.org/docs/InternalsManual.html&#34;&gt;Clang CFE Internals Manual&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://clang.llvm.org/features.html#libraryarch&#34;&gt;Library Based Architecture&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Identifies the major libraries and their function, which correspond to many of the top-level folders within the Xcode project tree.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;next-up:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Next Up&lt;/h2&gt;
+
+&lt;p&gt;Next up I&amp;rsquo;ll walk through creating a language extension to Objective-C, supporting NSURL literals, following (in principal) new &lt;a href=&#34;http://clang.llvm.org/docs/ObjectiveCLiterals.html&#34;&gt;Objective-C Literals&lt;/a&gt; coming in the next release of Clang.&lt;/p&gt;
+
+&lt;h2 id=&#34;twitter:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Twitter&lt;/h2&gt;
+
+&lt;p&gt;Follow me on twitter, &lt;a href=&#34;http://twitter.com/stuartcarnie&#34;&gt;@stuartcarnie&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>llvm / Clang hacking: Part 1</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-1/</link>
+      <pubDate>Sat, 02 Jun 2012 14:21:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-1/</guid>
+      <description>
+
+&lt;p&gt;Part 1 in my N-part series on my exploration of hacking on &lt;a href=&#34;http://llvm.org&#34;&gt;llvm&lt;/a&gt; and &lt;a href=&#34;http://clang.llvm.org&#34;&gt;Clang&lt;/a&gt; (c-language) tool chain.  I am running OS X 10.7, however I will try to highlight the steps where you should consider substituting for your platform.&lt;/p&gt;
+
+&lt;h2 id=&#34;getting-started:d4474b8aeb4c39edf77834b4816e42db&#34;&gt;Getting Started&lt;/h2&gt;
+
+&lt;p&gt;Follow &lt;a href=&#34;http://clang.llvm.org/get_started.html&#34;&gt;these steps&lt;/a&gt;, with the following exceptions if you prefer git (it is a &lt;em&gt;lot&lt;/em&gt; faster); I am using the &lt;a href=&#34;http://llvm.org/docs/GettingStarted.html#git_mirror&#34;&gt;official llvm mirror&lt;/a&gt; on llvm.org.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Step 2, substitute the svn command for&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git clone http://llvm.org/git/llvm.git&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Step 3, substitute the svn command for&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git clone http://llvm.org/git/clang.git&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Step 4, substitute the svn command for&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git clone http://llvm.org/git/compiler-rt.git&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Step 5, I am using CMake, so instead of ../llvm/configure&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;cmake -G &amp;quot;Unix Makefiles&amp;quot; ../llvm
+make
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;creating-xcode-project-for-clang:d4474b8aeb4c39edf77834b4816e42db&#34;&gt;Creating Xcode project for Clang&lt;/h2&gt;
+
+&lt;p&gt;You could run&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;mkdir llvm&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cd llvm&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cmake -G Xcode ../llvm&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;to create an Xcode project for the entire llvm/Clang toolchain, however it ends up being thousands of source files and 223 targets! As I&amp;rsquo;m only interested in hacking on Clang, lets generate a project file for Clang and related projects only. Starting from the folder which contains build and llvm:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;mkdir clang&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cd clang&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bash
+cmake -DCLANG_PATH_TO_LLVM_SOURCE=../llvm -DCLANG_PATH_TO_LLVM_BUILD=../build -DCMAKE_BUILD_TYPE=Debug ../llvm/tools/clang
+&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Assuming all went well, you&amp;rsquo;ll now have an Xcode project called Clang.xcodeproj with about 400 source files and 60 targets. Open it up and let Xcode index everything, which may take a few minutes depending on your hardware.  Once completed, switch to the clang target and build!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; On Windows, it is likely cmake will auto-detect your Visual Studio environment and the above commands will Just Work™&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/-uMbB6KPBBvY/T8qD8KbfK8I/AAAAAAAAA58/QZTXhPnGPKk/clang_target.png?imgmax=800&#34; alt=&#34;Xcode clang target&#34; title=&#34;clang_target.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Assuming all goes well, a few minutes later you should see:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh4.ggpht.com/-o50LhcUc71I/T8qD8iMHhqI/AAAAAAAAA6E/4j7CIEAcilU/xcode_clang_successful_build.png?imgmax=800&#34; alt=&#34;Clang build Succeeded&#34; title=&#34;xcode_clang_successful_build.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Back in Terminal, you can run the following command, which creates a Hello World program and tests your build of Clang.&lt;/p&gt;
+
+&lt;p&gt;From the clang folder&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;cd bin/Debug&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;echo &amp;quot;#include \nint main(int argc,char**argv) { printf(\&amp;quot;hello world\\\n\&amp;quot;); return 0; }&amp;quot; &amp;amp;gt; hello.c &amp;amp;amp;&amp;amp;amp; clang hello.c -o hello &amp;amp;amp;&amp;amp;amp; ./hello
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you see &lt;em&gt;hello world&lt;/em&gt; after running the 2&lt;sup&gt;nd&lt;/sup&gt; command, pat yourself on the back, as you&amp;rsquo;ve successfully setup a working llvm / Clang development environment to start your hacking.&lt;/p&gt;
+
+&lt;h2 id=&#34;next-up:d4474b8aeb4c39edf77834b4816e42db&#34;&gt;Next Up&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://spencerlyon2.github.io/hugo_gh_blog/post/llvm--clang-hacking-part-2&#34;&gt;Part 2&lt;/a&gt; and debugging Clang.&lt;/p&gt;
+
+&lt;h2 id=&#34;twitter:d4474b8aeb4c39edf77834b4816e42db&#34;&gt;Twitter&lt;/h2&gt;
+
+&lt;p&gt;Follow me on twitter, &lt;a href=&#34;http://twitter.com/stuartcarnie&#34;&gt;@stuartcarnie&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Objective-C: ternary operator</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</link>
+      <pubDate>Thu, 15 Mar 2012 23:01:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</guid>
+      <description>&lt;p&gt;The ternary operator, also known as a conditional expression is a C construct.  What follows is an example used for conditional assignment:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = condition_expression ? true_expression : false_expression;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If condition_expression evaluates to true, result will be assigned the true_expression; otherwise, result will be assigned the false_expression.  A GNU extension to the ternary operator, also available in Objective-C, is the ability to omit the true_expression as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = first_expression ?: second_expression;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;result will be assigned the value of first_expression if it evaluates to true or second_expression if first_expression evaluates to false.&lt;/p&gt;
+
+&lt;p&gt;nil in Objective-C evaluates to false, so the GNU extension becomes particularly useful for ensuring default values during assignment, which is a pattern used widely in JavaScript.&lt;/p&gt;
+
+&lt;p&gt;A contrived example might be an init method that takes an NSDictionary with options for configuring the instance, as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;- (void)initWithOptions:(NSDictionary *)options {
+	self = [super init];
+
+	_options = options ?: kDefaultOptions;
+
+	return self;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The assignment ensures _options is not null. options will be assigned to the _options ivar if non-nil; otherwise _options will be assigned the kDefaultOptions dictionary.&lt;/p&gt;
+
+&lt;p&gt;Another awesome use case is for caching values, rather than initialize them all in the init method.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;@implementation MyObj {
+	NSString *_someValue;
+}
+
+@property (nonatomic, strong, readonly) NSString *someValue;
+
+@synthesize someValue=_someValue;
+
+- (id)init {
+	…
+}
+
+- (NSString *)someValue {
+	return _someValue ?: (_someValue = [some expensive operation]);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When a consumer accesses the someValue property of MyObj, if _someValue is nil, the right size of the ternary expression is returned, which retrieves the value via some expensive operation and stores it in _someValue.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Associative References in Objective-C</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</link>
+      <pubDate>Sun, 19 Feb 2012 22:58:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</guid>
+      <description>
+
+&lt;p&gt;Take the following Javascript (stick with me):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var obj = {};
+obj.newProperty = &amp;quot;Hello World&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For the unfamiliar, we&amp;rsquo;ve just declared an empty object and associated the string &lt;em&gt;Hello World&lt;/em&gt; to the key &lt;em&gt;newProperty&lt;/em&gt; with the instance &lt;em&gt;obj&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;We can access the value of &lt;em&gt;newProperty&lt;/em&gt; using dot notation:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;console.log(obj.newProperty);    // logs Hello World
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or as an associative array:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;console.log(obj[&amp;quot;newProperty&amp;quot;]); // logs Hello World
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, if we want to remove the property, we can use the &lt;em&gt;delete&lt;/em&gt; statement:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;delete obj.newProperty;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;what-has-this-got-to-do-with-objective-c:665ef31cf4e3f54bc095bf74c87aa078&#34;&gt;What has this got to do with Objective-C?&lt;/h2&gt;
+
+&lt;p&gt;Being able to add arbitrary data to an object is a powerful tool.  It turns out that as of OS X 10.6 and iOS 3.1, Apple added new Objective-C runtime APIs, categorized as &lt;a href=&#34;https://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/ObjectiveC/Chapters/ocAssociativeReferences.html&#34;&gt;associative references&lt;/a&gt; to do just that.&lt;/p&gt;
+
+&lt;p&gt;Semantically, the following code is the same as the previous Javascript:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;NSObject *obj = [NSObject new];
+objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, @&amp;quot;Hello World&amp;quot;, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which associates the string &lt;em&gt;Hello World&lt;/em&gt; to the instance &lt;em&gt;obj&lt;/em&gt; using the key &lt;em&gt;newProperty&lt;/em&gt;. The last parameter allows us to instruct the runtime how the associated instance will be transferred to &lt;em&gt;obj&lt;/em&gt;. These policies map to regular Objective-C property attributes including &lt;em&gt;copy&lt;/em&gt;, &lt;em&gt;retain&lt;/em&gt;, &lt;em&gt;assign&lt;/em&gt; and their non-atomic counterparts.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;printf(&amp;quot;%s\n&amp;quot;, [objc_getAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;) UTF8String]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Retrieves the value of &lt;em&gt;newProperty&lt;/em&gt; from instance &lt;em&gt;obj&lt;/em&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Passing &lt;code&gt;nil&lt;/code&gt; clears the association.&lt;/p&gt;
+
+&lt;h2 id=&#34;that-s-great-but-why-not-just-declare-the-property-in-my-class-declaration:665ef31cf4e3f54bc095bf74c87aa078&#34;&gt;That&amp;rsquo;s great, but why not just declare the property in my class declaration?&lt;/h2&gt;
+
+&lt;p&gt;Fair enough, however recall Objective-C categories, which provides a means for adding methods to a class. Commonly used as an alternative to subclassing, categories are unable to add additional state, and therein lies their limitation. &lt;a href=&#34;http://www.wannabegeek.com/?p=96&#34;&gt;This example&lt;/a&gt; served as inspiration for the following, which provides a convenience method for displaying a UIAlertView with a completion block, all neatly contained within the same instance, No Subclassing Required ™&lt;/p&gt;
+
+&lt;p&gt;
+    &lt;script src=&#34;https://gist.github.com/stuartcarnie/1868028.js&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Constant Confusion</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/constant-confusion/</link>
+      <pubDate>Sat, 03 Dec 2011 01:33:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/constant-confusion/</guid>
+      <description>
+
+&lt;p&gt;The &lt;em&gt;const&lt;/em&gt; keyword in C can be confusing, so I wanted to put down my thoughts for my own benefit and for those looking for some clarity. In summary, I&amp;rsquo;m going to advocate you place &lt;em&gt;const&lt;/em&gt; to the right, and read the declaration from right to left.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-is-const:2beb528fa7b4af1d9ea70da77a222d33&#34;&gt;What is &lt;em&gt;const&lt;/em&gt;?&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;const&lt;/em&gt; is a hint to the C compiler and programmer that a specific declaration or element of a declaration is immutable.  It is more complicated in C++, which is outside the scope of this post.  Lets start with a simple example, and the most common form where &lt;em&gt;const&lt;/em&gt; is written first:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int i = 5;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The previous statement simply instructs the compiler that &lt;em&gt;i&lt;/em&gt; cannot be changed after its initial declaration, such that the following assignment would result in an error:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int i = 5;
+i = 6; // error: read-only variable is not assignable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If spoken from right to left, the declaration of &lt;em&gt;i&lt;/em&gt; would read “&lt;em&gt;i&lt;/em&gt; is an integer constant”, which is reasonable enough.  This syntax is still supported for historical reasons.  The alternative and &lt;em&gt;correct&lt;/em&gt; format is to write &lt;em&gt;const&lt;/em&gt; after the type reference, as follows&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int const i = 5;
+i = 6; // error: read-only variable is not assignable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which means the same thing; the value of &lt;em&gt;i&lt;/em&gt; must remain constant within its declared scope.  If you read this declaration from right to left, it is spoken as “&lt;em&gt;i&lt;/em&gt; is a constant integer”; much better.&lt;/p&gt;
+
+&lt;p&gt;Yet another common definition is an array of constant characters or also known in some circles as an immutable string&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const char * myString = &amp;quot;hello World&amp;quot;;
+myString[0] = &#39;H&#39;;        // error: read-only variable is not assignable
+myString = &amp;quot;Hello World&amp;quot;; // ok
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Spoken from right to left, “&lt;em&gt;myString&lt;/em&gt; is a pointer to character constant”, which doesn&amp;rsquo;t read so well.  Switching the &lt;em&gt;const&lt;/em&gt; keyword, we get the following&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;char const * myString = &amp;quot;hello World&amp;quot;;
+myString[0] = &#39;H&#39;;        // error: read-only variable is not assignable
+myString = &amp;quot;Hello World&amp;quot;; // ok
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;read aloud, it is “&lt;em&gt;myString&lt;/em&gt; is a pointer to constant characters“; sounds better than the former.&lt;/p&gt;
+
+&lt;p&gt;So far &lt;em&gt;const&lt;/em&gt; seems pretty straight forward, and perhaps at this point you&amp;rsquo;re thinking where is the confusion?.  Lets complicate things…  As we&amp;rsquo;ve demonstrated, the &lt;em&gt;const&lt;/em&gt; keyword can be placed before or after the type reference in a declaration, which for the previous scenarios is fine.  Let&amp;rsquo;s show a few more examples with pointers:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int * const i;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Declares &lt;em&gt;i&lt;/em&gt; as constant pointer to an integer.  Again, reading from right to left makes it pretty clear what we&amp;rsquo;re dealing with.  The following shows both legal and illegal usages of &lt;em&gt;i&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j = 5, k = 6;
+int * const i = &amp;amp;j; // points to the memory referred to by j
+i = &amp;amp;k;             // error: read-only variable is not assignable
+*i = 6;             // ok, modifies the value of j
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, because the &lt;em&gt;const&lt;/em&gt; keyword can be placed before or after the type reference, as shown earlier, the following declarations of &lt;em&gt;h&lt;/em&gt; and &lt;em&gt;i&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j = 5, k = 6;
+const int * const h = &amp;amp;j;
+int const * const i = &amp;amp;j;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;result in a variable that is a constant pointer to a constant integer.  Given that, the following lines will result in compiler errors:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;*h = 5; // error: read-only variable is not assignable
+h = &amp;amp;k; // error: read-only variable is not assignable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Want to see something confusing? The following 3 lines are identical, and will compile with current versions of clang and gcc:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int const g = 5;
+const int h = 6;
+int const i = 7;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It&amp;rsquo;s not horrible, but lets reintroduce pointers&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int const * i;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;What is this? If you had not just read all the above, one would be forgiven for thinking &lt;em&gt;i&lt;/em&gt; is a constant pointer to a constant integer, but in fact both instances of &lt;em&gt;const&lt;/em&gt; refer to the int type; this is a pointer to a constant integer. The correct definition, as we saw earlier is&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int * const i; // or preferably
+int const * const i;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Worse still is multiple levels of indirection, such as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int * * i;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which when read from right to left declares “&lt;em&gt;i&lt;/em&gt; is a pointer to a pointer of integers”. A more complicated example using the &lt;em&gt;const&lt;/em&gt; keyword&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int const * const * const i;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or “&lt;em&gt;i&lt;/em&gt; is a constant pointer to a constant pointer of constant integers.  &lt;em&gt;Wow&lt;/em&gt;.  All levels of indirection are immutable, so it can only be assigned at its declaration.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j[2][3] = { {1, 2, 3}, {4, 5, 6} };
+int const * const * const i = &amp;amp;j; // ok
+i = NULL;     // error
+i[0] = &amp;amp;j[0]; // error
+i[0][0] = 5;  // error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It&amp;rsquo;s an extreme case, but becomes evident why writing &lt;em&gt;const&lt;/em&gt; to the right is a good habit.  The following declaration of &lt;em&gt;i&lt;/em&gt; may look the same to the untrained eye:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j[2][3] = { {1, 2, 3}, {4, 5, 6} };
+const int const * const * i = &amp;amp;j; // ok
+i = NULL;     // ok!!
+i[0] = &amp;amp;j[0]; // error
+i[0][0] = 5;  // error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;however, armed with this knowledge, you (and the compiler) say otherwise.&lt;/p&gt;
+
+&lt;p&gt;After all this, you may be asking when might I use the declaration &lt;em&gt;type const * const&lt;/em&gt;?  When possible, I prefer to be explicit, and strings used as constants across compilation units are often declared as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;char const * kMyConstant = &amp;quot;Hello World&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and then referred to in a separate object file as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;extern char const * kMyConstant;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Whilst modifying the contents of &lt;em&gt;kMyConstant&lt;/em&gt; is prohibited, assigning the pointer &lt;em&gt;kMyConstant&lt;/em&gt; to a new location is possible, as follows&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;extern char const * kMyConstant;
+void fn() {
+    kMyConstant[0] = &#39;h&#39;; // error
+    kMyConstant = &amp;quot;Hi!&amp;quot;;  // now says &amp;quot;Hi!&amp;quot; instead of &amp;quot;Hello World&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Clearly for the majority of situations, this is not what the developer intended.  Changing the declaration to&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;char const * const kMyConstant = &amp;quot;Hello World&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;would also prevent the pointer &lt;em&gt;kMyConstant&lt;/em&gt; from being overwritten.&lt;/p&gt;
+
+&lt;h2 id=&#34;in-summary:2beb528fa7b4af1d9ea70da77a222d33&#34;&gt;In summary&lt;/h2&gt;
+
+&lt;p&gt;Always write &lt;em&gt;const&lt;/em&gt; to the right and read the declaration from right to left.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Transferring Preview app signatures in Lion</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</link>
+      <pubDate>Wed, 03 Aug 2011 22:45:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</guid>
+      <description>&lt;p&gt;Lion introduced a great &lt;a href=&#34;http://www.apple.com/macosx/whats-new/features.html#preview&#34;&gt;new feature&lt;/a&gt; that allows you to &lt;a href=&#34;http://www.cultofmac.com/you-can-now-sign-pdfs-using-lions-preview-app-screenshots-how-to/100237&#34;&gt;capture your signature&lt;/a&gt; via an attached camera and store it in an encrypted form for later use.  Therein lies the problem; you must have an attached camera.&lt;/p&gt;
+
+&lt;p&gt;I have a Mac Pro, and wanted to use the signatures I captured on my Macbook Pro.  Following these steps, you can transfer the encrypted signatures over.&lt;/p&gt;
+
+&lt;p&gt;On your machine endowed with the power of sight:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Go ahead and capture the signatures in Preview.&lt;/li&gt;
+&lt;li&gt;Quit Preview&lt;/li&gt;
+&lt;li&gt;Browse to ~/Library/Containers/com.apple.Preview/Data/Library/Preferences
+
+&lt;ul&gt;
+&lt;li&gt;In Finder, click the &lt;em&gt;Go&lt;/em&gt; menu and hold the option (⌥) key to show the Library folder, alternatively&lt;/li&gt;
+&lt;li&gt;press ⌘+⇧+G whilst Finder is active and enter the path above to directly navigate&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Copy thecom.apple.Preview.signatures.plist&lt;/li&gt;
+&lt;li&gt;Launch KeychainAccess&lt;/li&gt;
+&lt;li&gt;Ensure the &lt;em&gt;login&lt;/em&gt; keychain is selected and the &lt;em&gt;Passwords&lt;/em&gt; category
+&lt;img src=&#34;http://lh3.ggpht.com/-z8tRB-j6kdo/Tjov5yUdYZI/AAAAAAAAAqE/OKZt52E80_Q/Keychain-Preview-Password.png?imgmax=800&#34; alt=&#34;Copying Preview signatures password from keychain&#34; title=&#34;Keychain-Preview-Password.png&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;Right-click the &lt;em&gt;Preview Signature Privacy&lt;/em&gt; password and select Copy Password to Clipboard.  This is the password used to encrypt the signature images.&lt;/li&gt;
+&lt;li&gt;Paste it into a text editor and save the file.  You&amp;rsquo;ll need to transfer this to your other computer(s)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;On your machine you wish to transfer the signatures to:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;If you haven&amp;rsquo;t already, launch Preview, open preferences, and select the Signatures tab to ensure the default configuration files and folders have been created.  Exit Preview.&lt;/li&gt;
+&lt;li&gt;Browse to ~/Library/Containers/com.apple.Preview/Data/Library/Preferences&lt;/li&gt;
+&lt;li&gt;Copy thecom.apple.Preview.signatures.plist to the folder, overwriting any existing file&lt;/li&gt;
+&lt;li&gt;Launch KeychainAccess&lt;/li&gt;
+&lt;li&gt;Locate the &lt;em&gt;Preview Signature Privacy&lt;/em&gt; password in the &lt;em&gt;login&lt;/em&gt; keychain and double click to edit
+&lt;img src=&#34;http://lh3.ggpht.com/-BB6bmWMvymU/TjoxoHRQJeI/AAAAAAAAAqM/pdQcMbIt4o8/Replace%252520Preview%252520Signature%252520Privacy%252520password%252520dialog.png?imgmax=800&#34; alt=&#34;Replace the Preview Signature Password&#34; title=&#34;Replace Preview Signature Privacy password dialog.png&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;Click the &lt;em&gt;Show password&lt;/em&gt; checkbox and paste the password you copied from your original machine.&lt;/li&gt;
+&lt;li&gt;Click &lt;em&gt;Save Changes&lt;/em&gt; and you&amp;rsquo;re done&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Eval Expression service for OS X</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/eval-expression-service-for-os-x/</link>
+      <pubDate>Sat, 09 Apr 2011 21:44:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/eval-expression-service-for-os-x/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Eval Expression&lt;/strong&gt; is a Mac OS X service to evaluate the selected text of any text field as a Ruby expression.  My instinct was to choose Perl, however Ruby offers binary in addition to decimal, hex and octal numerical literals.  The service becomes infinitely more useful if you assign it a global shortcut in Keyboard preferences.  In my case I assigned a combination that seemed obvious, ⌘=&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh5.ggpht.com/_WTgxY9AxbJk/TaE1i0ngklI/AAAAAAAAAnU/yDUu3uOqs9Y/Keyboard%20preferences.png?imgmax=800&#34; alt=&#34;Keyboard preferences&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It came about as I was working on some layout in Xcode 4 / Interface Builder, and needed to adjust the Y position of a view by a specific number of units.  I&amp;rsquo;m lazy, and figured the computer should do the work, so I typed 768-35 and tabbed out.  Unlike Acorn and Opacity, which evaluates the expression in numerical entries automatically, Xcode simply complained.  Not happy, I created this service and it works like a charm.  Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;768-35 ⌘= 733
+
+&lt;ul&gt;
+&lt;li&gt;calculator&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;0b11010 ⌘= 26
+
+&lt;ul&gt;
+&lt;li&gt;conversion to decimal&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;0x1f.to_s(2) ⌘= 11111
+
+&lt;ul&gt;
+&lt;li&gt;hex to binary&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;2**3 ⌘= 8
+
+&lt;ul&gt;
+&lt;li&gt;exponent&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;(0x8000 | 0xf1).to_s(16) ⌘= 80f1&lt;/li&gt;
+&lt;li&gt;&amp;rdquo;-+&amp;rdquo; * 5 ⌘= -+-+-+-+-+
+
+&lt;ul&gt;
+&lt;li&gt;expansion&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Array(1..15).join &amp;lsquo;,&amp;rsquo; ⌘= 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+
+&lt;ul&gt;
+&lt;li&gt;lists&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Download the Automator zip file from &lt;a href=&#34;https://github.com/downloads/scarnie/sgc_general/Eval%20Expression.zip&#34;&gt;github&lt;/a&gt;, unzip and install to your ~/Library/Services folder.&lt;/p&gt;
+
+&lt;p&gt;A quick video of the service in action (note that I&amp;rsquo;m using my ⌘= shortcut to evaluate within Mars Edit):&lt;/p&gt;
+
+&lt;p&gt;&lt;object type=&#34;application/futuresplash&#34; width=&#34;425&#34; height=&#34;344&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/K-gP9ToAPTU?hl=en&amp;amp;fs=1&#34;&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;embed type=&#34;application/futuresplash&#34; width=&#34;425&#34; height=&#34;344&#34; src=&#34;http://www.youtube.com/v/K-gP9ToAPTU?hl=en&amp;amp;fs=1&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34;&gt;&lt;/object&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Mobile Safari performance and executable pages in iOS 4.3</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</link>
+      <pubDate>Thu, 17 Mar 2011 15:12:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</guid>
+      <description>
+
+&lt;p&gt;DaringFireball recently posted &lt;a href=&#34;http://daringfireball.net/2011/03/nitro_ios_43&#34;&gt;his thoughts&lt;/a&gt; as to why the Javascript performance of Mobile Safari is faster than those launched from SpringBoard or within existing applications which use a UIWebView.  I don&amp;rsquo;t think it&amp;rsquo;s quite that complicated.&lt;/p&gt;
+
+&lt;p&gt;My thoughts are it is one of two things:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Apple is concerned about security (which would support John&amp;rsquo;s theory)
+
+&lt;ul&gt;
+&lt;li&gt;Mobile Safari is binding to a newer and/or private version of Webkit, and Springboard was an oversight&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Apple is concerned about breaking existing applications
+
+&lt;ul&gt;
+&lt;li&gt;I would argue this makes the most sense, and was probably a very deliberate action by Apple, given enabling Nitro is a significant enough change to a core framework that could break existing applications.&lt;/li&gt;
+&lt;li&gt;Perhaps a future update will allow developers to &lt;em&gt;opt-in&lt;/em&gt; to the faster Javascript engine either via a plist setting or more likely, a new API on the UIWebView class.&lt;/li&gt;
+&lt;li&gt;Would also explain the oversight in Springboard, if it was not opted in.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There are other implications for allowing 3rd parties to use Nitro, most importantly &lt;em&gt;battery life.&lt;/em&gt; If Javascript executes up to 3x faster, the CPU is running 3x less to to execute equivalent Javascript, allowing the CPU to go to low power mode faster.&lt;/p&gt;
+
+&lt;p&gt;Gruber also makes the following statement:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Apple, as of iOS 4.3, trusts Mobile Safari enough to allow this. The upside is that Mobile Safari is now significantly faster. The downside is that any security exploits against Mobile Safari now potentially allow worse things to happen than before.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I would disagree, as many of the previous Jailbreak exploits in iOS such as &lt;a href=&#34;http://daringfireball.net/linked/2010/08/02/jailbreakme&#34;&gt;this example&lt;/a&gt; were via Mobile Safari, without a JIT engine, simply exploiting the stack and other typical attacks to &lt;em&gt;elevate privileges&lt;/em&gt;.  As Apple continues to get a handle on these &lt;em&gt;security&lt;/em&gt; issues, running dynamic code shouldn&amp;rsquo;t be a problem.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-is-my-basis-for-this-assumption:40ecd50b5c22d7f37af935e340915265&#34;&gt;What is my basis for this assumption?&lt;/h2&gt;
+
+&lt;p&gt;A few weeks ago, when I heard Apple&amp;rsquo;s announcement that Nitro was coming to 4.3, I immediately had to retest some scenarios that were not previously supported on iOS.  Prior to iOS 4.3, calling the mprotect function and attempting to set the PROT_EXEC flag, marking the page as executable would &lt;em&gt;fail&lt;/em&gt; when run on the device&lt;em&gt;.&lt;/em&gt; Quite simply, the API would return an error code.  This suggested that likely something in the kernel was locked down or this API had specific code to disallow pages to be marked as executable.  Knowing that the Nitro engine must execute in user space or it would be a serious hack in iOS, Apple had to enable support for executable pages.  I went ahead and &lt;a href=&#34;https://gist.github.com/855607&#34;&gt;created an example&lt;/a&gt;, ran it on my iPhone 4 and viola!  Essentially this example creates an &amp;lsquo;increment&amp;rsquo; function in 32-bit ARM on the fly that adds one to the parameter and returns the result.&lt;/p&gt;
+
+&lt;p&gt;I &lt;a href=&#34;https://twitter.com/stuartcarnie/status/43762981863034880&#34;&gt;responded&lt;/a&gt; to Miguel de Icaza&amp;rsquo;s &lt;a href=&#34;https://twitter.com/migueldeicaza/status/43127184440836096&#34;&gt;tweet&lt;/a&gt;, who also wondered it might now be possible.  Further discussions with Miguel also &lt;a href=&#34;https://twitter.com/migueldeicaza/status/48517553395466240&#34;&gt;identified&lt;/a&gt; that Apple has only partially opened up executable page support, whereby pages can either be read/write or read/execute.  Unfortunately the majority of existing JIT engines expect RWX in order to patch executable pages without the need to change the state from rx » rw, patch code and then rw » rx.  Critical in multi-threaded scenarios, as code could conceivably jump to a page that was being patched and fault due to the absence of the execute flag.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Renew Apple developer certificates with OpenSSL</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/renew-apple-developer-certificates-with-openssl/</link>
+      <pubDate>Wed, 02 Feb 2011 16:30:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/renew-apple-developer-certificates-with-openssl/</guid>
+      <description>&lt;p&gt;I like to reuse the same private keys when generating a signing request to renew my Apple developer certificates.  Unfortunately you can&amp;rsquo;t do this with Keychain Access, as it won&amp;rsquo;t save the signing request file after you step through the wizard.  OpenSSL is your friend.&lt;/p&gt;
+
+&lt;p&gt;Open Keychain Access, RMB on the key your wish to use and click &lt;em&gt;Export &amp;ldquo;[Key Name]&amp;rdquo;&lt;/em&gt;.  Save it as a .p12 file with a strong password.  In my case it was StuartCarnie.p12.&lt;/p&gt;
+
+&lt;p&gt;Open a terminal session and convert the .p12 to a PEM with the following command&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;openssl pkcs12 -in StuartCarnie.p12 -out StuartCarnie.pem
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You will be prompted  for your .p12 password, and also a password to encrypt your .pem.&lt;/p&gt;
+
+&lt;p&gt;Now generate the signing request with the following command.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;openssl req -new -key StuartCarnie.pem -out StuartCarnie.csr
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You&amp;rsquo;ll be prompted for a few questions to place in the signing request, such as the country, etc.  At the very least, enter the Common Name (your name) and Email Address.  One you&amp;rsquo;ve completed this step, the .csr file can be submitted to Apple.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Micro-benchmarking iOS devices</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/micro-benchmarking-ios-devices/</link>
+      <pubDate>Sun, 24 Jan 2010 22:58:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/micro-benchmarking-ios-devices/</guid>
+      <description>
+
+&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; Added iPhone 5.&lt;br /&gt;
+&lt;strong&gt;Update:&lt;/strong&gt; Added iPhone 4s, iPad 3&lt;sup&gt;rd&lt;/sup&gt; gen.&lt;br /&gt;
+&lt;strong&gt;Update:&lt;/strong&gt; Added iPhone 4, iPad 1&lt;sup&gt;st&lt;/sup&gt; gen.&lt;/p&gt;
+
+&lt;p&gt;I follow the excellent &lt;a href=&#34;http://www.mikeash.com/?page=pyblog/&#34;&gt;weekly posts&lt;/a&gt; by Mike Ash, and &lt;a href=&#34;http://www.mikeash.com/?page=pyblog/friday-qa-2010-01-22-toll-free-bridging-internals.html#comment-fe3facc8db943d179b5c670f0da3be68&#34;&gt;entered a brief discussion&lt;/a&gt; in comments about toll free bridging. In particular, the difference between calling a method via Objective-C (objc_msgSend) and it&amp;rsquo;s equivalent CoreFoundation C call. Mike suggested adding it to &lt;a href=&#34;http://mikeash.com/?page=pyblog/performance-comparisons-of-common-operations-iphone-edition.html&#34;&gt;his original&lt;/a&gt; suite of tests, which lead to the following results.&lt;/p&gt;
+
+&lt;h2 id=&#34;iphone-5-mno-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 5 (-mno-thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;custom-apple-a6-arm-cortex-a15-up-to-1-2ghz:14714447475d4a2a5cea01b8f4896980&#34;&gt;Custom Apple A6 ARM Cortex A15, up to 1.2GHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;10.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;13.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;24.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.5&lt;/td&gt;
+&lt;td&gt;24.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;35.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;td&gt;50.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;65.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;4.8&lt;/td&gt;
+&lt;td&gt;482.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;533.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1169.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1391.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;13331.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;99329.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;120390.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;421517.1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-5-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 5 (thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;custom-apple-a6-arm-cortex-a15-up-to-1-2ghz-1:14714447475d4a2a5cea01b8f4896980&#34;&gt;Custom Apple A6 ARM Cortex A15, up to 1.2GHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;4.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;10.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;13.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;24.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.6&lt;/td&gt;
+&lt;td&gt;26.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;35.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;td&gt;51.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;65.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;4.7&lt;/td&gt;
+&lt;td&gt;474.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;513.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1183.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1241.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;12979.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;83574.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;121289.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;426971.7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;ipad-3-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPad 3 (thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;apple-a5x-arm-cortex-a9-1000mhz:14714447475d4a2a5cea01b8f4896980&#34;&gt;Apple A5x ARM Cortex A9 1000MHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;11.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;12.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.6&lt;/td&gt;
+&lt;td&gt;26.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;26.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;26.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.9&lt;/td&gt;
+&lt;td&gt;28.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.6&lt;/td&gt;
+&lt;td&gt;35.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;69.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;131.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;4.3&lt;/td&gt;
+&lt;td&gt;433.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;600.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1235.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;2966.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;11633.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;121336.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;130293.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1662780.4&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;ipad-3-mno-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPad 3 (-mno-thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;apple-a5x-arm-cortex-a9-1000mhz-1:14714447475d4a2a5cea01b8f4896980&#34;&gt;Apple A5x ARM Cortex A9 1000MHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;9.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;11.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.4&lt;/td&gt;
+&lt;td&gt;24.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.6&lt;/td&gt;
+&lt;td&gt;26.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;26.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;27.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.7&lt;/td&gt;
+&lt;td&gt;27.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;68.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.0&lt;/td&gt;
+&lt;td&gt;103.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;4.3&lt;/td&gt;
+&lt;td&gt;432.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;570.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1209.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1682.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;10251.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;118494.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;121578.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1635983.3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-4s-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 4s (thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;apple-a5-arm-cortex-a9-800mhz:14714447475d4a2a5cea01b8f4896980&#34;&gt;Apple A5 ARM Cortex A9 ~800MHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;11.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;12.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.1&lt;/td&gt;
+&lt;td&gt;31.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;32.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.3&lt;/td&gt;
+&lt;td&gt;32.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;32.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.4&lt;/td&gt;
+&lt;td&gt;33.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;85.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.6&lt;/td&gt;
+&lt;td&gt;165.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;5.4&lt;/td&gt;
+&lt;td&gt;542.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;753.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1511.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;2111.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;19033.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;142817.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;146302.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1787482.1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-4-fthumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 4 (-fthumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;apple-a4-arm-cortex-a8-800mhz:14714447475d4a2a5cea01b8f4896980&#34;&gt;Apple A4 ARM Cortex A8 ~800MHz&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;9.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.0&lt;/td&gt;
+&lt;td&gt;10.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;36.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;4.1&lt;/td&gt;
+&lt;td&gt;40.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;4.1&lt;/td&gt;
+&lt;td&gt;40.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;89.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;105.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;105.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.7&lt;/td&gt;
+&lt;td&gt;168.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;550.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;6.6&lt;/td&gt;
+&lt;td&gt;656.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;979.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;4277.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;20406.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;139971.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;243883.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1150657.9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-3gs-fthumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 3GS (-fthumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;arm-cortex-a8-600mhz-1-66-ns-per-cycle:14714447475d4a2a5cea01b8f4896980&#34;&gt;ARM Cortex A8 ~600MHz / 1.66 ns per cycle&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.2&lt;/td&gt;
+&lt;td&gt;11.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;13.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;td&gt;46.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;5.4&lt;/td&gt;
+&lt;td&gt;53.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;6.3&lt;/td&gt;
+&lt;td&gt;62.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.2&lt;/td&gt;
+&lt;td&gt;117.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;138.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;140.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;2.2&lt;/td&gt;
+&lt;td&gt;220.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;6.4&lt;/td&gt;
+&lt;td&gt;642.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;723.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1305.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.6&lt;/td&gt;
+&lt;td&gt;5743.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;16104.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;185759.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.4&lt;/td&gt;
+&lt;td&gt;353519.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;2170179.2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-3gs-no-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 3GS (no thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;arm-cortex-a8-600mhz-1-66-ns-per-cycle-1:14714447475d4a2a5cea01b8f4896980&#34;&gt;ARM Cortex A8 ~600MHz / 1.66 ns per cycle&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;1.2&lt;/td&gt;
+&lt;td&gt;11.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;4.3&lt;/td&gt;
+&lt;td&gt;42.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;5.9&lt;/td&gt;
+&lt;td&gt;59.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.0&lt;/td&gt;
+&lt;td&gt;97.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;9.8&lt;/td&gt;
+&lt;td&gt;98.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;109.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.2&lt;/td&gt;
+&lt;td&gt;118.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;129.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;142.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;7.5&lt;/td&gt;
+&lt;td&gt;748.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;806.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;td&gt;4793.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;td&gt;4953.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;17969.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;211840.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;214742.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3162774.6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;iphone-3g:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPhone 3G&lt;/h2&gt;
+
+&lt;h3 id=&#34;arm1176-412mhz-2-4ns-per-cycle:14714447475d4a2a5cea01b8f4896980&#34;&gt;ARM1176 ~412MHz / 2.4ns per cycle&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.9&lt;/td&gt;
+&lt;td&gt;38.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;5.0&lt;/td&gt;
+&lt;td&gt;49.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;81.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;81.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;136.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;14.9&lt;/td&gt;
+&lt;td&gt;148.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;16.2&lt;/td&gt;
+&lt;td&gt;162.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;2.0&lt;/td&gt;
+&lt;td&gt;201.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;4.2&lt;/td&gt;
+&lt;td&gt;418.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;1833.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;27.3&lt;/td&gt;
+&lt;td&gt;2729.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;14179.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;1.9&lt;/td&gt;
+&lt;td&gt;18956.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;47811.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;803419.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1085830.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;1.0&lt;/td&gt;
+&lt;td&gt;9902796.7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;ipad-fthumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPad (-fthumb)&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;7.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;8.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;27.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.2&lt;/td&gt;
+&lt;td&gt;32.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.4&lt;/td&gt;
+&lt;td&gt;33.7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.6&lt;/td&gt;
+&lt;td&gt;58.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;70.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;81.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;83.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;3.6&lt;/td&gt;
+&lt;td&gt;357.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;470.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;2957.0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3080.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;14824.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;127386.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;225271.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1064566.2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;ipad-mno-thumb:14714447475d4a2a5cea01b8f4896980&#34;&gt;iPad (-mno-thumb)&lt;/h2&gt;
+
+&lt;h3 id=&#34;apple-a4-arm-cortex-a8-1ghz-1-ns-per-cycle:14714447475d4a2a5cea01b8f4896980&#34;&gt;Apple A4 ARM Cortex A8 ~1GHz / 1 ns per cycle&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Iterations&lt;/th&gt;
+&lt;th&gt;Total time (sec)&lt;/th&gt;
+&lt;th&gt;Time per (ns)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IMP-cached message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;8.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C++ virtual method call&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;2.2&lt;/td&gt;
+&lt;td&gt;21.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte memcpy&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;28.2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C message send&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.2&lt;/td&gt;
+&lt;td&gt;32.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Integer division&lt;/td&gt;
+&lt;td&gt;100000000&lt;/td&gt;
+&lt;td&gt;3.4&lt;/td&gt;
+&lt;td&gt;33.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;CF CFArrayGetValueAtIndex&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.6&lt;/td&gt;
+&lt;td&gt;55.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Floating-point division&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.7&lt;/td&gt;
+&lt;td&gt;70.9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Objective-C objectAtIndex:&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;81.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Float division with int conversion&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;82.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16 byte malloc/free&lt;/td&gt;
+&lt;td&gt;10000000&lt;/td&gt;
+&lt;td&gt;3.6&lt;/td&gt;
+&lt;td&gt;358.3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSInvocation message send&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;473.4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSAutoreleasePool alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3017.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;NSObject alloc/init/release&lt;/td&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;3071.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;16MB malloc/free&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;14623.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;pthread create/join&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.0&lt;/td&gt;
+&lt;td&gt;128674.6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Zero-second delayed perform&lt;/td&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;255627.5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1MB memcpy&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;1063407.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Note that I did reduce the iterations from the original tests, so whilst the total times are significantly less, the iteration times are still a reflection of overall performance.  Compared to Mike&amp;rsquo;s results, these show that the IMP method is indeed faster as expected, but this was only after I changed to a release build.  I also compiled these with Thumb disabled unless otherwise specified.
+I&amp;rsquo;ve recently watched some iTunes U videos released by Apple on optimizing OpenGL ES 2.0 and a key takeaway was that the Cortext A8 architecture should always be compiled with thumb enabled. The Cortex CPU uses the newer Thumb-2 instruction set, which has native instructions for floating point. The benefit of Thumb is reduced code size and potentially better performance by utilising the I-cache.&lt;/p&gt;
+
+&lt;h2 id=&#34;observations:14714447475d4a2a5cea01b8f4896980&#34;&gt;Observations&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I&amp;rsquo;ve estimated the iPhone 4 CPU to be running at 800MHz.  Looking at the increased speed over the 3GS for a number of benchmarks, the average is 1.333x increase.  Multiplying 600MHz x 1.333 yields roughly 800MHz as the clock speed.&lt;/li&gt;
+&lt;li&gt;The IMP-cached message send is significantly faster on the newer Cortex CPU.  I have read of improvements in the branch prediction logic, which is particularly important due to the greater penalty of a misprediction in the longer A8 pipeline.  The code for executing the call is
+  &lt;code&gt;blx r8&lt;/code&gt;
+r8 contains the target address of the function, and remains so for the duration of the test.&lt;/li&gt;
+&lt;li&gt;For the 3GS, the Objective-C message send is very close to the C++ virtual method call.  I ran this test several times, and the behaviour didn&amp;rsquo;t change.  The virtual method call is an indirect load of the pc register
+  &lt;code&gt;ldr pc, [r3]&lt;/code&gt;
+Without being able to access the &lt;a href=&#34;http://infocentre.arm.com/help/topic/com.arm.doc.ddi0344j/Bgbighbf.html&#34;&gt;PMC registers&lt;/a&gt;, I can&amp;rsquo;t be sure of mispredictions; however, I know that 9 instructions are executed every iteration in the C++ test.  That suggests around 15ns / iteration; but, we&amp;rsquo;re at 42.9.  Adding an additional 13 cycles every iteration (21.58ns) for a mispredition would get us to 37ns / iteration - much closer.  Stepping in to the objc_msgSend function finds the cached method on the first pass, totaling 28 instructions per iteration.  Given there are significantly more instructions for the Objective-C call, we&amp;rsquo;re probably seeing the benefits of the dual—issue architecture.&lt;/li&gt;
+&lt;li&gt;Memory performance of the 3GS is significantly higher.  I&amp;rsquo;ve done some other micro-benchmarks, showing 2&lt;sup&gt;nd&lt;/sup&gt; gen around 200 MB/s and 3&lt;sup&gt;rd&lt;/sup&gt; gen around 800MB/s.  With some very well placed cache-preloads, I&amp;rsquo;ve actually pushed the ARM1176 to almost 300MB/s.&lt;/li&gt;
+&lt;li&gt;Calling the objectAtIndex: using CoreFoundation API is 2x faster on older devices; however, the gap is less significant with the newer hardware.  We&amp;rsquo;ve seen significant improvements to the objc_msgSend performance on the 3GS, which undoubtedly is making up much of the gap.&lt;/li&gt;
+&lt;li&gt;Floating point performance for scalar operations is slightly slower on the newer device.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Source code for this test is available &lt;a href=&#34;http://gist.github.com/285663&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Enable -Wformat for better compile time help</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</link>
+      <pubDate>Sat, 18 Apr 2009 16:16:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</guid>
+      <description>&lt;p&gt;Let the compiler do all the hard work, and be sure to enable the following warning:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/_WTgxY9AxbJk/SepdBUhSs7I/AAAAAAAAAh8/oO-mV51nQew/Picture%201.png?imgmax=800&#34; alt=&#34;Picture 1.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It does more than just validate printf/scanf formatting calls, which is helpful in itself. It also validates that a sentinel is present in variadic functions. A sentinel is typically NULL or nil for the last parameter. A common place you would benefit from this is using the arrayWithObjects method of NSArray, that requires a nil for the last value.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;NSArray *items = [NSArray arrayWithObjects:@&amp;quot;one&amp;quot;, @&amp;quot;two&amp;quot;, nil];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If the nil is absent, you&amp;rsquo;re receive the following:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh4.ggpht.com/_WTgxY9AxbJk/Sep1_lFLQ3I/AAAAAAAAAiA/RpVKEbbVEaM/Picture%203.png?imgmax=800&#34; alt=&#34;Picture 3.png&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XCode Tip: Generate comments in your assembler output</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
+      <pubDate>Sat, 07 Mar 2009 21:56:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
+      <description>&lt;p&gt;To make it easier to find the assembly generated when you &amp;lsquo;Show Assembly Code&amp;rsquo;, embed comments using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-asm&#34;&gt;asm(&amp;quot;# your comment&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

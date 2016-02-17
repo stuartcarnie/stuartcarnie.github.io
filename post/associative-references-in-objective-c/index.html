@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Associative References in Objective-C &middot; Stuart Carnie</title>
+
+  
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/poole-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/hyde-x.css">
+  <link rel="stylesheet" href="http://spencerlyon2.github.io/hugo_gh_blog/css/highlight/zenburn.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://spencerlyon2.github.io/hugo_gh_blog/touch-icon-144-precomposed.png">
+  <link href="http://spencerlyon2.github.io/hugo_gh_blog/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="this is a description">
+  <meta name="keywords" content="your,default,page,keywords">
+  
+</head>
+<body class="theme-base-01">
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1>Stuart Carnie</h1>
+      <p class="lead">Your favourite quote or soundbite.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="http://spencerlyon2.github.io/hugo_gh_blog/">Blog</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/stuartcarnie"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      
+      
+      
+      <a href="https://twitter.com/stuartcarnie"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      
+      </li>
+    </ul>
+
+    
+
+    <p>Copyright &copy; 2016 <a href="http://spencerlyon2.github.io/hugo_gh_blog/license/">License</a><br/>
+       Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1>Associative References in Objective-C</h1>
+    <span class="post-date">Feb 19, 2012 &middot; 2 minute read
+    
+    <br/>
+    <a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/osx">osx</a><a class="label" href="http://spencerlyon2.github.io/hugo_gh_blog/categories/objective-c">objective-c</a>
+    </span>
+    
+
+<p>Take the following Javascript (stick with me):</p>
+
+<pre><code class="language-js">var obj = {};
+obj.newProperty = &quot;Hello World&quot;;
+</code></pre>
+
+<p>For the unfamiliar, we&rsquo;ve just declared an empty object and associated the string <em>Hello World</em> to the key <em>newProperty</em> with the instance <em>obj</em>.</p>
+
+<p>We can access the value of <em>newProperty</em> using dot notation:</p>
+
+<pre><code class="language-js">console.log(obj.newProperty);    // logs Hello World
+</code></pre>
+
+<p>or as an associative array:</p>
+
+<pre><code class="language-js">console.log(obj[&quot;newProperty&quot;]); // logs Hello World
+</code></pre>
+
+<p>Finally, if we want to remove the property, we can use the <em>delete</em> statement:</p>
+
+<pre><code class="language-js">delete obj.newProperty;
+</code></pre>
+
+<h2 id="what-has-this-got-to-do-with-objective-c:665ef31cf4e3f54bc095bf74c87aa078">What has this got to do with Objective-C?</h2>
+
+<p>Being able to add arbitrary data to an object is a powerful tool.  It turns out that as of OS X 10.6 and iOS 3.1, Apple added new Objective-C runtime APIs, categorized as <a href="https://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/ObjectiveC/Chapters/ocAssociativeReferences.html">associative references</a> to do just that.</p>
+
+<p>Semantically, the following code is the same as the previous Javascript:</p>
+
+<pre><code class="language-mm">NSObject *obj = [NSObject new];
+objc_setAssociatedObject(obj, @&quot;newProperty&quot;, @&quot;Hello World&quot;, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+</code></pre>
+
+<p>which associates the string <em>Hello World</em> to the instance <em>obj</em> using the key <em>newProperty</em>. The last parameter allows us to instruct the runtime how the associated instance will be transferred to <em>obj</em>. These policies map to regular Objective-C property attributes including <em>copy</em>, <em>retain</em>, <em>assign</em> and their non-atomic counterparts.</p>
+
+<pre><code class="language-mm">printf(&quot;%s\n&quot;, [objc_getAssociatedObject(obj, @&quot;newProperty&quot;) UTF8String]);
+</code></pre>
+
+<p>Retrieves the value of <em>newProperty</em> from instance <em>obj</em>.</p>
+
+<pre><code class="language-mm">objc_setAssociatedObject(obj, @&quot;newProperty&quot;, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+</code></pre>
+
+<p>Passing <code>nil</code> clears the association.</p>
+
+<h2 id="that-s-great-but-why-not-just-declare-the-property-in-my-class-declaration:665ef31cf4e3f54bc095bf74c87aa078">That&rsquo;s great, but why not just declare the property in my class declaration?</h2>
+
+<p>Fair enough, however recall Objective-C categories, which provides a means for adding methods to a class. Commonly used as an alternative to subclassing, categories are unable to add additional state, and therein lies their limitation. <a href="http://www.wannabegeek.com/?p=96">This example</a> served as inspiration for the following, which provides a convenience method for displaying a UIAlertView with a completion block, all neatly contained within the same instance, No Subclassing Required ™</p>
+
+<p>
+    <script src="https://gist.github.com/stuartcarnie/1868028.js"></script>
+</p>
+
+  </div>
+  
+</div>
+
+
+
+
+<script src="http://spencerlyon2.github.io/hugo_gh_blog/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

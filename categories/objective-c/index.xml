@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Objective C on stuartcarnie</title>
+    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/objective-c/</link>
+    <description>Recent content in Objective C on stuartcarnie</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 15 Mar 2012 23:01:00 +0000</lastBuildDate>
+    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/objective-c/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Objective-C: ternary operator</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</link>
+      <pubDate>Thu, 15 Mar 2012 23:01:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/objective-c-ternary-operator/</guid>
+      <description>&lt;p&gt;The ternary operator, also known as a conditional expression is a C construct.  What follows is an example used for conditional assignment:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = condition_expression ? true_expression : false_expression;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If condition_expression evaluates to true, result will be assigned the true_expression; otherwise, result will be assigned the false_expression.  A GNU extension to the ternary operator, also available in Objective-C, is the ability to omit the true_expression as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = first_expression ?: second_expression;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;result will be assigned the value of first_expression if it evaluates to true or second_expression if first_expression evaluates to false.&lt;/p&gt;
+
+&lt;p&gt;nil in Objective-C evaluates to false, so the GNU extension becomes particularly useful for ensuring default values during assignment, which is a pattern used widely in JavaScript.&lt;/p&gt;
+
+&lt;p&gt;A contrived example might be an init method that takes an NSDictionary with options for configuring the instance, as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;- (void)initWithOptions:(NSDictionary *)options {
+	self = [super init];
+
+	_options = options ?: kDefaultOptions;
+
+	return self;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The assignment ensures _options is not null. options will be assigned to the _options ivar if non-nil; otherwise _options will be assigned the kDefaultOptions dictionary.&lt;/p&gt;
+
+&lt;p&gt;Another awesome use case is for caching values, rather than initialize them all in the init method.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;@implementation MyObj {
+	NSString *_someValue;
+}
+
+@property (nonatomic, strong, readonly) NSString *someValue;
+
+@synthesize someValue=_someValue;
+
+- (id)init {
+	…
+}
+
+- (NSString *)someValue {
+	return _someValue ?: (_someValue = [some expensive operation]);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When a consumer accesses the someValue property of MyObj, if _someValue is nil, the right size of the ternary expression is returned, which retrieves the value via some expensive operation and stores it in _someValue.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Associative References in Objective-C</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</link>
+      <pubDate>Sun, 19 Feb 2012 22:58:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</guid>
+      <description>
+
+&lt;p&gt;Take the following Javascript (stick with me):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var obj = {};
+obj.newProperty = &amp;quot;Hello World&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For the unfamiliar, we&amp;rsquo;ve just declared an empty object and associated the string &lt;em&gt;Hello World&lt;/em&gt; to the key &lt;em&gt;newProperty&lt;/em&gt; with the instance &lt;em&gt;obj&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;We can access the value of &lt;em&gt;newProperty&lt;/em&gt; using dot notation:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;console.log(obj.newProperty);    // logs Hello World
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or as an associative array:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;console.log(obj[&amp;quot;newProperty&amp;quot;]); // logs Hello World
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, if we want to remove the property, we can use the &lt;em&gt;delete&lt;/em&gt; statement:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;delete obj.newProperty;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;what-has-this-got-to-do-with-objective-c:665ef31cf4e3f54bc095bf74c87aa078&#34;&gt;What has this got to do with Objective-C?&lt;/h2&gt;
+
+&lt;p&gt;Being able to add arbitrary data to an object is a powerful tool.  It turns out that as of OS X 10.6 and iOS 3.1, Apple added new Objective-C runtime APIs, categorized as &lt;a href=&#34;https://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/ObjectiveC/Chapters/ocAssociativeReferences.html&#34;&gt;associative references&lt;/a&gt; to do just that.&lt;/p&gt;
+
+&lt;p&gt;Semantically, the following code is the same as the previous Javascript:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;NSObject *obj = [NSObject new];
+objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, @&amp;quot;Hello World&amp;quot;, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which associates the string &lt;em&gt;Hello World&lt;/em&gt; to the instance &lt;em&gt;obj&lt;/em&gt; using the key &lt;em&gt;newProperty&lt;/em&gt;. The last parameter allows us to instruct the runtime how the associated instance will be transferred to &lt;em&gt;obj&lt;/em&gt;. These policies map to regular Objective-C property attributes including &lt;em&gt;copy&lt;/em&gt;, &lt;em&gt;retain&lt;/em&gt;, &lt;em&gt;assign&lt;/em&gt; and their non-atomic counterparts.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;printf(&amp;quot;%s\n&amp;quot;, [objc_getAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;) UTF8String]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Retrieves the value of &lt;em&gt;newProperty&lt;/em&gt; from instance &lt;em&gt;obj&lt;/em&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Passing &lt;code&gt;nil&lt;/code&gt; clears the association.&lt;/p&gt;
+
+&lt;h2 id=&#34;that-s-great-but-why-not-just-declare-the-property-in-my-class-declaration:665ef31cf4e3f54bc095bf74c87aa078&#34;&gt;That&amp;rsquo;s great, but why not just declare the property in my class declaration?&lt;/h2&gt;
+
+&lt;p&gt;Fair enough, however recall Objective-C categories, which provides a means for adding methods to a class. Commonly used as an alternative to subclassing, categories are unable to add additional state, and therein lies their limitation. &lt;a href=&#34;http://www.wannabegeek.com/?p=96&#34;&gt;This example&lt;/a&gt; served as inspiration for the following, which provides a convenience method for displaying a UIAlertView with a completion block, all neatly contained within the same instance, No Subclassing Required ™&lt;/p&gt;
+
+&lt;p&gt;
+    &lt;script src=&#34;https://gist.github.com/stuartcarnie/1868028.js&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

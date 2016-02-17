@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Apple on stuartcarnie</title>
+    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/apple/</link>
+    <description>Recent content in Apple on stuartcarnie</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 02 Feb 2011 16:30:00 +0000</lastBuildDate>
+    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/apple/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Renew Apple developer certificates with OpenSSL</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/renew-apple-developer-certificates-with-openssl/</link>
+      <pubDate>Wed, 02 Feb 2011 16:30:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/renew-apple-developer-certificates-with-openssl/</guid>
+      <description>&lt;p&gt;I like to reuse the same private keys when generating a signing request to renew my Apple developer certificates.  Unfortunately you can&amp;rsquo;t do this with Keychain Access, as it won&amp;rsquo;t save the signing request file after you step through the wizard.  OpenSSL is your friend.&lt;/p&gt;
+
+&lt;p&gt;Open Keychain Access, RMB on the key your wish to use and click &lt;em&gt;Export &amp;ldquo;[Key Name]&amp;rdquo;&lt;/em&gt;.  Save it as a .p12 file with a strong password.  In my case it was StuartCarnie.p12.&lt;/p&gt;
+
+&lt;p&gt;Open a terminal session and convert the .p12 to a PEM with the following command&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;openssl pkcs12 -in StuartCarnie.p12 -out StuartCarnie.pem
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You will be prompted  for your .p12 password, and also a password to encrypt your .pem.&lt;/p&gt;
+
+&lt;p&gt;Now generate the signing request with the following command.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;openssl req -new -key StuartCarnie.pem -out StuartCarnie.csr
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You&amp;rsquo;ll be prompted for a few questions to place in the signing request, such as the country, etc.  At the very least, enter the Common Name (your name) and Email Address.  One you&amp;rsquo;ve completed this step, the .csr file can be submitted to Apple.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Osx on stuartcarnie</title>
+    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/osx/</link>
+    <description>Recent content in Osx on stuartcarnie</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Jun 2012 23:32:00 +0000</lastBuildDate>
+    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/osx/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>lldb: VI mode and tab-completion</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/lldb-vi-mode-and-tab-completion/</link>
+      <pubDate>Sat, 23 Jun 2012 23:32:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/lldb-vi-mode-and-tab-completion/</guid>
+      <description>&lt;p&gt;lldb uses libedit, which is a BSD licensed alternative to GNU readline. A feature of libedit is the ability to configure per-application settings for command-line bindings via ~/.editrc. Detailed documentation for this configuration file can be found using &lt;code&gt;man editrc&lt;/code&gt; or via online documentation, such as &lt;a href=&#34;https://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man5/editrc.5.html#//apple_ref/doc/man/5/editrc&#34;&gt;developer.apple.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;As I prefer VI bindings, I initially configured my .editrc as follows, to replace the default emacs bindings:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;lldb:bind -v
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Unfortunately, when I re-ran lldb, tab-completion was not functioning.  I added the following line, which is exported in libedit, and what I assumed would be the default completer function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;lldb:bind ^I rl_complete
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Although tab-completion started working again, I was seeing frequent segfaults in lldb, along with an error that it could not bind the rl_complete command.  How was I going to find this elusive tab-completion command?  I could dig through lldb source, but figured there must be a quicker way.  I reviewed all the commands in the editrc docs and found&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ed-command
+    Editline extended command.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I cleared my .editrc and added:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;lldb:bind ^P ed-command
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;tab-completion was working again, and pressing ^P presented me a :, puting me in Editline&amp;rsquo;s extended command mode. Typing &lt;em&gt;bind&lt;/em&gt; listed all the current bindings; I was looking for ^I, which showed up as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;^I&amp;quot;           -&amp;gt;  lldb_complete
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;_lldb&lt;em&gt;complete&lt;/em&gt; was the elusive command I needed to fix tab-completion in VI mode, so I settled on the following for my .editrc&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;lldb:bind -v
+lldb:bind ^I lldb_complete
+lldb:bind ^P ed-command
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I suspect this technique will come in handy for other programs that use libedit and a non-standard completion function, hence this long post.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Associative References in Objective-C</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</link>
+      <pubDate>Sun, 19 Feb 2012 22:58:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/associative-references-in-objective-c/</guid>
+      <description>
+
+&lt;p&gt;Take the following Javascript (stick with me):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var obj = {};
+obj.newProperty = &amp;quot;Hello World&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For the unfamiliar, we&amp;rsquo;ve just declared an empty object and associated the string &lt;em&gt;Hello World&lt;/em&gt; to the key &lt;em&gt;newProperty&lt;/em&gt; with the instance &lt;em&gt;obj&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;We can access the value of &lt;em&gt;newProperty&lt;/em&gt; using dot notation:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;console.log(obj.newProperty);    // logs Hello World
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or as an associative array:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;console.log(obj[&amp;quot;newProperty&amp;quot;]); // logs Hello World
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, if we want to remove the property, we can use the &lt;em&gt;delete&lt;/em&gt; statement:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;delete obj.newProperty;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;what-has-this-got-to-do-with-objective-c:665ef31cf4e3f54bc095bf74c87aa078&#34;&gt;What has this got to do with Objective-C?&lt;/h2&gt;
+
+&lt;p&gt;Being able to add arbitrary data to an object is a powerful tool.  It turns out that as of OS X 10.6 and iOS 3.1, Apple added new Objective-C runtime APIs, categorized as &lt;a href=&#34;https://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/ObjectiveC/Chapters/ocAssociativeReferences.html&#34;&gt;associative references&lt;/a&gt; to do just that.&lt;/p&gt;
+
+&lt;p&gt;Semantically, the following code is the same as the previous Javascript:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;NSObject *obj = [NSObject new];
+objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, @&amp;quot;Hello World&amp;quot;, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which associates the string &lt;em&gt;Hello World&lt;/em&gt; to the instance &lt;em&gt;obj&lt;/em&gt; using the key &lt;em&gt;newProperty&lt;/em&gt;. The last parameter allows us to instruct the runtime how the associated instance will be transferred to &lt;em&gt;obj&lt;/em&gt;. These policies map to regular Objective-C property attributes including &lt;em&gt;copy&lt;/em&gt;, &lt;em&gt;retain&lt;/em&gt;, &lt;em&gt;assign&lt;/em&gt; and their non-atomic counterparts.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;printf(&amp;quot;%s\n&amp;quot;, [objc_getAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;) UTF8String]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Retrieves the value of &lt;em&gt;newProperty&lt;/em&gt; from instance &lt;em&gt;obj&lt;/em&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Passing &lt;code&gt;nil&lt;/code&gt; clears the association.&lt;/p&gt;
+
+&lt;h2 id=&#34;that-s-great-but-why-not-just-declare-the-property-in-my-class-declaration:665ef31cf4e3f54bc095bf74c87aa078&#34;&gt;That&amp;rsquo;s great, but why not just declare the property in my class declaration?&lt;/h2&gt;
+
+&lt;p&gt;Fair enough, however recall Objective-C categories, which provides a means for adding methods to a class. Commonly used as an alternative to subclassing, categories are unable to add additional state, and therein lies their limitation. &lt;a href=&#34;http://www.wannabegeek.com/?p=96&#34;&gt;This example&lt;/a&gt; served as inspiration for the following, which provides a convenience method for displaying a UIAlertView with a completion block, all neatly contained within the same instance, No Subclassing Required ™&lt;/p&gt;
+
+&lt;p&gt;
+    &lt;script src=&#34;https://gist.github.com/stuartcarnie/1868028.js&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Transferring Preview app signatures in Lion</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</link>
+      <pubDate>Wed, 03 Aug 2011 22:45:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/transferring-preview-app-signatures-in-lion/</guid>
+      <description>&lt;p&gt;Lion introduced a great &lt;a href=&#34;http://www.apple.com/macosx/whats-new/features.html#preview&#34;&gt;new feature&lt;/a&gt; that allows you to &lt;a href=&#34;http://www.cultofmac.com/you-can-now-sign-pdfs-using-lions-preview-app-screenshots-how-to/100237&#34;&gt;capture your signature&lt;/a&gt; via an attached camera and store it in an encrypted form for later use.  Therein lies the problem; you must have an attached camera.&lt;/p&gt;
+
+&lt;p&gt;I have a Mac Pro, and wanted to use the signatures I captured on my Macbook Pro.  Following these steps, you can transfer the encrypted signatures over.&lt;/p&gt;
+
+&lt;p&gt;On your machine endowed with the power of sight:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Go ahead and capture the signatures in Preview.&lt;/li&gt;
+&lt;li&gt;Quit Preview&lt;/li&gt;
+&lt;li&gt;Browse to ~/Library/Containers/com.apple.Preview/Data/Library/Preferences
+
+&lt;ul&gt;
+&lt;li&gt;In Finder, click the &lt;em&gt;Go&lt;/em&gt; menu and hold the option (⌥) key to show the Library folder, alternatively&lt;/li&gt;
+&lt;li&gt;press ⌘+⇧+G whilst Finder is active and enter the path above to directly navigate&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Copy thecom.apple.Preview.signatures.plist&lt;/li&gt;
+&lt;li&gt;Launch KeychainAccess&lt;/li&gt;
+&lt;li&gt;Ensure the &lt;em&gt;login&lt;/em&gt; keychain is selected and the &lt;em&gt;Passwords&lt;/em&gt; category
+&lt;img src=&#34;http://lh3.ggpht.com/-z8tRB-j6kdo/Tjov5yUdYZI/AAAAAAAAAqE/OKZt52E80_Q/Keychain-Preview-Password.png?imgmax=800&#34; alt=&#34;Copying Preview signatures password from keychain&#34; title=&#34;Keychain-Preview-Password.png&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;Right-click the &lt;em&gt;Preview Signature Privacy&lt;/em&gt; password and select Copy Password to Clipboard.  This is the password used to encrypt the signature images.&lt;/li&gt;
+&lt;li&gt;Paste it into a text editor and save the file.  You&amp;rsquo;ll need to transfer this to your other computer(s)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;On your machine you wish to transfer the signatures to:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;If you haven&amp;rsquo;t already, launch Preview, open preferences, and select the Signatures tab to ensure the default configuration files and folders have been created.  Exit Preview.&lt;/li&gt;
+&lt;li&gt;Browse to ~/Library/Containers/com.apple.Preview/Data/Library/Preferences&lt;/li&gt;
+&lt;li&gt;Copy thecom.apple.Preview.signatures.plist to the folder, overwriting any existing file&lt;/li&gt;
+&lt;li&gt;Launch KeychainAccess&lt;/li&gt;
+&lt;li&gt;Locate the &lt;em&gt;Preview Signature Privacy&lt;/em&gt; password in the &lt;em&gt;login&lt;/em&gt; keychain and double click to edit
+&lt;img src=&#34;http://lh3.ggpht.com/-BB6bmWMvymU/TjoxoHRQJeI/AAAAAAAAAqM/pdQcMbIt4o8/Replace%252520Preview%252520Signature%252520Privacy%252520password%252520dialog.png?imgmax=800&#34; alt=&#34;Replace the Preview Signature Password&#34; title=&#34;Replace Preview Signature Privacy password dialog.png&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;Click the &lt;em&gt;Show password&lt;/em&gt; checkbox and paste the password you copied from your original machine.&lt;/li&gt;
+&lt;li&gt;Click &lt;em&gt;Save Changes&lt;/em&gt; and you&amp;rsquo;re done&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Eval Expression service for OS X</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/eval-expression-service-for-os-x/</link>
+      <pubDate>Sat, 09 Apr 2011 21:44:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/eval-expression-service-for-os-x/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Eval Expression&lt;/strong&gt; is a Mac OS X service to evaluate the selected text of any text field as a Ruby expression.  My instinct was to choose Perl, however Ruby offers binary in addition to decimal, hex and octal numerical literals.  The service becomes infinitely more useful if you assign it a global shortcut in Keyboard preferences.  In my case I assigned a combination that seemed obvious, ⌘=&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh5.ggpht.com/_WTgxY9AxbJk/TaE1i0ngklI/AAAAAAAAAnU/yDUu3uOqs9Y/Keyboard%20preferences.png?imgmax=800&#34; alt=&#34;Keyboard preferences&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It came about as I was working on some layout in Xcode 4 / Interface Builder, and needed to adjust the Y position of a view by a specific number of units.  I&amp;rsquo;m lazy, and figured the computer should do the work, so I typed 768-35 and tabbed out.  Unlike Acorn and Opacity, which evaluates the expression in numerical entries automatically, Xcode simply complained.  Not happy, I created this service and it works like a charm.  Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;768-35 ⌘= 733
+
+&lt;ul&gt;
+&lt;li&gt;calculator&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;0b11010 ⌘= 26
+
+&lt;ul&gt;
+&lt;li&gt;conversion to decimal&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;0x1f.to_s(2) ⌘= 11111
+
+&lt;ul&gt;
+&lt;li&gt;hex to binary&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;2**3 ⌘= 8
+
+&lt;ul&gt;
+&lt;li&gt;exponent&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;(0x8000 | 0xf1).to_s(16) ⌘= 80f1&lt;/li&gt;
+&lt;li&gt;&amp;rdquo;-+&amp;rdquo; * 5 ⌘= -+-+-+-+-+
+
+&lt;ul&gt;
+&lt;li&gt;expansion&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Array(1..15).join &amp;lsquo;,&amp;rsquo; ⌘= 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+
+&lt;ul&gt;
+&lt;li&gt;lists&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Download the Automator zip file from &lt;a href=&#34;https://github.com/downloads/scarnie/sgc_general/Eval%20Expression.zip&#34;&gt;github&lt;/a&gt;, unzip and install to your ~/Library/Services folder.&lt;/p&gt;
+
+&lt;p&gt;A quick video of the service in action (note that I&amp;rsquo;m using my ⌘= shortcut to evaluate within Mars Edit):&lt;/p&gt;
+
+&lt;p&gt;&lt;object type=&#34;application/futuresplash&#34; width=&#34;425&#34; height=&#34;344&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/K-gP9ToAPTU?hl=en&amp;amp;fs=1&#34;&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;embed type=&#34;application/futuresplash&#34; width=&#34;425&#34; height=&#34;344&#34; src=&#34;http://www.youtube.com/v/K-gP9ToAPTU?hl=en&amp;amp;fs=1&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34;&gt;&lt;/object&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Enable -Wformat for better compile time help</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</link>
+      <pubDate>Sat, 18 Apr 2009 16:16:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</guid>
+      <description>&lt;p&gt;Let the compiler do all the hard work, and be sure to enable the following warning:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/_WTgxY9AxbJk/SepdBUhSs7I/AAAAAAAAAh8/oO-mV51nQew/Picture%201.png?imgmax=800&#34; alt=&#34;Picture 1.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It does more than just validate printf/scanf formatting calls, which is helpful in itself. It also validates that a sentinel is present in variadic functions. A sentinel is typically NULL or nil for the last parameter. A common place you would benefit from this is using the arrayWithObjects method of NSArray, that requires a nil for the last value.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;NSArray *items = [NSArray arrayWithObjects:@&amp;quot;one&amp;quot;, @&amp;quot;two&amp;quot;, nil];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If the nil is absent, you&amp;rsquo;re receive the following:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh4.ggpht.com/_WTgxY9AxbJk/Sep1_lFLQ3I/AAAAAAAAAiA/RpVKEbbVEaM/Picture%203.png?imgmax=800&#34; alt=&#34;Picture 3.png&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XCode Tip: Generate comments in your assembler output</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
+      <pubDate>Sat, 07 Mar 2009 21:56:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
+      <description>&lt;p&gt;To make it easier to find the assembly generated when you &amp;lsquo;Show Assembly Code&amp;rsquo;, embed comments using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-asm&#34;&gt;asm(&amp;quot;# your comment&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

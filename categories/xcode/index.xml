@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Xcode on stuartcarnie</title>
+    <link>http://spencerlyon2.github.io/hugo_gh_blog/categories/xcode/</link>
+    <description>Recent content in Xcode on stuartcarnie</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Apr 2009 16:16:00 +0000</lastBuildDate>
+    <atom:link href="http://spencerlyon2.github.io/hugo_gh_blog/categories/xcode/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Enable -Wformat for better compile time help</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</link>
+      <pubDate>Sat, 18 Apr 2009 16:16:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/enable--wformat-for-better-compile-time-help/</guid>
+      <description>&lt;p&gt;Let the compiler do all the hard work, and be sure to enable the following warning:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/_WTgxY9AxbJk/SepdBUhSs7I/AAAAAAAAAh8/oO-mV51nQew/Picture%201.png?imgmax=800&#34; alt=&#34;Picture 1.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It does more than just validate printf/scanf formatting calls, which is helpful in itself. It also validates that a sentinel is present in variadic functions. A sentinel is typically NULL or nil for the last parameter. A common place you would benefit from this is using the arrayWithObjects method of NSArray, that requires a nil for the last value.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;NSArray *items = [NSArray arrayWithObjects:@&amp;quot;one&amp;quot;, @&amp;quot;two&amp;quot;, nil];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If the nil is absent, you&amp;rsquo;re receive the following:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://lh4.ggpht.com/_WTgxY9AxbJk/Sep1_lFLQ3I/AAAAAAAAAiA/RpVKEbbVEaM/Picture%203.png?imgmax=800&#34; alt=&#34;Picture 3.png&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XCode Tip: Generate comments in your assembler output</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
+      <pubDate>Sat, 07 Mar 2009 21:56:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
+      <description>&lt;p&gt;To make it easier to find the assembly generated when you &amp;lsquo;Show Assembly Code&amp;rsquo;, embed comments using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-asm&#34;&gt;asm(&amp;quot;# your comment&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>How to debug handleOpenURL</title>
+      <link>http://spencerlyon2.github.io/hugo_gh_blog/post/how-to-debug-handleopenurl/</link>
+      <pubDate>Fri, 30 Jan 2009 23:33:00 +0000</pubDate>
+      
+      <guid>http://spencerlyon2.github.io/hugo_gh_blog/post/how-to-debug-handleopenurl/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve seen a number of questions on the Apple iPhone developer forums asking how to debug the UIApplication handleOpenURL message. I finally had a complex scenario that I needed to debug, and came up with the following solution. Note that this example has been tested using the simulator only. Firstly, you&amp;rsquo;ll need to grab the two &amp;lsquo;DebugSupport&amp;rsquo; files from my google code repository &lt;a href=&#34;http://code.google.com/p/iphone-sdk-examples/source/browse/#svn/trunk/utility/debugging&#34;&gt;here&lt;/a&gt;. Include them in your project and modify your handleOpenURL message as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+ [DebugSupport waitForDebugger];
+ ...
+ // place breakpoint after the above line
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The call to &lt;code&gt;[DebugSupport waitForDebugger]&lt;/code&gt; shows a UIAlertView, which will wait until you confirm by clicking the OK button. You&amp;rsquo;ll notice that the prompt tells you the process ID. Don&amp;rsquo;t click OK yet. Return to XCode and from the Run menu, choose Attach To Process | Process ID&amp;hellip; Enter the PID given to you from the alert box and XCode will attach and enable all the breakpoints. Obviously, remove this from production code. Enjoy.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
