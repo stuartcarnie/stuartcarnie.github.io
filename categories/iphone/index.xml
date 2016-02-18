@@ -2,20 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Iphone on stuartcarnie</title>
-    <link>http://stuartcarnie.github.io/categories/iphone/</link>
+    <link>http://blog.stuartcarnie.com/categories/iphone/</link>
     <description>Recent content in Iphone on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 10 Sep 2015 21:06:00 +0000</lastBuildDate>
-    <atom:link href="http://stuartcarnie.github.io/categories/iphone/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://blog.stuartcarnie.com/categories/iphone/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Perspective: Relative computing power</title>
-      <link>http://stuartcarnie.github.io/post/perspective-relative-computing-power/</link>
+      <link>http://blog.stuartcarnie.com/post/perspective-relative-computing-power/</link>
       <pubDate>Thu, 10 Sep 2015 21:06:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/perspective-relative-computing-power/</guid>
-      <description>&lt;p&gt;In the left corner, we have &lt;strong&gt;iPhone 6&lt;/strong&gt;&lt;/p&gt;
+      <guid>http://blog.stuartcarnie.com/post/perspective-relative-computing-power/</guid>
+      <description>&lt;p&gt;A brief exploration how far computing has come by comparing a Cray 1 supercomputer with an iPhone 6&lt;/p&gt;
+
+&lt;p&gt;In the left corner, we have &lt;strong&gt;iPhone 6&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;2014, 1GB RAM, 115 GFLOPS, 0.129 kgs, 0.5W under heavy usage, $749&lt;/li&gt;
@@ -42,10 +44,10 @@
     
     <item>
       <title>Micro-benchmarking iOS devices</title>
-      <link>http://stuartcarnie.github.io/post/micro-benchmarking-ios-devices/</link>
+      <link>http://blog.stuartcarnie.com/post/micro-benchmarking-ios-devices/</link>
       <pubDate>Sun, 24 Jan 2010 22:58:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/micro-benchmarking-ios-devices/</guid>
+      <guid>http://blog.stuartcarnie.com/post/micro-benchmarking-ios-devices/</guid>
       <description>
 
 &lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; Added iPhone 5.&lt;br /&gt;
@@ -1592,10 +1594,10 @@ Without being able to access the &lt;a href=&#34;http://infocentre.arm.com/help/
     
     <item>
       <title>Enable -Wformat for better compile time help</title>
-      <link>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</link>
+      <link>http://blog.stuartcarnie.com/post/enable--wformat-for-better-compile-time-help/</link>
       <pubDate>Sat, 18 Apr 2009 16:16:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</guid>
+      <guid>http://blog.stuartcarnie.com/post/enable--wformat-for-better-compile-time-help/</guid>
       <description>&lt;p&gt;Let the compiler do all the hard work, and be sure to enable the following warning:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/_WTgxY9AxbJk/SepdBUhSs7I/AAAAAAAAAh8/oO-mV51nQew/Picture%201.png?imgmax=800&#34; alt=&#34;Picture 1.png&#34; /&gt;&lt;/p&gt;
@@ -1612,11 +1614,11 @@ Without being able to access the &lt;a href=&#34;http://infocentre.arm.com/help/
     </item>
     
     <item>
-      <title>XCode Tip: Generate comments in your assembler output</title>
-      <link>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
+      <title>Xcode Tip: Generate comments in your assembler output</title>
+      <link>http://blog.stuartcarnie.com/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
       <pubDate>Sat, 07 Mar 2009 21:56:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
+      <guid>http://blog.stuartcarnie.com/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
       <description>&lt;p&gt;To make it easier to find the assembly generated when you &amp;lsquo;Show Assembly Code&amp;rsquo;, embed comments using:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-asm&#34;&gt;asm(&amp;quot;# your comment&amp;quot;)
@@ -1626,10 +1628,10 @@ Without being able to access the &lt;a href=&#34;http://infocentre.arm.com/help/
     
     <item>
       <title>How to debug handleOpenURL</title>
-      <link>http://stuartcarnie.github.io/post/how-to-debug-handleopenurl/</link>
+      <link>http://blog.stuartcarnie.com/post/how-to-debug-handleopenurl/</link>
       <pubDate>Fri, 30 Jan 2009 23:33:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/how-to-debug-handleopenurl/</guid>
+      <guid>http://blog.stuartcarnie.com/post/how-to-debug-handleopenurl/</guid>
       <description>&lt;p&gt;I&amp;rsquo;ve seen a number of questions on the Apple iPhone developer forums asking how to debug the UIApplication handleOpenURL message. I finally had a complex scenario that I needed to debug, and came up with the following solution. Note that this example has been tested using the simulator only. Firstly, you&amp;rsquo;ll need to grab the two &amp;lsquo;DebugSupport&amp;rsquo; files from my google code repository &lt;a href=&#34;http://code.google.com/p/iphone-sdk-examples/source/browse/#svn/trunk/utility/debugging&#34;&gt;here&lt;/a&gt;. Include them in your project and modify your handleOpenURL message as follows:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
@@ -1639,7 +1641,7 @@ Without being able to access the &lt;a href=&#34;http://infocentre.arm.com/help/
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;The call to &lt;code&gt;[DebugSupport waitForDebugger]&lt;/code&gt; shows a UIAlertView, which will wait until you confirm by clicking the OK button. You&amp;rsquo;ll notice that the prompt tells you the process ID. Don&amp;rsquo;t click OK yet. Return to XCode and from the Run menu, choose Attach To Process | Process ID&amp;hellip; Enter the PID given to you from the alert box and XCode will attach and enable all the breakpoints. Obviously, remove this from production code. Enjoy.&lt;/p&gt;
+&lt;p&gt;The call to &lt;code&gt;[DebugSupport waitForDebugger]&lt;/code&gt; shows a &lt;code&gt;UIAlertView&lt;/code&gt;, which will wait until you confirm by clicking the OK button. You&amp;rsquo;ll notice that the prompt tells you the process ID. Don&amp;rsquo;t click OK yet. Return to Xcode and from the Run menu, choose Attach To Process | Process ID&amp;hellip; Enter the PID given to you from the alert box and Xcode will attach and enable all the breakpoints. Obviously, remove this from production code. Enjoy.&lt;/p&gt;
 </description>
     </item>
     

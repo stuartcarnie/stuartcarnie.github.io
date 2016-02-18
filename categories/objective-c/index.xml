@@ -2,34 +2,34 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Objective C on stuartcarnie</title>
-    <link>http://stuartcarnie.github.io/categories/objective-c/</link>
+    <link>http://blog.stuartcarnie.com/categories/objective-c/</link>
     <description>Recent content in Objective C on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Mar 2012 23:01:00 +0000</lastBuildDate>
-    <atom:link href="http://stuartcarnie.github.io/categories/objective-c/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://blog.stuartcarnie.com/categories/objective-c/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Objective-C: ternary operator</title>
-      <link>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</link>
+      <link>http://blog.stuartcarnie.com/post/objective-c-ternary-operator/</link>
       <pubDate>Thu, 15 Mar 2012 23:01:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</guid>
+      <guid>http://blog.stuartcarnie.com/post/objective-c-ternary-operator/</guid>
       <description>&lt;p&gt;The ternary operator, also known as a conditional expression is a C construct.  What follows is an example used for conditional assignment:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = condition_expression ? true_expression : false_expression;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;If condition_expression evaluates to true, result will be assigned the true_expression; otherwise, result will be assigned the false_expression.  A GNU extension to the ternary operator, also available in Objective-C, is the ability to omit the true_expression as follows:&lt;/p&gt;
+&lt;p&gt;If &lt;code&gt;condition_expression&lt;/code&gt; evaluates to true, result will be assigned the &lt;code&gt;true_expression&lt;/code&gt;; otherwise, result will be assigned the &lt;code&gt;false_expression&lt;/code&gt;.  A GNU extension to the ternary operator, also available in Objective-C, is the ability to omit the &lt;code&gt;true_expression&lt;/code&gt; as follows:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = first_expression ?: second_expression;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;result will be assigned the value of first_expression if it evaluates to true or second_expression if first_expression evaluates to false.&lt;/p&gt;
+&lt;p&gt;result will be assigned the value of &lt;code&gt;first_expression&lt;/code&gt; if it evaluates to true or &lt;code&gt;second_expression&lt;/code&gt; if &lt;code&gt;first_expression&lt;/code&gt; evaluates to false.&lt;/p&gt;
 
-&lt;p&gt;nil in Objective-C evaluates to false, so the GNU extension becomes particularly useful for ensuring default values during assignment, which is a pattern used widely in JavaScript.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;nil&lt;/code&gt; in Objective-C evaluates to &lt;code&gt;false&lt;/code&gt;, so the GNU extension becomes particularly useful for ensuring default values during assignment, which is a pattern used widely in JavaScript.&lt;/p&gt;
 
-&lt;p&gt;A contrived example might be an init method that takes an NSDictionary with options for configuring the instance, as follows:&lt;/p&gt;
+&lt;p&gt;A contrived example might be an init method that takes an &lt;code&gt;NSDictionary&lt;/code&gt; with options for configuring the instance, as follows:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;- (void)initWithOptions:(NSDictionary *)options {
 	self = [super init];
@@ -40,9 +40,9 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;The assignment ensures _options is not null. options will be assigned to the _options ivar if non-nil; otherwise _options will be assigned the kDefaultOptions dictionary.&lt;/p&gt;
+&lt;p&gt;The assignment ensures &lt;code&gt;_options&lt;/code&gt; is not null. options will be assigned to the &lt;code&gt;_options&lt;/code&gt; ivar if non-nil; otherwise &lt;code&gt;_options&lt;/code&gt; will be assigned the &lt;code&gt;kDefaultOptions&lt;/code&gt; dictionary.&lt;/p&gt;
 
-&lt;p&gt;Another awesome use case is for caching values, rather than initialize them all in the init method.&lt;/p&gt;
+&lt;p&gt;Another use case is for caching values, rather than initialize them all in the init method.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;@implementation MyObj {
 	NSString *_someValue;
@@ -59,19 +59,18 @@
 - (NSString *)someValue {
 	return _someValue ?: (_someValue = [some expensive operation]);
 }
-
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;When a consumer accesses the someValue property of MyObj, if _someValue is nil, the right size of the ternary expression is returned, which retrieves the value via some expensive operation and stores it in _someValue.&lt;/p&gt;
+&lt;p&gt;When a consumer accesses the &lt;code&gt;someValue&lt;/code&gt; property of &lt;code&gt;MyObj&lt;/code&gt;, if &lt;code&gt;_someValue&lt;/code&gt; is &lt;code&gt;nil&lt;/code&gt;, the right size of the ternary expression is returned, which retrieves the value via some expensive operation and stores it in &lt;code&gt;_someValue&lt;/code&gt;.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Associative References in Objective-C</title>
-      <link>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</link>
+      <link>http://blog.stuartcarnie.com/post/associative-references-in-objective-c/</link>
       <pubDate>Sun, 19 Feb 2012 22:58:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</guid>
+      <guid>http://blog.stuartcarnie.com/post/associative-references-in-objective-c/</guid>
       <description>
 
 &lt;p&gt;Take the following Javascript (stick with me):&lt;/p&gt;

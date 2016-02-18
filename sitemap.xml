@@ -2,88 +2,88 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://stuartcarnie.github.io/</loc>
+    <loc>http://blog.stuartcarnie.com/</loc>
     <lastmod>2015-09-10T21:06:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/perspective-relative-computing-power/</loc>
+    <loc>http://blog.stuartcarnie.com/post/perspective-relative-computing-power/</loc>
     <lastmod>2015-09-10T21:06:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/lldb-vi-mode-and-tab-completion/</loc>
+    <loc>http://blog.stuartcarnie.com/post/lldb-vi-mode-and-tab-completion/</loc>
     <lastmod>2012-06-23T23:32:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-3/</loc>
+    <loc>http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-3/</loc>
     <lastmod>2012-06-06T02:33:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-2/</loc>
+    <loc>http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-2/</loc>
     <lastmod>2012-06-06T00:07:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-1/</loc>
+    <loc>http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-1/</loc>
     <lastmod>2012-06-02T14:21:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</loc>
+    <loc>http://blog.stuartcarnie.com/post/objective-c-ternary-operator/</loc>
     <lastmod>2012-03-15T23:01:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</loc>
+    <loc>http://blog.stuartcarnie.com/post/associative-references-in-objective-c/</loc>
     <lastmod>2012-02-19T22:58:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/constant-confusion/</loc>
+    <loc>http://blog.stuartcarnie.com/post/constant-confusion/</loc>
     <lastmod>2011-12-03T01:33:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/transferring-preview-app-signatures-in-lion/</loc>
+    <loc>http://blog.stuartcarnie.com/post/transferring-preview-app-signatures-in-lion/</loc>
     <lastmod>2011-08-03T22:45:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/eval-expression-service-for-os-x/</loc>
+    <loc>http://blog.stuartcarnie.com/post/eval-expression-service-for-os-x/</loc>
     <lastmod>2011-04-09T21:44:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</loc>
+    <loc>http://blog.stuartcarnie.com/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</loc>
     <lastmod>2011-03-17T15:12:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/renew-apple-developer-certificates-with-openssl/</loc>
+    <loc>http://blog.stuartcarnie.com/post/renew-apple-developer-certificates-with-openssl/</loc>
     <lastmod>2011-02-02T16:30:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/micro-benchmarking-ios-devices/</loc>
+    <loc>http://blog.stuartcarnie.com/post/micro-benchmarking-ios-devices/</loc>
     <lastmod>2010-01-24T22:58:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</loc>
+    <loc>http://blog.stuartcarnie.com/post/enable--wformat-for-better-compile-time-help/</loc>
     <lastmod>2009-04-18T16:16:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</loc>
+    <loc>http://blog.stuartcarnie.com/post/xcode-tip-generate-comments-in-your-assembler-output/</loc>
     <lastmod>2009-03-07T21:56:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://stuartcarnie.github.io/post/how-to-debug-handleopenurl/</loc>
+    <loc>http://blog.stuartcarnie.com/post/how-to-debug-handleopenurl/</loc>
     <lastmod>2009-01-30T23:33:00+00:00</lastmod>
   </url>
   

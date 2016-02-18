@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Utility on stuartcarnie</title>
-    <link>http://stuartcarnie.github.io/categories/utility/</link>
+    <link>http://blog.stuartcarnie.com/categories/utility/</link>
     <description>Recent content in Utility on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 09 Apr 2011 21:44:00 +0000</lastBuildDate>
-    <atom:link href="http://stuartcarnie.github.io/categories/utility/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://blog.stuartcarnie.com/categories/utility/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Eval Expression service for OS X</title>
-      <link>http://stuartcarnie.github.io/post/eval-expression-service-for-os-x/</link>
+      <link>http://blog.stuartcarnie.com/post/eval-expression-service-for-os-x/</link>
       <pubDate>Sat, 09 Apr 2011 21:44:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/eval-expression-service-for-os-x/</guid>
+      <guid>http://blog.stuartcarnie.com/post/eval-expression-service-for-os-x/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Eval Expression&lt;/strong&gt; is a Mac OS X service to evaluate the selected text of any text field as a Ruby expression.  My instinct was to choose Perl, however Ruby offers binary in addition to decimal, hex and octal numerical literals.  The service becomes infinitely more useful if you assign it a global shortcut in Keyboard preferences.  In my case I assigned a combination that seemed obvious, ⌘=&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://lh5.ggpht.com/_WTgxY9AxbJk/TaE1i0ngklI/AAAAAAAAAnU/yDUu3uOqs9Y/Keyboard%20preferences.png?imgmax=800&#34; alt=&#34;Keyboard preferences&#34; /&gt;&lt;/p&gt;

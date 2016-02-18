@@ -2,20 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on stuartcarnie</title>
-    <link>http://stuartcarnie.github.io/post/</link>
+    <link>http://blog.stuartcarnie.com/post/</link>
     <description>Recent content in Posts on stuartcarnie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 10 Sep 2015 21:06:00 +0000</lastBuildDate>
-    <atom:link href="http://stuartcarnie.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://blog.stuartcarnie.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Perspective: Relative computing power</title>
-      <link>http://stuartcarnie.github.io/post/perspective-relative-computing-power/</link>
+      <link>http://blog.stuartcarnie.com/post/perspective-relative-computing-power/</link>
       <pubDate>Thu, 10 Sep 2015 21:06:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/perspective-relative-computing-power/</guid>
-      <description>&lt;p&gt;In the left corner, we have &lt;strong&gt;iPhone 6&lt;/strong&gt;&lt;/p&gt;
+      <guid>http://blog.stuartcarnie.com/post/perspective-relative-computing-power/</guid>
+      <description>&lt;p&gt;A brief exploration how far computing has come by comparing a Cray 1 supercomputer with an iPhone 6&lt;/p&gt;
+
+&lt;p&gt;In the left corner, we have &lt;strong&gt;iPhone 6&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;2014, 1GB RAM, 115 GFLOPS, 0.129 kgs, 0.5W under heavy usage, $749&lt;/li&gt;
@@ -42,10 +44,10 @@
     
     <item>
       <title>lldb: VI mode and tab-completion</title>
-      <link>http://stuartcarnie.github.io/post/lldb-vi-mode-and-tab-completion/</link>
+      <link>http://blog.stuartcarnie.com/post/lldb-vi-mode-and-tab-completion/</link>
       <pubDate>Sat, 23 Jun 2012 23:32:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/lldb-vi-mode-and-tab-completion/</guid>
+      <guid>http://blog.stuartcarnie.com/post/lldb-vi-mode-and-tab-completion/</guid>
       <description>&lt;p&gt;lldb uses libedit, which is a BSD licensed alternative to GNU readline. A feature of libedit is the ability to configure per-application settings for command-line bindings via ~/.editrc. Detailed documentation for this configuration file can be found using &lt;code&gt;man editrc&lt;/code&gt; or via online documentation, such as &lt;a href=&#34;https://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man5/editrc.5.html#//apple_ref/doc/man/5/editrc&#34;&gt;developer.apple.com&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;As I prefer VI bindings, I initially configured my .editrc as follows, to replace the default emacs bindings:&lt;/p&gt;
@@ -87,10 +89,10 @@ lldb:bind ^P ed-command
     
     <item>
       <title>llvm / Clang hacking: Part 3</title>
-      <link>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-3/</link>
+      <link>http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-3/</link>
       <pubDate>Wed, 06 Jun 2012 02:33:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-3/</guid>
+      <guid>http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-3/</guid>
       <description>
 
 &lt;p&gt;Part 3 in my N-part series on my exploration of hacking on &lt;a href=&#34;http://llvm.org&#34;&gt;llvm&lt;/a&gt; and &lt;a href=&#34;http://clang.llvm.org&#34;&gt;Clang&lt;/a&gt; (c-language) tool chain.&lt;/p&gt;
@@ -250,17 +252,17 @@ return MaybeBindToTemporary(
     
     <item>
       <title>llvm / Clang hacking: Part 2</title>
-      <link>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-2/</link>
+      <link>http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-2/</link>
       <pubDate>Wed, 06 Jun 2012 00:07:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-2/</guid>
+      <guid>http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-2/</guid>
       <description>
 
 &lt;p&gt;Part 2 in my N-part series on my exploration of hacking on &lt;a href=&#34;http://llvm.org&#34;&gt;llvm&lt;/a&gt; and &lt;a href=&#34;http://clang.llvm.org&#34;&gt;Clang&lt;/a&gt; (c-language) tool chain.&lt;/p&gt;
 
 &lt;h2 id=&#34;prerequisites:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Prerequisites&lt;/h2&gt;
 
-&lt;p&gt;This post assumes you&amp;rsquo;ve successfully completed &lt;a href=&#34;http://stuartcarnie.github.io/post/llvm--clang-hacking-part-1/&#34;&gt;Part 1&lt;/a&gt; of the series.&lt;/p&gt;
+&lt;p&gt;This post assumes you&amp;rsquo;ve successfully completed &lt;a href=&#34;http://blog.stuartcarnie.com/post/llvm--clang-hacking-part-1/&#34;&gt;Part 1&lt;/a&gt; of the series.&lt;/p&gt;
 
 &lt;h2 id=&#34;debugging:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Debugging&lt;/h2&gt;
 
@@ -314,10 +316,10 @@ return MaybeBindToTemporary(
     
     <item>
       <title>llvm / Clang hacking: Part 1</title>
-      <link>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-1/</link>
+      <link>http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-1/</link>
       <pubDate>Sat, 02 Jun 2012 14:21:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/llvm--clang-hacking-part-1/</guid>
+      <guid>http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-1/</guid>
       <description>
 
 &lt;p&gt;Part 1 in my N-part series on my exploration of hacking on &lt;a href=&#34;http://llvm.org&#34;&gt;llvm&lt;/a&gt; and &lt;a href=&#34;http://clang.llvm.org&#34;&gt;Clang&lt;/a&gt; (c-language) tool chain.  I am running OS X 10.7, however I will try to highlight the steps where you should consider substituting for your platform.&lt;/p&gt;
@@ -329,20 +331,23 @@ return MaybeBindToTemporary(
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Step 2, substitute the svn command for&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;git clone http://llvm.org/git/llvm.git&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ git clone http://llvm.org/git/llvm.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Step 3, substitute the svn command for&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;git clone http://llvm.org/git/clang.git&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ git clone http://llvm.org/git/clang.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Step 4, substitute the svn command for&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;git clone http://llvm.org/git/compiler-rt.git&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ git clone http://llvm.org/git/compiler-rt.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Step 5, I am using CMake, so instead of ../llvm/configure&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;cmake -G &amp;quot;Unix Makefiles&amp;quot; ../llvm
-make
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ cmake -G &amp;quot;Unix Makefiles&amp;quot; ../llvm
+$ make
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -350,48 +355,55 @@ make
 
 &lt;p&gt;You could run&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;mkdir llvm&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;cd llvm&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;cmake -G Xcode ../llvm&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ mkdir llvm
+$ cd llvm
+$ cmake -G Xcode ../llvm
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;to create an Xcode project for the entire llvm/Clang toolchain, however it ends up being thousands of source files and 223 targets! As I&amp;rsquo;m only interested in hacking on Clang, lets generate a project file for Clang and related projects only. Starting from the folder which contains build and llvm:&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;mkdir clang&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;cd clang&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bash
-cmake -DCLANG_PATH_TO_LLVM_SOURCE=../llvm -DCLANG_PATH_TO_LLVM_BUILD=../build -DCMAKE_BUILD_TYPE=Debug ../llvm/tools/clang
-&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ mkdir clang
+$ cd clang
+$ cmake -DCLANG_PATH_TO_LLVM_SOURCE=../llvm -DCLANG_PATH_TO_LLVM_BUILD=../build -DCMAKE_BUILD_TYPE=Debug ../llvm/tools/clang
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Assuming all went well, you&amp;rsquo;ll now have an Xcode project called Clang.xcodeproj with about 400 source files and 60 targets. Open it up and let Xcode index everything, which may take a few minutes depending on your hardware.  Once completed, switch to the clang target and build!&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; On Windows, it is likely cmake will auto-detect your Visual Studio environment and the above commands will Just Work™&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/-uMbB6KPBBvY/T8qD8KbfK8I/AAAAAAAAA58/QZTXhPnGPKk/clang_target.png?imgmax=800&#34; alt=&#34;Xcode clang target&#34; title=&#34;clang_target.png&#34; /&gt;&lt;/p&gt;
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;http://lh6.ggpht.com/-uMbB6KPBBvY/T8qD8KbfK8I/AAAAAAAAA58/QZTXhPnGPKk/clang_target.png&#34; alt=&#34;Xcode clang target&#34; /&gt;
+    
+    
+&lt;/figure&gt;
+
 
 &lt;p&gt;Assuming all goes well, a few minutes later you should see:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://lh4.ggpht.com/-o50LhcUc71I/T8qD8iMHhqI/AAAAAAAAA6E/4j7CIEAcilU/xcode_clang_successful_build.png?imgmax=800&#34; alt=&#34;Clang build Succeeded&#34; title=&#34;xcode_clang_successful_build.png&#34; /&gt;&lt;/p&gt;
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;http://lh4.ggpht.com/-o50LhcUc71I/T8qD8iMHhqI/AAAAAAAAA6E/4j7CIEAcilU/xcode_clang_successful_build.png&#34; alt=&#34;Clang build Succeeded&#34; /&gt;
+    
+    
+&lt;/figure&gt;
+
 
 &lt;p&gt;Back in Terminal, you can run the following command, which creates a Hello World program and tests your build of Clang.&lt;/p&gt;
 
 &lt;p&gt;From the clang folder&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;cd bin/Debug&lt;/code&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;echo &amp;quot;#include \nint main(int argc,char**argv) { printf(\&amp;quot;hello world\\\n\&amp;quot;); return 0; }&amp;quot; &amp;amp;gt; hello.c &amp;amp;amp;&amp;amp;amp; clang hello.c -o hello &amp;amp;amp;&amp;amp;amp; ./hello
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ cd bin/Debug
+$ echo &amp;quot;#include \nint main(int argc,char**argv) { printf(\&amp;quot;hello world\\\n\&amp;quot;); return 0; }&amp;quot; &amp;gt; hello.c &amp;amp;&amp;amp; clang hello.c -o hello &amp;amp;&amp;amp; ./hello
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;If you see &lt;em&gt;hello world&lt;/em&gt; after running the 2&lt;sup&gt;nd&lt;/sup&gt; command, pat yourself on the back, as you&amp;rsquo;ve successfully setup a working llvm / Clang development environment to start your hacking.&lt;/p&gt;
 
 &lt;h2 id=&#34;next-up:d4474b8aeb4c39edf77834b4816e42db&#34;&gt;Next Up&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://stuartcarnie.github.io/post/llvm--clang-hacking-part-2&#34;&gt;Part 2&lt;/a&gt; and debugging Clang.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://blog.stuartcarnie.com/post/llvm--clang-hacking-part-2&#34;&gt;Part 2&lt;/a&gt; and debugging Clang.&lt;/p&gt;
 
 &lt;h2 id=&#34;twitter:d4474b8aeb4c39edf77834b4816e42db&#34;&gt;Twitter&lt;/h2&gt;
 
@@ -401,25 +413,25 @@ cmake -DCLANG_PATH_TO_LLVM_SOURCE=../llvm -DCLANG_PATH_TO_LLVM_BUILD=../build -D
     
     <item>
       <title>Objective-C: ternary operator</title>
-      <link>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</link>
+      <link>http://blog.stuartcarnie.com/post/objective-c-ternary-operator/</link>
       <pubDate>Thu, 15 Mar 2012 23:01:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/objective-c-ternary-operator/</guid>
+      <guid>http://blog.stuartcarnie.com/post/objective-c-ternary-operator/</guid>
       <description>&lt;p&gt;The ternary operator, also known as a conditional expression is a C construct.  What follows is an example used for conditional assignment:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = condition_expression ? true_expression : false_expression;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;If condition_expression evaluates to true, result will be assigned the true_expression; otherwise, result will be assigned the false_expression.  A GNU extension to the ternary operator, also available in Objective-C, is the ability to omit the true_expression as follows:&lt;/p&gt;
+&lt;p&gt;If &lt;code&gt;condition_expression&lt;/code&gt; evaluates to true, result will be assigned the &lt;code&gt;true_expression&lt;/code&gt;; otherwise, result will be assigned the &lt;code&gt;false_expression&lt;/code&gt;.  A GNU extension to the ternary operator, also available in Objective-C, is the ability to omit the &lt;code&gt;true_expression&lt;/code&gt; as follows:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;result = first_expression ?: second_expression;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;result will be assigned the value of first_expression if it evaluates to true or second_expression if first_expression evaluates to false.&lt;/p&gt;
+&lt;p&gt;result will be assigned the value of &lt;code&gt;first_expression&lt;/code&gt; if it evaluates to true or &lt;code&gt;second_expression&lt;/code&gt; if &lt;code&gt;first_expression&lt;/code&gt; evaluates to false.&lt;/p&gt;
 
-&lt;p&gt;nil in Objective-C evaluates to false, so the GNU extension becomes particularly useful for ensuring default values during assignment, which is a pattern used widely in JavaScript.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;nil&lt;/code&gt; in Objective-C evaluates to &lt;code&gt;false&lt;/code&gt;, so the GNU extension becomes particularly useful for ensuring default values during assignment, which is a pattern used widely in JavaScript.&lt;/p&gt;
 
-&lt;p&gt;A contrived example might be an init method that takes an NSDictionary with options for configuring the instance, as follows:&lt;/p&gt;
+&lt;p&gt;A contrived example might be an init method that takes an &lt;code&gt;NSDictionary&lt;/code&gt; with options for configuring the instance, as follows:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;- (void)initWithOptions:(NSDictionary *)options {
 	self = [super init];
@@ -430,9 +442,9 @@ cmake -DCLANG_PATH_TO_LLVM_SOURCE=../llvm -DCLANG_PATH_TO_LLVM_BUILD=../build -D
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;The assignment ensures _options is not null. options will be assigned to the _options ivar if non-nil; otherwise _options will be assigned the kDefaultOptions dictionary.&lt;/p&gt;
+&lt;p&gt;The assignment ensures &lt;code&gt;_options&lt;/code&gt; is not null. options will be assigned to the &lt;code&gt;_options&lt;/code&gt; ivar if non-nil; otherwise &lt;code&gt;_options&lt;/code&gt; will be assigned the &lt;code&gt;kDefaultOptions&lt;/code&gt; dictionary.&lt;/p&gt;
 
-&lt;p&gt;Another awesome use case is for caching values, rather than initialize them all in the init method.&lt;/p&gt;
+&lt;p&gt;Another use case is for caching values, rather than initialize them all in the init method.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-mm&#34;&gt;@implementation MyObj {
 	NSString *_someValue;
@@ -449,19 +461,18 @@ cmake -DCLANG_PATH_TO_LLVM_SOURCE=../llvm -DCLANG_PATH_TO_LLVM_BUILD=../build -D
 - (NSString *)someValue {
 	return _someValue ?: (_someValue = [some expensive operation]);
 }
-
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;When a consumer accesses the someValue property of MyObj, if _someValue is nil, the right size of the ternary expression is returned, which retrieves the value via some expensive operation and stores it in _someValue.&lt;/p&gt;
+&lt;p&gt;When a consumer accesses the &lt;code&gt;someValue&lt;/code&gt; property of &lt;code&gt;MyObj&lt;/code&gt;, if &lt;code&gt;_someValue&lt;/code&gt; is &lt;code&gt;nil&lt;/code&gt;, the right size of the ternary expression is returned, which retrieves the value via some expensive operation and stores it in &lt;code&gt;_someValue&lt;/code&gt;.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Associative References in Objective-C</title>
-      <link>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</link>
+      <link>http://blog.stuartcarnie.com/post/associative-references-in-objective-c/</link>
       <pubDate>Sun, 19 Feb 2012 22:58:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/associative-references-in-objective-c/</guid>
+      <guid>http://blog.stuartcarnie.com/post/associative-references-in-objective-c/</guid>
       <description>
 
 &lt;p&gt;Take the following Javascript (stick with me):&lt;/p&gt;
@@ -521,34 +532,34 @@ objc_setAssociatedObject(obj, @&amp;quot;newProperty&amp;quot;, @&amp;quot;Hello
     
     <item>
       <title>Constant Confusion</title>
-      <link>http://stuartcarnie.github.io/post/constant-confusion/</link>
+      <link>http://blog.stuartcarnie.com/post/constant-confusion/</link>
       <pubDate>Sat, 03 Dec 2011 01:33:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/constant-confusion/</guid>
+      <guid>http://blog.stuartcarnie.com/post/constant-confusion/</guid>
       <description>
 
-&lt;p&gt;The &lt;em&gt;const&lt;/em&gt; keyword in C can be confusing, so I wanted to put down my thoughts for my own benefit and for those looking for some clarity. In summary, I&amp;rsquo;m going to advocate you place &lt;em&gt;const&lt;/em&gt; to the right, and read the declaration from right to left.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;const&lt;/code&gt; keyword in C can be confusing, so I wanted to put down my thoughts for my own benefit and for those looking for some clarity. In summary, I&amp;rsquo;m going to advocate you place &lt;code&gt;const&lt;/code&gt; to the right, and read the declaration from right to left.&lt;/p&gt;
 
-&lt;h2 id=&#34;what-is-const:2beb528fa7b4af1d9ea70da77a222d33&#34;&gt;What is &lt;em&gt;const&lt;/em&gt;?&lt;/h2&gt;
+&lt;h2 id=&#34;what-is-const:2beb528fa7b4af1d9ea70da77a222d33&#34;&gt;What is &lt;code&gt;const&lt;/code&gt;?&lt;/h2&gt;
 
-&lt;p&gt;&lt;em&gt;const&lt;/em&gt; is a hint to the C compiler and programmer that a specific declaration or element of a declaration is immutable.  It is more complicated in C++, which is outside the scope of this post.  Lets start with a simple example, and the most common form where &lt;em&gt;const&lt;/em&gt; is written first:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;const&lt;/code&gt; is a hint to the C compiler and programmer that a specific declaration or element of a declaration is immutable.  It is more complicated in C++, which is outside the scope of this post.  Lets start with a simple example, and the most common form where &lt;code&gt;const&lt;/code&gt; is written first:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int i = 5;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;The previous statement simply instructs the compiler that &lt;em&gt;i&lt;/em&gt; cannot be changed after its initial declaration, such that the following assignment would result in an error:&lt;/p&gt;
+&lt;p&gt;The previous statement simply instructs the compiler that &lt;code&gt;i&lt;/code&gt; cannot be changed after its initial declaration, such that the following assignment would result in an error:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int i = 5;
 i = 6; // error: read-only variable is not assignable
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;If spoken from right to left, the declaration of &lt;em&gt;i&lt;/em&gt; would read “&lt;em&gt;i&lt;/em&gt; is an integer constant”, which is reasonable enough.  This syntax is still supported for historical reasons.  The alternative and &lt;em&gt;correct&lt;/em&gt; format is to write &lt;em&gt;const&lt;/em&gt; after the type reference, as follows&lt;/p&gt;
+&lt;p&gt;If spoken from right to left, the declaration of &lt;code&gt;i&lt;/code&gt; would read &amp;ldquo;&lt;code&gt;i&lt;/code&gt; is an integer constant&amp;rdquo;, which is reasonable enough.  This syntax is still supported for historical reasons.  The alternative and &lt;em&gt;correct&lt;/em&gt; format is to write &lt;code&gt;const&lt;/code&gt; after the type reference, as follows&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int const i = 5;
 i = 6; // error: read-only variable is not assignable
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;which means the same thing; the value of &lt;em&gt;i&lt;/em&gt; must remain constant within its declared scope.  If you read this declaration from right to left, it is spoken as “&lt;em&gt;i&lt;/em&gt; is a constant integer”; much better.&lt;/p&gt;
+&lt;p&gt;which means the same thing; the value of &lt;code&gt;i&lt;/code&gt; must remain constant within its declared scope.  If you read this declaration from right to left, it is spoken as &amp;ldquo;&lt;code&gt;i&lt;/code&gt; is a constant integer&amp;rdquo;; much better.&lt;/p&gt;
 
 &lt;p&gt;Yet another common definition is an array of constant characters or also known in some circles as an immutable string&lt;/p&gt;
 
@@ -557,7 +568,7 @@ myString[0] = &#39;H&#39;;        // error: read-only variable is not assignable
 myString = &amp;quot;Hello World&amp;quot;; // ok
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Spoken from right to left, “&lt;em&gt;myString&lt;/em&gt; is a pointer to character constant”, which doesn&amp;rsquo;t read so well.  Switching the &lt;em&gt;const&lt;/em&gt; keyword, we get the following&lt;/p&gt;
+&lt;p&gt;Spoken from right to left, &amp;ldquo;&lt;code&gt;myString&lt;/code&gt; is a pointer to character constant&amp;rdquo;, which doesn&amp;rsquo;t read so well. Switching the &lt;code&gt;const&lt;/code&gt; keyword, we get the following&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;char const * myString = &amp;quot;hello World&amp;quot;;
 myString[0] = &#39;H&#39;;        // error: read-only variable is not assignable
@@ -566,12 +577,12 @@ myString = &amp;quot;Hello World&amp;quot;; // ok
 
 &lt;p&gt;read aloud, it is “&lt;em&gt;myString&lt;/em&gt; is a pointer to constant characters“; sounds better than the former.&lt;/p&gt;
 
-&lt;p&gt;So far &lt;em&gt;const&lt;/em&gt; seems pretty straight forward, and perhaps at this point you&amp;rsquo;re thinking where is the confusion?.  Lets complicate things…  As we&amp;rsquo;ve demonstrated, the &lt;em&gt;const&lt;/em&gt; keyword can be placed before or after the type reference in a declaration, which for the previous scenarios is fine.  Let&amp;rsquo;s show a few more examples with pointers:&lt;/p&gt;
+&lt;p&gt;So far &lt;code&gt;const&lt;/code&gt; seems pretty straight forward, and perhaps at this point you&amp;rsquo;re thinking where is the confusion?.  Lets complicate things…  As we&amp;rsquo;ve demonstrated, the &lt;code&gt;const&lt;/code&gt; keyword can be placed before or after the type reference in a declaration, which for the previous scenarios is fine.  Let&amp;rsquo;s show a few more examples with pointers:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int * const i;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Declares &lt;em&gt;i&lt;/em&gt; as constant pointer to an integer.  Again, reading from right to left makes it pretty clear what we&amp;rsquo;re dealing with.  The following shows both legal and illegal usages of &lt;em&gt;i&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt;Declares &lt;code&gt;i&lt;/code&gt; as constant pointer to an integer.  Again, reading from right to left makes it pretty clear what we&amp;rsquo;re dealing with.  The following shows both legal and illegal usages of &lt;code&gt;i&lt;/code&gt;:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j = 5, k = 6;
 int * const i = &amp;amp;j; // points to the memory referred to by j
@@ -579,7 +590,7 @@ i = &amp;amp;k;             // error: read-only variable is not assignable
 *i = 6;             // ok, modifies the value of j
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Now, because the &lt;em&gt;const&lt;/em&gt; keyword can be placed before or after the type reference, as shown earlier, the following declarations of &lt;em&gt;h&lt;/em&gt; and &lt;em&gt;i&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt;Now, because the &lt;code&gt;const&lt;/code&gt; keyword can be placed before or after the type reference, as shown earlier, the following declarations of &lt;em&gt;h&lt;/em&gt; and &lt;code&gt;i&lt;/code&gt;:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j = 5, k = 6;
 const int * const h = &amp;amp;j;
@@ -604,7 +615,7 @@ int const i = 7;
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int const * i;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;What is this? If you had not just read all the above, one would be forgiven for thinking &lt;em&gt;i&lt;/em&gt; is a constant pointer to a constant integer, but in fact both instances of &lt;em&gt;const&lt;/em&gt; refer to the int type; this is a pointer to a constant integer. The correct definition, as we saw earlier is&lt;/p&gt;
+&lt;p&gt;What is this? If you had not just read all the above, one would be forgiven for thinking &lt;code&gt;i&lt;/code&gt; is a constant pointer to a constant integer, but in fact both instances of &lt;code&gt;const&lt;/code&gt; refer to the int type; this is a pointer to a constant integer. The correct definition, as we saw earlier is&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const int * const i; // or preferably
 int const * const i;
@@ -615,12 +626,12 @@ int const * const i;
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int * * i;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;which when read from right to left declares “&lt;em&gt;i&lt;/em&gt; is a pointer to a pointer of integers”. A more complicated example using the &lt;em&gt;const&lt;/em&gt; keyword&lt;/p&gt;
+&lt;p&gt;which when read from right to left declares “&lt;code&gt;i&lt;/code&gt; is a pointer to a pointer of integers”. A more complicated example using the &lt;code&gt;const&lt;/code&gt; keyword&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int const * const * const i;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;or “&lt;em&gt;i&lt;/em&gt; is a constant pointer to a constant pointer of constant integers.  &lt;em&gt;Wow&lt;/em&gt;.  All levels of indirection are immutable, so it can only be assigned at its declaration.&lt;/p&gt;
+&lt;p&gt;or &lt;code&gt;i&lt;/code&gt; is a constant pointer to a constant pointer of constant integers. All levels of indirection are immutable, so it can only be assigned at its declaration.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j[2][3] = { {1, 2, 3}, {4, 5, 6} };
 int const * const * const i = &amp;amp;j; // ok
@@ -629,7 +640,7 @@ i[0] = &amp;amp;j[0]; // error
 i[0][0] = 5;  // error
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;It&amp;rsquo;s an extreme case, but becomes evident why writing &lt;em&gt;const&lt;/em&gt; to the right is a good habit.  The following declaration of &lt;em&gt;i&lt;/em&gt; may look the same to the untrained eye:&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s an extreme case, but becomes evident why writing &lt;code&gt;const&lt;/code&gt; to the right is a good habit.  The following declaration of &lt;code&gt;i&lt;/code&gt; may look the same to the untrained eye:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int j[2][3] = { {1, 2, 3}, {4, 5, 6} };
 const int const * const * i = &amp;amp;j; // ok
@@ -650,7 +661,7 @@ i[0][0] = 5;  // error
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;extern char const * kMyConstant;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Whilst modifying the contents of &lt;em&gt;kMyConstant&lt;/em&gt; is prohibited, assigning the pointer &lt;em&gt;kMyConstant&lt;/em&gt; to a new location is possible, as follows&lt;/p&gt;
+&lt;p&gt;Whilst modifying the contents of &lt;code&gt;kMyConstant&lt;/code&gt; is prohibited, assigning the pointer &lt;code&gt;kMyConstant&lt;/code&gt; to a new location is possible, as follows&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;extern char const * kMyConstant;
 void fn() {
@@ -664,20 +675,20 @@ void fn() {
 &lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;char const * const kMyConstant = &amp;quot;Hello World&amp;quot;;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;would also prevent the pointer &lt;em&gt;kMyConstant&lt;/em&gt; from being overwritten.&lt;/p&gt;
+&lt;p&gt;would also prevent the pointer &lt;code&gt;kMyConstant&lt;/code&gt; from being overwritten.&lt;/p&gt;
 
 &lt;h2 id=&#34;in-summary:2beb528fa7b4af1d9ea70da77a222d33&#34;&gt;In summary&lt;/h2&gt;
 
-&lt;p&gt;Always write &lt;em&gt;const&lt;/em&gt; to the right and read the declaration from right to left.&lt;/p&gt;
+&lt;p&gt;Always write &lt;code&gt;const&lt;/code&gt; to the right and read the declaration from right to left.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Transferring Preview app signatures in Lion</title>
-      <link>http://stuartcarnie.github.io/post/transferring-preview-app-signatures-in-lion/</link>
+      <link>http://blog.stuartcarnie.com/post/transferring-preview-app-signatures-in-lion/</link>
       <pubDate>Wed, 03 Aug 2011 22:45:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/transferring-preview-app-signatures-in-lion/</guid>
+      <guid>http://blog.stuartcarnie.com/post/transferring-preview-app-signatures-in-lion/</guid>
       <description>&lt;p&gt;Lion introduced a great &lt;a href=&#34;http://www.apple.com/macosx/whats-new/features.html#preview&#34;&gt;new feature&lt;/a&gt; that allows you to &lt;a href=&#34;http://www.cultofmac.com/you-can-now-sign-pdfs-using-lions-preview-app-screenshots-how-to/100237&#34;&gt;capture your signature&lt;/a&gt; via an attached camera and store it in an encrypted form for later use.  Therein lies the problem; you must have an attached camera.&lt;/p&gt;
 
 &lt;p&gt;I have a Mac Pro, and wanted to use the signatures I captured on my Macbook Pro.  Following these steps, you can transfer the encrypted signatures over.&lt;/p&gt;
@@ -718,10 +729,10 @@ void fn() {
     
     <item>
       <title>Eval Expression service for OS X</title>
-      <link>http://stuartcarnie.github.io/post/eval-expression-service-for-os-x/</link>
+      <link>http://blog.stuartcarnie.com/post/eval-expression-service-for-os-x/</link>
       <pubDate>Sat, 09 Apr 2011 21:44:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/eval-expression-service-for-os-x/</guid>
+      <guid>http://blog.stuartcarnie.com/post/eval-expression-service-for-os-x/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Eval Expression&lt;/strong&gt; is a Mac OS X service to evaluate the selected text of any text field as a Ruby expression.  My instinct was to choose Perl, however Ruby offers binary in addition to decimal, hex and octal numerical literals.  The service becomes infinitely more useful if you assign it a global shortcut in Keyboard preferences.  In my case I assigned a combination that seemed obvious, ⌘=&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://lh5.ggpht.com/_WTgxY9AxbJk/TaE1i0ngklI/AAAAAAAAAnU/yDUu3uOqs9Y/Keyboard%20preferences.png?imgmax=800&#34; alt=&#34;Keyboard preferences&#34; /&gt;&lt;/p&gt;
@@ -772,10 +783,10 @@ void fn() {
     
     <item>
       <title>Mobile Safari performance and executable pages in iOS 4.3</title>
-      <link>http://stuartcarnie.github.io/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</link>
+      <link>http://blog.stuartcarnie.com/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</link>
       <pubDate>Thu, 17 Mar 2011 15:12:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</guid>
+      <guid>http://blog.stuartcarnie.com/post/mobile-safari-performance-and-executable-pages-in-ios-4.3/</guid>
       <description>
 
 &lt;p&gt;DaringFireball recently posted &lt;a href=&#34;http://daringfireball.net/2011/03/nitro_ios_43&#34;&gt;his thoughts&lt;/a&gt; as to why the Javascript performance of Mobile Safari is faster than those launched from SpringBoard or within existing applications which use a UIWebView.  I don&amp;rsquo;t think it&amp;rsquo;s quite that complicated.&lt;/p&gt;
@@ -817,10 +828,10 @@ void fn() {
     
     <item>
       <title>Renew Apple developer certificates with OpenSSL</title>
-      <link>http://stuartcarnie.github.io/post/renew-apple-developer-certificates-with-openssl/</link>
+      <link>http://blog.stuartcarnie.com/post/renew-apple-developer-certificates-with-openssl/</link>
       <pubDate>Wed, 02 Feb 2011 16:30:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/renew-apple-developer-certificates-with-openssl/</guid>
+      <guid>http://blog.stuartcarnie.com/post/renew-apple-developer-certificates-with-openssl/</guid>
       <description>&lt;p&gt;I like to reuse the same private keys when generating a signing request to renew my Apple developer certificates.  Unfortunately you can&amp;rsquo;t do this with Keychain Access, as it won&amp;rsquo;t save the signing request file after you step through the wizard.  OpenSSL is your friend.&lt;/p&gt;
 
 &lt;p&gt;Open Keychain Access, RMB on the key your wish to use and click &lt;em&gt;Export &amp;ldquo;[Key Name]&amp;rdquo;&lt;/em&gt;.  Save it as a .p12 file with a strong password.  In my case it was StuartCarnie.p12.&lt;/p&gt;
@@ -843,10 +854,10 @@ void fn() {
     
     <item>
       <title>Micro-benchmarking iOS devices</title>
-      <link>http://stuartcarnie.github.io/post/micro-benchmarking-ios-devices/</link>
+      <link>http://blog.stuartcarnie.com/post/micro-benchmarking-ios-devices/</link>
       <pubDate>Sun, 24 Jan 2010 22:58:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/micro-benchmarking-ios-devices/</guid>
+      <guid>http://blog.stuartcarnie.com/post/micro-benchmarking-ios-devices/</guid>
       <description>
 
 &lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; Added iPhone 5.&lt;br /&gt;
@@ -2393,10 +2404,10 @@ Without being able to access the &lt;a href=&#34;http://infocentre.arm.com/help/
     
     <item>
       <title>Enable -Wformat for better compile time help</title>
-      <link>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</link>
+      <link>http://blog.stuartcarnie.com/post/enable--wformat-for-better-compile-time-help/</link>
       <pubDate>Sat, 18 Apr 2009 16:16:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/enable--wformat-for-better-compile-time-help/</guid>
+      <guid>http://blog.stuartcarnie.com/post/enable--wformat-for-better-compile-time-help/</guid>
       <description>&lt;p&gt;Let the compiler do all the hard work, and be sure to enable the following warning:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://lh6.ggpht.com/_WTgxY9AxbJk/SepdBUhSs7I/AAAAAAAAAh8/oO-mV51nQew/Picture%201.png?imgmax=800&#34; alt=&#34;Picture 1.png&#34; /&gt;&lt;/p&gt;
@@ -2413,11 +2424,11 @@ Without being able to access the &lt;a href=&#34;http://infocentre.arm.com/help/
     </item>
     
     <item>
-      <title>XCode Tip: Generate comments in your assembler output</title>
-      <link>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
+      <title>Xcode Tip: Generate comments in your assembler output</title>
+      <link>http://blog.stuartcarnie.com/post/xcode-tip-generate-comments-in-your-assembler-output/</link>
       <pubDate>Sat, 07 Mar 2009 21:56:00 +0000</pubDate>
       
-      <guid>http://stuartcarnie.github.io/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
+      <guid>http://blog.stuartcarnie.com/post/xcode-tip-generate-comments-in-your-assembler-output/</guid>
       <description>&lt;p&gt;To make it easier to find the assembly generated when you &amp;lsquo;Show Assembly Code&amp;rsquo;, embed comments using:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-asm&#34;&gt;asm(&amp;quot;# your comment&amp;quot;)

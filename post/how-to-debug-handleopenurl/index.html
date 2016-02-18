@@ -10,18 +10,18 @@
   <title>How to debug handleOpenURL &middot; Stuart Carnie</title>
 
   
-  <link rel="stylesheet" href="http://stuartcarnie.github.io/css/poole.css">
-  <link rel="stylesheet" href="http://stuartcarnie.github.io/css/hyde.css">
-  <link rel="stylesheet" href="http://stuartcarnie.github.io/css/poole-overrides.css">
-  <link rel="stylesheet" href="http://stuartcarnie.github.io/css/hyde-overrides.css">
-  <link rel="stylesheet" href="http://stuartcarnie.github.io/css/hyde-x.css">
-  <link rel="stylesheet" href="http://stuartcarnie.github.io/css/highlight/zenburn.css">
+  <link rel="stylesheet" href="http://blog.stuartcarnie.com/css/poole.css">
+  <link rel="stylesheet" href="http://blog.stuartcarnie.com/css/hyde.css">
+  <link rel="stylesheet" href="http://blog.stuartcarnie.com/css/poole-overrides.css">
+  <link rel="stylesheet" href="http://blog.stuartcarnie.com/css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://blog.stuartcarnie.com/css/hyde-x.css">
+  <link rel="stylesheet" href="http://blog.stuartcarnie.com/css/highlight/zenburn.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
   
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://stuartcarnie.github.io/touch-icon-144-precomposed.png">
-  <link href="http://stuartcarnie.github.io/favicon.png" rel="icon">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.stuartcarnie.com/touch-icon-144-precomposed.png">
+  <link href="http://blog.stuartcarnie.com/favicon.png" rel="icon">
 
   
   
@@ -42,7 +42,7 @@
     </div>
 
     <ul class="sidebar-nav">
-      <li class="sidebar-nav-item"><a href="http://stuartcarnie.github.io/">Blog</a></li>
+      <li class="sidebar-nav-item"><a href="http://blog.stuartcarnie.com/">Blog</a></li>
       
     </ul>
 
@@ -62,7 +62,7 @@
 
     
 
-    <p>Copyright &copy; 2016 <a href="http://stuartcarnie.github.io/license/">License</a><br/>
+    <p>Copyright &copy; 2016 <a href="http://blog.stuartcarnie.com/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
   </div>
 </div>
@@ -74,7 +74,7 @@
     <span class="post-date">Jan 30, 2009 &middot; 1 minute read
     
     <br/>
-    <a class="label" href="http://stuartcarnie.github.io/categories/debugging">debugging</a><a class="label" href="http://stuartcarnie.github.io/categories/xcode">xcode</a><a class="label" href="http://stuartcarnie.github.io/categories/iphone">iphone</a>
+    <a class="label" href="http://blog.stuartcarnie.com/categories/debugging">debugging</a><a class="label" href="http://blog.stuartcarnie.com/categories/xcode">xcode</a><a class="label" href="http://blog.stuartcarnie.com/categories/iphone">iphone</a>
     </span>
     <p>I&rsquo;ve seen a number of questions on the Apple iPhone developer forums asking how to debug the UIApplication handleOpenURL message. I finally had a complex scenario that I needed to debug, and came up with the following solution. Note that this example has been tested using the simulator only. Firstly, you&rsquo;ll need to grab the two &lsquo;DebugSupport&rsquo; files from my google code repository <a href="http://code.google.com/p/iphone-sdk-examples/source/browse/#svn/trunk/utility/debugging">here</a>. Include them in your project and modify your handleOpenURL message as follows:</p>
 
@@ -85,7 +85,7 @@
 }
 </code></pre>
 
-<p>The call to <code>[DebugSupport waitForDebugger]</code> shows a UIAlertView, which will wait until you confirm by clicking the OK button. You&rsquo;ll notice that the prompt tells you the process ID. Don&rsquo;t click OK yet. Return to XCode and from the Run menu, choose Attach To Process | Process ID&hellip; Enter the PID given to you from the alert box and XCode will attach and enable all the breakpoints. Obviously, remove this from production code. Enjoy.</p>
+<p>The call to <code>[DebugSupport waitForDebugger]</code> shows a <code>UIAlertView</code>, which will wait until you confirm by clicking the OK button. You&rsquo;ll notice that the prompt tells you the process ID. Don&rsquo;t click OK yet. Return to Xcode and from the Run menu, choose Attach To Process | Process ID&hellip; Enter the PID given to you from the alert box and Xcode will attach and enable all the breakpoints. Obviously, remove this from production code. Enjoy.</p>
 
   </div>
   
@@ -94,7 +94,7 @@
 
 
 
-<script src="http://stuartcarnie.github.io/js/highlight.pack.js"></script>
+<script src="http://blog.stuartcarnie.com/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
 </body>
