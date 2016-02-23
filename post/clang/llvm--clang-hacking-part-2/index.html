@@ -82,21 +82,24 @@
 
 <h2 id="prerequisites:7b81756f3c507ee3561af1bd56b5f8d2">Prerequisites</h2>
 
-<p>This post assumes you&rsquo;ve successfully completed <a href="http://blog.stuartcarnie.com/post/llvm--clang-hacking-part-1/">Part 1</a> of the series.</p>
+<p>This post assumes you&rsquo;ve successfully completed <a href="http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-1/">Part 1</a> of the series.</p>
 
 <h2 id="debugging:7b81756f3c507ee3561af1bd56b5f8d2">Debugging</h2>
 
 <p>By default, Clang presents a <a href="http://clang.llvm.org/docs/DriverInternals.html#gcccompat">gcc-compatible</a> command-line interface.  In most circumstances, this allows Clang to be a drop-in replacement for gcc for rapid testing and easier adoption.  When using the gcc interface, Clang spawns a new job to handle the compilation, which prevents debugging the various stages of the compilation process.  You can see this by running the following command:</p>
 
-<pre>clang -### test.m -o test</pre>
+<pre><code class="language-sh">$ clang -### test.m -o test
+</code></pre>
 
 <p>With that in mind, you should invoke Clang with the -cc1 option as the first argument, which directly executes the Clang cc1 tool.  TIP: running the following command outputs considerably useful command line documentation:</p>
 
-<pre>clang -cc1 --help</pre>
+<pre><code class="language-sh">$ clang -cc1 --help
+</code></pre>
 
 <p>Also noteworthy is the following command</p>
 
-<pre>clang -cc1as --help</pre>
+<pre><code class="language-sh">$ clang -cc1as --help
+</code></pre>
 
 <p>which documents many of the arguments available to the Clang Integrated Assembler.</p>
 

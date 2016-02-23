@@ -99,7 +99,7 @@ lldb:bind ^P ed-command
 
 &lt;h2 id=&#34;prerequisites:fd259c626a75797c587cf7471590c6db&#34;&gt;Prerequisites&lt;/h2&gt;
 
-&lt;p&gt;This post assumes you&amp;rsquo;ve successfully completed &lt;a href=&#34;http://aussiebloke.blogspot.com/2012/06/llvm-clang-hacking-part-1.html&#34;&gt;Part 1&lt;/a&gt; and &lt;a href=&#34;http://aussiebloke.blogspot.com/2012/06/llvm-clang-hacking-part-2.html&#34;&gt;Part 2&lt;/a&gt; of the series.  I&amp;rsquo;m also going to assume if you&amp;rsquo;re interested in hacking on Clang, you have an understanding of compilation and are familiar with terms such as lexing, parsing, syntactic analysis, semantic analysis and code generation.  If not, then you need to purchase a copy of &lt;a href=&#34;http://www.amazon.com/Compilers-Principles-Techniques-Tools-Edition/dp/0321486811/ref=pd_sim_b_1&#34;&gt;Compilers: Principals, Techniques and Tools&lt;/a&gt;, also known as the &lt;a href=&#34;http://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools&#34;&gt;Dragon Book&lt;/a&gt; and read through it.  There are also plenty of resources on Google.&lt;/p&gt;
+&lt;p&gt;This post assumes you&amp;rsquo;ve successfully completed &lt;a href=&#34;http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-1/&#34;&gt;Part 1&lt;/a&gt; and &lt;a href=&#34;http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-2/&#34;&gt;Part 2&lt;/a&gt; of the series.  I&amp;rsquo;m also going to assume if you&amp;rsquo;re interested in hacking on Clang, you have an understanding of compilation and are familiar with terms such as lexing, parsing, syntactic analysis, semantic analysis and code generation.  If not, then you need to purchase a copy of &lt;a href=&#34;http://www.amazon.com/Compilers-Principles-Techniques-Tools-Edition/dp/0321486811/ref=pd_sim_b_1&#34;&gt;Compilers: Principals, Techniques and Tools&lt;/a&gt;, also known as the &lt;a href=&#34;http://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools&#34;&gt;Dragon Book&lt;/a&gt; and read through it.  There are also plenty of resources on Google.&lt;/p&gt;
 
 &lt;h2 id=&#34;objective-c-extension-nsurl-literals:fd259c626a75797c587cf7471590c6db&#34;&gt;Objective-C Extension: NSURL Literals&lt;/h2&gt;
 
@@ -263,21 +263,24 @@ return MaybeBindToTemporary(
 
 &lt;h2 id=&#34;prerequisites:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Prerequisites&lt;/h2&gt;
 
-&lt;p&gt;This post assumes you&amp;rsquo;ve successfully completed &lt;a href=&#34;http://blog.stuartcarnie.com/post/llvm--clang-hacking-part-1/&#34;&gt;Part 1&lt;/a&gt; of the series.&lt;/p&gt;
+&lt;p&gt;This post assumes you&amp;rsquo;ve successfully completed &lt;a href=&#34;http://blog.stuartcarnie.com/post/clang/llvm--clang-hacking-part-1/&#34;&gt;Part 1&lt;/a&gt; of the series.&lt;/p&gt;
 
 &lt;h2 id=&#34;debugging:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Debugging&lt;/h2&gt;
 
 &lt;p&gt;By default, Clang presents a &lt;a href=&#34;http://clang.llvm.org/docs/DriverInternals.html#gcccompat&#34;&gt;gcc-compatible&lt;/a&gt; command-line interface.  In most circumstances, this allows Clang to be a drop-in replacement for gcc for rapid testing and easier adoption.  When using the gcc interface, Clang spawns a new job to handle the compilation, which prevents debugging the various stages of the compilation process.  You can see this by running the following command:&lt;/p&gt;
 
-&lt;pre&gt;clang -### test.m -o test&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ clang -### test.m -o test
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;With that in mind, you should invoke Clang with the -cc1 option as the first argument, which directly executes the Clang cc1 tool.  TIP: running the following command outputs considerably useful command line documentation:&lt;/p&gt;
 
-&lt;pre&gt;clang -cc1 --help&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ clang -cc1 --help
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Also noteworthy is the following command&lt;/p&gt;
 
-&lt;pre&gt;clang -cc1as --help&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ clang -cc1as --help
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;which documents many of the arguments available to the Clang Integrated Assembler.&lt;/p&gt;
 
