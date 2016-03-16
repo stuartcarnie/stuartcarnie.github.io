@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>Performance &middot; Stuart Carnie</title>
+  <title>C vs Swift: Reprise &middot; Stuart Carnie</title>
 
   
   <link rel="stylesheet" href="http://blog.stuartcarnie.com/css/poole.css">
@@ -27,7 +27,7 @@
   
   
   
-  <link href="http://blog.stuartcarnie.com/categories/performance/index.xml" rel="alternate" type="application/rss+xml" title="stuartcarnie &middot; Stuart Carnie" />
+  
 
   <meta name="description" content="Mostly technical posts about OSX, iOS">
   <meta name="keywords" content="osx,ios,swift,games,emulators,mame">
@@ -70,17 +70,72 @@
 
 
 <div class="content container">
-  <ul class="posts">
-  
-    <li><a href="http://blog.stuartcarnie.com/post/micro-benchmarking-ios-devices/">Micro-benchmarking iOS devices</a>
+  <div class="post">
+    <h1 class="post-title">C vs Swift: Reprise</h1>
+    <span class="post-date">Mar 12, 2016 &middot; 1 minute read
     
-    &middot;
-    <a class="label" href="http://blog.stuartcarnie.com/categories/arm">ARM</a><a class="label" href="http://blog.stuartcarnie.com/categories/performance">performance</a><a class="label" href="http://blog.stuartcarnie.com/categories/iphone">iphone</a>
+    <br/>
+    <a class="label" href="http://blog.stuartcarnie.com/categories/swift">swift</a>
     </span>
-    &middot; <time>Jan 24, 2010</time></li>
-  
-  </ul>
+    
+
+<p>I revisit a post by David Steuber, which benchmarked C and Swift generating a 2880x2880 pixel Mandelbrot with 4000 iterations per pixel. C killed Swift.</p>
+
+<p>In <a href="https://www.david-steuber.com/2015/03/c-vs-swift-1-2-and-getting-killed/">C vs Swift 1.2</a>, David concludes</p>
+
+<blockquote>
+<p>The major take away on this is that Swift is not C or C++. For high performance computing, code has to be structured differently.</p>
+</blockquote>
+
+<p>David acknowledges the Swift version is quite different from the C implemetation, which allocates an array <em>for each pixel</em>. Worse still, this array grows dynamically as it iterates 4000 times, per pixel.</p>
+
+<h3 id="baseline:dece97a280d65eb4c6d944231b7f062c">Baseline</h3>
+
+<p>The C version will serve as our baseline. Using <code>-Ofast</code><sup id="fnref:1"><a href="#fn:1">1</a></sup> it completed in about 20.5 seconds.</p>
+
+<pre><code class="language-sh">orbitals  20.50s user 0.03s system 99% cpu 20.541 total
+</code></pre>
+
+<h3 id="swift:dece97a280d65eb4c6d944231b7f062c">Swift</h3>
+
+<p>I restructured the Swift code so it was semantically equivalent to the C implementation, meaning that it used fixed arrays and a single core. Using the default compiler optimizations, it completed in just under 43 seconds.</p>
+
+<pre><code class="language-sh">orbitals-swift  42.67s user 0.12s system 100% cpu 42.768 total
+</code></pre>
+
+<p>Enabling <code>-whole-module-optimization</code> dropped the runtime to 37.5 seconds. Adding <code>-Ounchecked</code> reduced it a further 9 seconds to complete in 28.5 seconds.</p>
+
+<pre><code class="language-sh">orbitals-swift  28.35s user 0.11s system 100% cpu 28.446 total
+</code></pre>
+
+<div class="admonitionblock note">
+<table>
+<tbody>
+    <tr>
+        <td class="icon">
+            <i class="fa icon-note" title=""></i>
+        </td>
+        <td class="admonitionblock-content">
+            
+Swift 2.2 was used for this post
+
+        </td>
+    </tr>
+</tbody>
+</table>
 </div>
+
+<hr />
+
+<p><b id="fn:1">1</b> <code>-flto</code> hurt performance, hence limiting to the <code>-Ofast</code> option <a href="#fnref:1">↩</a></p>
+
+  </div>
+  
+</div>
+
+
+
+
 <script src="http://blog.stuartcarnie.com/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </body>
