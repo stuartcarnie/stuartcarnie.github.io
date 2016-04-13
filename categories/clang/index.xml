@@ -224,15 +224,13 @@ return MaybeBindToTemporary(
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://clang.llvm.org/docs/InternalsManual.html&#34;&gt;Clang CFE Internals Manual&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://clang.llvm.org/features.html#libraryarch&#34;&gt;Library Based Architecture&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Identifies the major libraries and their function, which correspond to many of the top-level folders within the Xcode project tree.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://clang.llvm.org/features.html#libraryarch&#34;&gt;Library Based Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Identifies the major libraries and their function, which correspond to many of the top-level folders within the Xcode project tree.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&#34;next-up:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Next Up&lt;/h2&gt;
 
-&lt;p&gt;Next up I&amp;rsquo;ll walk through creating a language extension to Objective-C, supporting NSURL literals, following (in principal) new &lt;a href=&#34;http://clang.llvm.org/docs/ObjectiveCLiterals.html&#34;&gt;Objective-C Literals&lt;/a&gt; coming in the next release of Clang.&lt;/p&gt;
+&lt;p&gt;In &lt;a href=&#34;http://blog.stuartcarnie.com/post/llvm--clang-hacking-part-3&#34;&gt;Part 3&lt;/a&gt;, I&amp;rsquo;ll walk through creating a language extension to Objective-C, supporting &lt;code&gt;NSURL&lt;/code&gt; literals, following (in principal) the introduction of &lt;a href=&#34;http://clang.llvm.org/docs/ObjectiveCLiterals.html&#34;&gt;Objective-C Literals&lt;/a&gt; featuring in the next release of Clang.&lt;/p&gt;
 
 &lt;h2 id=&#34;twitter:7b81756f3c507ee3561af1bd56b5f8d2&#34;&gt;Twitter&lt;/h2&gt;
 
